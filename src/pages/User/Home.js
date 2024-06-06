@@ -27,10 +27,10 @@ import sustainability from '../../assets/images/sustainability.png';
 import affordability from '../../assets/images/affordability.png';
 import convenience from '../../assets/images/convenience.png';
 
-
-
+import question from '../../assets/images/question.png';
 
 import { Link } from 'react-router-dom';
+import FAQ from '../../components/FAQ';
 
 
 
@@ -39,7 +39,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-4 flex justify-between items-center">
+      <div className="p-4 flex justify-between items-center  h-screen bg-gradient-to-r from-indigo-500 to-blue-600">
         {/* image 1 */}
         <div className="relative mt-2.5 ml-3 w-max">
           <img
@@ -77,7 +77,7 @@ const Home = () => {
 
 
       {/* Ethnic Wear */}
-      <div>
+      <div className=' h-screen bg-gradient-to-r from-indigo-500 to-blue-600'>
         <p className="text-center text-base font-semibold text-black-500 font-size">
           Ethnic Wear
         </p>
@@ -113,7 +113,7 @@ const Home = () => {
 
 
       {/* Western Wear */}
-      <div>
+      <div className=' h-screen bg-gradient-to-r from-indigo-500 to-blue-600'>
         <p className="text-center text-base font-semibold text-black-500 font-size">
           Wester Wear
         </p>
@@ -143,7 +143,7 @@ const Home = () => {
 
 
       {/* Accessories*/}
-      <div>
+      <div className=' h-screen bg-gradient-to-r from-indigo-500 to-blue-600'>
         <p className="text-center text-base font-semibold text-black-500 font-size">
           Accessories
         </p>
@@ -172,14 +172,14 @@ const Home = () => {
 
 
       {/* About Us*/}
-      <div>
+      <div className=' h-screen bg-gradient-to-r from-indigo-500 to-blue-600'>
         <p className="text-center text-base font-semibold text-black-500 font-size">
           About Us
         </p>
         <p className="text-center text-3xl font-bold text-black-500 font-size">
           Why choose Dresslend?        </p>
 
-        <p className="text-center text-3xl font-semibold text-gray-700">
+        <p className="text-center text-3xl font-extrabold text-gray-700">
           Our Mission
         </p>
 
@@ -189,25 +189,87 @@ const Home = () => {
           our easy-to-use rental service.
         </p>
 
-        {/* list view of the  Accessories */}
-        <div className="overflow-x-auto whitespace-nowrap px-4 flex">
+        <div className="overflow-x-auto whitespace-nowrap px-4 flex space-x-4">
           {/* wide selection */}
-          <div className="max-w-xs rounded overflow-hidden shadow-lg">
-            <img className="w-full" src={wideSelection} alt="wideSelection" />
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">Title</div>
-              <p className="text-gray-700 text-base">
-                Description Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem
-                praesentium nihil.
+          <div className="w-80 h-80 rounded-lg border border-gray-300 shadow-lg overflow-hidden flex-shrink-0">
+            <div className="flex flex-col items-center p-4 h-full">
+              <img className="h-24 w-24 object-cover mb-4" src={wideSelection} alt="Wide selection" />
+              <div className="font-medium text-xl mb-2 text-center text-gray-700">Wide Selection</div>
+              <p className="text-gray-700 text-base text-center p-1">
+                From traditional ethnic wear to <br />
+                trendy modern styles, and unique <br />
+                Indo-Western blends, we offer a <br />
+                diverse range of clothing and <br />
+                accessories.
               </p>
             </div>
           </div>
 
+          {/* sustainability */}
+          <div className="w-80 h-80 rounded-lg border border-gray-300 shadow-lg overflow-hidden flex-shrink-0">
+            <div className="flex flex-col items-center p-4 h-full">
+              <img className="h-24 w-24 object-cover mb-4" src={sustainability} alt="Sustainability" />
+              <div className="font-medium text-xl mb-2 text-center text-gray-700">Sustainability</div>
+              <p className="text-gray-700 text-base text-center p-1">
+                By choosing to rent instead of buy, <br />
+                you're helping to reduce fashion waste <br />
+                and promote a more sustainable <br />
+                lifestyle.
+              </p>
+            </div>
+          </div>
 
+          {/* affordability */}
+          <div className="w-80 h-80 rounded-lg border border-gray-300 shadow-lg overflow-hidden flex-shrink-0">
+            <div className="flex flex-col items-center p-4 h-full">
+              <img className="h-24 w-24 object-cover mb-4" src={affordability} alt="Affordability" />
+              <div className="font-medium text-xl mb-2 text-center text-gray-700">Affordability</div>
+              <p className="text-gray-700 text-base text-center p-1">
+                Enjoy high-end fashion at a <br />
+                fraction of the cost. DressLend <br />
+                allows you to look your best <br />
+                without breaking the bank.<br />
+              </p>
+            </div>
+          </div>
+
+          {/* convenience */}
+          <div className="w-80 h-80 rounded-lg border border-gray-300 shadow-lg overflow-hidden flex-shrink-0">
+            <div className="flex flex-col items-center p-4 h-full">
+              <img className="h-24 w-24 object-cover mb-4" src={convenience} alt="Convenience" />
+              <div className="font-medium text-xl mb-2 text-center text-gray-700">Convenience</div>
+              <p className="text-gray-700 text-base text-center p-1">
+                Enjoy high-end fashion at a <br />
+                fraction of the cost. DressLend <br />
+                allows you to look your best <br />
+                without breaking the bank.<br />
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
+
+      {/* Help */}
+      <div className=' h-screen bg-gradient-to-r '>
+        <p className="text-center text-base font-semibold text-black-500 ">
+          Help
+        </p>
+        <p className="text-center text-3xl font-extrabold text-gray-700">
+          Do you have questions?
+        </p>
+        {/* <div className='flex justify-center min-h-screen'> */}
+        <div className='flex justify-center'>
+          <img className='h-32 w-32 object-cover al' src={question} alt='' ></img>
+        </div>
+
+        {/* questions section */}
+        <div className="w-full ">
+          <div className="p-4 w-50 ">
+            <FAQ />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
