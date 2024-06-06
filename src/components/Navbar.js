@@ -9,8 +9,6 @@ const Navbar = () => {
         console.log(`Searching for: ${query}`);
         // Implement your search logic here
     };
-
-
     return (
         <div>
             <nav className="bg-white-800 shadow-lg">
