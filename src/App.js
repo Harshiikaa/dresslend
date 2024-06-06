@@ -31,7 +31,7 @@ const App = () => {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register />} />
         {/* ethnic dresses routes */}
         <Route path="/hakuPatasi" element={<HakuPatasi />} />

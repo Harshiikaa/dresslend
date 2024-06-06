@@ -39,7 +39,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-4 flex justify-between items-center  h-screen bg-gradient-to-r from-indigo-500 to-blue-600">
+      <div className="p-4 flex justify-between items-center  h-screen ">
         {/* image 1 */}
         <div className="relative mt-2.5 ml-3 w-max">
           <img
