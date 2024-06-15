@@ -452,22 +452,22 @@ const Products = ({ isOpen, onClose }) => {
                                     Product Name
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Product Rental Price
+                                    Rental Price
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Product Security Deposit
+                                    Security Deposit
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Product Category
+                                    Category
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Product Quantity
+                                    Quantity
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Product Size
+                                    Size
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Product Description
+                                    Description
                                 </th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Action
@@ -486,7 +486,7 @@ const Products = ({ isOpen, onClose }) => {
                                             />
                                         </td>
 
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
                                             {item.productName}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -498,14 +498,14 @@ const Products = ({ isOpen, onClose }) => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {item.productCategory}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">
                                             {item.productQuantity}
                                         </td>
 
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {item.productSize}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
                                             {item.productDescription.slice(0, 10)}
                                         </td>
                                         <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium flex justify-center space-x-2">
