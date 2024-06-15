@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Home from './pages/User/Home';
@@ -20,6 +22,9 @@ import IndianJewelry from './pages/User/Accessories/IndianJewelry';
 import BagsAndClutches from './pages/User/Accessories/BagsAndClutches';
 import HeadWears from './pages/User/Accessories/HeadWears';
 import ModernAccessories from './pages/User/Accessories/ModernAccessories';
+import AdminRoutes from './protected/AdminRoutes';
+import Items from './pages/Admin/Products';
+import Products from './pages/Admin/Products';
 
 
 
@@ -31,7 +36,7 @@ const App = () => {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login/>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         {/* ethnic dresses routes */}
         <Route path="/hakuPatasi" element={<HakuPatasi />} />
@@ -57,6 +62,14 @@ const App = () => {
 
         {/* User Authorization */}
         {/* <Route path='user' element={<UserRoutes/>} >
+        </Route> */}
+
+        {/* Admin Authorization */}
+        <Route path='products' element={<Products />} />
+        {/* <Route path='/productEdit/:id' element={<Products />} /> */}
+
+        {/* <Route path='admin' element={<AdminRoutes />} >
+
         </Route> */}
 
 

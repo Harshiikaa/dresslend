@@ -22,19 +22,7 @@ const IconLink = ({ href, IconComponent }) => (
     </a>
 );
 
-const Navbar = () => {
-    // for the login modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
-    const handleModalToggle = () => {
-        setIsModalOpen(!isModalOpen);
-    };
-
-    const handleRegisterModalToggle = () => {
-        setIsRegisterModalOpen(!isRegisterModalOpen);
-    };
-
+const NavbarUser = () => {
     // for the search
     const handleSearch = (query) => {
         console.log(`Searching for: ${query}`);
@@ -81,19 +69,15 @@ const Navbar = () => {
                             <IconLink href="#" IconComponent={ShoppingBagIcon} />
                         </div>
 
-                        {/* Login and Signup Buttons */}
+                        {/* User Details */}
                         <div className="hidden sm:flex sm:ml-2 space-x-2">
-                            <NavItem href="#" text="Login" onClick={handleModalToggle} />
-                            <NavItem href="#" text="Register" onClick={handleRegisterModalToggle} />
+
                         </div>
                     </div>
                 </div>
             </nav>
-
-            <Login isOpen={isModalOpen} onClose={handleModalToggle} />
-            <Register isOpen={isRegisterModalOpen} onClose={handleRegisterModalToggle} />
         </>
     );
 };
 
-export default Navbar;
+export default NavbarUser;

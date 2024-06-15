@@ -39,7 +39,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="p-4 flex justify-between items-center  h-screen ">
+      <div className="p-2 flex justify-between items-center h-screen space-y-0">
         {/* image 1 */}
         <div className="relative mt-2.5 ml-3 w-max">
           <img

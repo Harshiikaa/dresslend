@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import { LockClosedIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon } from '@heroicons/react/outline';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { loginUserApi } from '../../apis/Api';
 
 const Login = ({ isOpen, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +13,34 @@ const Login = ({ isOpen, onClose }) => {
     setShowPassword((prev) => !prev);
   };
 
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    loginUserApi(data)
+      .then((res) => {
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
+          localStorage.setItem('token', res.data.token);
+          const jsonDecode = JSON.stringify(res.data.userData);
+          localStorage.setItem('user', jsonDecode);
+          navigate('/user/home');
+        }
+      })
+      .catch((err) => {
+        toast.error('Error in server');
+        console.log(err.message);
+      });
+  };
   return (
     isOpen && (
       <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-40">
@@ -36,6 +67,7 @@ const Login = ({ isOpen, onClose }) => {
                   <MailIcon className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
+                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   name="email"
                   id="email"
@@ -50,6 +82,8 @@ const Login = ({ isOpen, onClose }) => {
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  onChange={(e) => setPassword(e.target.value)}
+
                   name="password"
                   id="password"
                   placeholder="Password"
@@ -66,13 +100,14 @@ const Login = ({ isOpen, onClose }) => {
               </div>
               <div className="text-center">
                 <a
-                  href="#"
+                  href="/forgotPassword"
                   className="text-sm text-blue-700 underline"
                 >
                   Forgot Password?
                 </a>
               </div>
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 focus:ring-4 focus:ring-blue-300"
               >
@@ -82,7 +117,7 @@ const Login = ({ isOpen, onClose }) => {
               <div className="text-sm font-medium text-gray-500 text-center">
                 Don't have an account yet?{' '}
                 <a
-                  href="#"
+                  href="/register"
                   className="text-blue-700 hover:underline"
                 >
                   Register
