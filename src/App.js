@@ -25,6 +25,7 @@ import ModernAccessories from './pages/User/Accessories/ModernAccessories';
 import AdminRoutes from './protected/AdminRoutes';
 import Items from './pages/Admin/Products';
 import Products from './pages/Admin/Products';
+import EditProducts from './pages/Admin/EditProducts';
 
 
 
@@ -66,7 +67,7 @@ const App = () => {
 
         {/* Admin Authorization */}
         <Route path='products' element={<Products />} />
-        {/* <Route path='/productEdit/:id' element={<Products />} /> */}
+        <Route path='/productEdit/:id' element={<EditProducts />} />
 
         {/* <Route path='admin' element={<AdminRoutes />} >
 

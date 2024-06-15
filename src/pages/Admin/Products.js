@@ -1,9 +1,10 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import NavbarAdmin from '../../components/NavbarAdmin';
-import { LockClosedIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon, ChevronDownIcon } from '@heroicons/react/outline';
+import { LockClosedIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon, ChevronDownIcon, TrashIcon, PencilIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
-import { createProductApi } from '../../apis/Api';
+import { createProductApi, deleteProductApi, getAllProductsApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -56,7 +57,7 @@ const Products = ({ isOpen, onClose }) => {
         formData.append('productSize', productSize)
         formData.append('productDescription', productDescription)
         formData.append('productImage', productImage)
-        // console.log(productName, productPrice, productCategory, productDescription, productImage)
+        console.log(productName, productRentalPrice, productSecurityDeposit, productCategory, productQuantity, productSize, productDescription, productImage)
         createProductApi(formData).then((res) => {
             if (res.data.success == false) {
                 toast.error(res.data.message)
@@ -67,6 +68,33 @@ const Products = ({ isOpen, onClose }) => {
             toast.error("Server Error")
             console.log(err.message)
         })
+    }
+
+    // get all products
+    useEffect(() => {
+        getAllProductsApi().then((res) => {
+            const productsData = res.data.products;
+            setProducts(productsData);
+        });
+    }, []);
+
+    const handleDelete = (id) => {
+        const confirmDialog = window.confirm('Are you sure, you want to delete this product?')
+        if (!confirmDialog) {
+            return;
+        }
+        else {
+            deleteProductApi(id).then((res) => {
+                if (res.data.success == true) {
+                    window.location.reload()
+                    toast.success(res.data.success)
+                }
+                else {
+                    toast.error(res.data.message)
+                }
+
+            })
+        }
     }
 
     return (
@@ -96,19 +124,19 @@ const Products = ({ isOpen, onClose }) => {
                                             <XIcon className="w-5 h-5" />
                                         </button>
                                     </div>
-                                    <form className="space-y-6 px-6 lg:px-8 pb-2 sm:pb-6 xl:pb-8">
+                                    <form className="space-y-2 px-6 lg:px-8 pb-2 sm:pb-6 xl:pb-8">
                                         <h3 className="text-3xl font-medium text-gray-900 text-center">
                                             Add Products
                                         </h3>
 
                                         {/* Product name */}
                                         <div className="relative mb-1">
-                                            {/* <label
+                                            <label
                                                 htmlFor="message"
                                                 className="block mb-1 text-sm font-medium text-gray-900"
                                             >
                                                 Product Name
-                                            </label> */}
+                                            </label>
                                             <input
                                                 onChange={(e) => setProductName(e.target.value)}
                                                 type="Product"
@@ -125,12 +153,12 @@ const Products = ({ isOpen, onClose }) => {
                                         {/* Rental Price and Security Deposit */}
                                         <div className="flex gap-1 justify-between">
                                             <div className="relative">
-                                                {/* <label
+                                                <label
                                                     htmlFor="message"
                                                     className="block mb-2 text-sm font-medium text-gray-900"
                                                 >
                                                     Rental Price
-                                                </label> */}
+                                                </label>
                                                 <input
                                                     onChange={(e) => setProductRentalPrice(e.target.value)}
                                                     type="text"
@@ -142,12 +170,12 @@ const Products = ({ isOpen, onClose }) => {
                                                 />
                                             </div>
                                             <div className="relative">
-                                                {/* <label
+                                                <label
                                                     htmlFor="message"
                                                     className="block mb-2 text-sm font-medium text-gray-900"
                                                 >
                                                     Security Deposit
-                                                </label> */}
+                                                </label>
                                                 <input
                                                     onChange={(e) => setProductSecurityDeposit(e.target.value)}
                                                     type="text"
@@ -211,12 +239,12 @@ const Products = ({ isOpen, onClose }) => {
 
                                             {/* Quantity*/}
                                             <div className="items-center">
-                                                {/* <label
+                                                <label
                                                     htmlFor="message"
                                                     className="block mb-2 text-sm font-medium text-gray-900"
                                                 >
                                                     Quantity
-                                                </label> */}
+                                                </label>
                                                 <div className='flex'>
                                                     <button
                                                         type="button"
@@ -231,7 +259,6 @@ const Products = ({ isOpen, onClose }) => {
                                                         name="Quantity"
                                                         id="Quantity"
                                                         value={quantity}
-                                                        readOnly
                                                         className="w-10 h-8 text-center bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-none focus:ring-blue-500 focus:border-blue-500 block text-center"
                                                     />
                                                     <button
@@ -247,12 +274,12 @@ const Products = ({ isOpen, onClose }) => {
 
                                             {/* Size Dropdown */}
                                             <div className="relative">
-                                                {/* <label
+                                                <label
                                                     htmlFor="message"
                                                     className="block mb-2 text-sm font-medium text-gray-900"
                                                 >
                                                     Size
-                                                </label> */}
+                                                </label>
                                                 <Menu as="div" className="relative inline-block text-left w-full">
                                                     <div>
                                                         <Menu.Button className="inline-flex w-full gap-1 justify-between rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100">
@@ -350,12 +377,12 @@ const Products = ({ isOpen, onClose }) => {
 
                                         {/* Descrption */}
                                         <div>
-                                            {/* <label
+                                            <label
                                                 htmlFor="message"
                                                 className="block mb-2 text-sm font-medium text-gray-900"
                                             >
                                                 Description
-                                            </label> */}
+                                            </label>
                                             <textarea
                                                 onChange={(e) => setProductDescription(e.target.value)}
 
@@ -368,12 +395,12 @@ const Products = ({ isOpen, onClose }) => {
 
                                         {/* file upload */}
                                         <div>
-                                            {/* <label
+                                            <label
                                                 className="block mb-2 text-sm font-medium text-gray-900"
                                                 htmlFor="file_input"
                                             >
                                                 Upload Images
-                                            </label> */}
+                                            </label>
                                             <input
                                                 onChange={handleImageUpload}
                                                 className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
@@ -396,8 +423,7 @@ const Products = ({ isOpen, onClose }) => {
                                             <button
                                                 type="button"
                                                 className="px-4 py-2 text-sm text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400 focus:outline-none"
-                                            // onClick={() => closeModal()} 
-                                            >
+                                                onClick={() => setShowModal(false)}                                            >
                                                 Close
                                             </button>
                                             <button
@@ -453,26 +479,41 @@ const Products = ({ isOpen, onClose }) => {
                                 products.map((item) => (
                                     <tr key={item._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <img src={item.productImageURL} width={'40'} height={'40'} alt="" className="rounded-full" />
+                                            <img
+                                                src={item.productImageURL}
+                                                alt=""
+                                                className="w-16 h-16 object-cover"
+                                            />
                                         </td>
+
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {item.productName}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            NPR.{item.productPrice}
+                                            NPR.{item.productRentalPrice}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            NPR.{item.productSecurityDeposit}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {item.productCategory}
                                         </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
+                                            {item.productQuantity}
+                                        </td>
+
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {item.productSize}
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {item.productDescription.slice(0, 10)}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex justify-center space-x-2">
-                                            {/* <Link to={`/seller/productEdit/${item._id}`} className="text-indigo-600 hover:text-indigo-900">
-                                                Edit
-                                            </Link> */}
-                                            <button className="text-red-600 hover:text-red-900">
-                                                Delete
+                                        <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium flex justify-center space-x-2">
+                                            <Link to={`/productEdit/${item._id}`} className="text-green-600 hover:text-indigo-900">
+                                                <PencilIcon className="h-5 w-5" aria-hidden="true" />
+                                            </Link>
+                                            <button onClick={() => handleDelete(item._id)} className="text-red-600 hover:text-red-900">
+                                                <TrashIcon className="h-5 w-5" aria-hidden="true" />
                                             </button>
                                         </td>
                                     </tr>
