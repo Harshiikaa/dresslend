@@ -16,6 +16,10 @@ const config = {
 // Auth
 export const registerUserApi = (data) => Api.post('api/user/register', data)
 export const loginUserApi = (data) => Api.post('/api/user/login', data)
+export const getAllUsersApi = () => Api.get('/api/user/getUsers')
+export const updateUserApi = (id, formData) => Api.put(`/api/user/updateUser/${id}`, formData, config)
+export const deleteUserApi = (id) => Api.delete(`/api/user/deleteUser/${id}`, config)
+
 
 // Products
 export const createProductApi = (data) => Api.post('/api/product/createProduct', data, config)

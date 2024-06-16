@@ -26,6 +26,8 @@ import AdminRoutes from './protected/AdminRoutes';
 import Items from './pages/Admin/Products';
 import Products from './pages/Admin/Products';
 import EditProducts from './pages/Admin/EditProducts';
+import Categories from './pages/Admin/Categories';
+import Users from './pages/Admin/Users';
 
 
 
@@ -68,6 +70,8 @@ const App = () => {
         {/* Admin Authorization */}
         <Route path='products' element={<Products />} />
         <Route path='/productEdit/:id' element={<EditProducts />} />
+        <Route path='categories' element={<Categories />} />
+        <Route path='users' element={<Users />} />
 
         {/* <Route path='admin' element={<AdminRoutes />} >
 

@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import NavbarAdmin from '../../components/NavbarAdmin';
-import { LockClosedIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon, ChevronDownIcon, TrashIcon, PencilIcon } from '@heroicons/react/outline';
+import {XIcon, ChevronDownIcon, TrashIcon, PencilIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { createProductApi, deleteProductApi, getAllProductsApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
