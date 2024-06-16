@@ -31,6 +31,7 @@ import question from '../../assets/images/question.png';
 
 import { Link } from 'react-router-dom';
 import FAQ from '../../components/FAQ';
+import NavbarUser from '../../components/NavbarUser';
 
 
 
@@ -38,8 +39,10 @@ import FAQ from '../../components/FAQ';
 const Home = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
+      <NavbarUser />
       <div className="p-2 flex justify-between items-center h-screen space-y-0">
+
         {/* image 1 */}
         <div className="relative mt-2.5 ml-3 w-max">
           <img

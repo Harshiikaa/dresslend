@@ -3,6 +3,7 @@ import { HeartIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/
 import logo from '../assets/images/logo.png';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
+import UserProfileDropdown from './UserProfileDropdown';
 
 const NavItem = ({ href, text, onClick }) => (
     <button
@@ -71,6 +72,9 @@ const NavbarUser = () => {
 
                         {/* User Details */}
                         <div className="hidden sm:flex sm:ml-2 space-x-2">
+                            {/* <UserProfileDropdown user={user} /> */}
+                            <UserProfileDropdown />
+
 
                         </div>
                     </div>

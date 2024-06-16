@@ -31,6 +31,8 @@ import ProductDetails from './pages/User/ProductDetails';
 import TryFetch from './pages/User/TryFetch';
 
 import Users from './pages/Admin/Users';
+import MyOrders from './pages/User/MyOrders';
+import MyProfile from './pages/User/MyProfile';
 
 
 
@@ -76,6 +78,10 @@ const App = () => {
         <Route path='/productEdit/:id' element={<EditProducts />} />
         <Route path='categories' element={<Categories />} />
         <Route path='users' element={<Users />} />
+        <Route path='profile' element={<MyProfile />} />
+        <Route path='orders' element={<MyOrders />} />
+
+
 
 
         {/* <Route path='admin' element={<AdminRoutes />} >
