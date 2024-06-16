@@ -1,25 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
+import defaultImage from '../assets/images/blankProfilePic.png';
 
-const UserProfileDropdown = ({ user }) => {
-    // get single user 
+const UserProfileDropdown = () => {
+    const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        // Get user data from local storage
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        if (storedUser) {
+            setUser(storedUser);
+        }
+    }, []);
 
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                <Menu.Button className="inline-flex items-center bg-gray-100 justify-between w-full text-sm font-medium text-gray-700 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-300">
                     <img
-                        src={user?.profileImageURL || '/path/to/default-avatar.png'}
+                        src={user?.userImage || defaultImage}
                         alt="User Avatar"
-                        className="w-12 h-12 rounded-full mr-3 border-2 border-red-500"
+                        className="w-10 h-10 rounded-lg mr-2 border-2"
                     />
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-center">
                         <span className="text-xs text-gray-500">Welcome Back!</span>
-                        {/* <span className="text-sm font-medium">{user ? user.firstName : 'User'}</span> */}
+                        <span className="text-xs font-medium">{user ? user.firstName : 'User'}</span>
                     </div>
-                    <ChevronDownIcon className="w-5 h-5 ml-2" aria-hidden="true" />
+                    <ChevronDownIcon className="w-5 h-5" aria-hidden="true" />
                 </Menu.Button>
             </div>
 
