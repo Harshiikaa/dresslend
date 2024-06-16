@@ -1,8 +1,8 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import NavbarAdmin from '../../components/NavbarAdmin';
-import {XIcon, ChevronDownIcon, TrashIcon, PencilIcon } from '@heroicons/react/outline';
+import { XIcon, ChevronDownIcon, TrashIcon, PencilIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
-import { createProductApi, deleteProductApi, getAllProductsApi } from '../../apis/Api';
+import { createProductApi, deleteProductApi, getAllCategoriesApi, getAllProductsApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
@@ -30,6 +30,18 @@ const Products = ({ isOpen, onClose }) => {
     const [showModal, setShowModal] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [products, setProducts] = useState([])
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        getAllCategoriesApi().then((res) => {
+            const categoriesData = res.data.categories;
+            console.log("Fetched categories:", categoriesData);
+            setCategories(categoriesData);
+        }).catch(err => {
+            console.log("Error fetching categories:", err.message);
+        });
+    }, []);
+
 
     const handleIncrease = () => {
         setQuantity((prevQuantity) => prevQuantity + 1);

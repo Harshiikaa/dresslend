@@ -63,10 +63,10 @@ const Users = () => {
                                             {item.lastName}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
-                                            {item.email}
+                                            {item.phoneNumber}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
-                                            {item.phoneNumber}
+                                            {item.email}
                                         </td>
                                     </tr>
                                 ))

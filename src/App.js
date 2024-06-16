@@ -23,10 +23,13 @@ import BagsAndClutches from './pages/User/Accessories/BagsAndClutches';
 import HeadWears from './pages/User/Accessories/HeadWears';
 import ModernAccessories from './pages/User/Accessories/ModernAccessories';
 import AdminRoutes from './protected/AdminRoutes';
-import Items from './pages/Admin/Products';
+
 import Products from './pages/Admin/Products';
 import EditProducts from './pages/Admin/EditProducts';
 import Categories from './pages/Admin/Categories';
+import ProductDetails from './pages/User/ProductDetails';
+import TryFetch from './pages/User/TryFetch';
+
 import Users from './pages/Admin/Users';
 
 
@@ -61,7 +64,8 @@ const App = () => {
         <Route path="/bagsAndClutches" element={< BagsAndClutches />} />
         <Route path="/headWears" element={< HeadWears />} />
         <Route path="/modernAccessories" element={<ModernAccessories />} />
-
+        <Route path="/tryFetch" element={<TryFetch />} />
+        <Route path="/productDetails/:id" element={<ProductDetails />} />
 
         {/* User Authorization */}
         {/* <Route path='user' element={<UserRoutes/>} >
@@ -72,6 +76,7 @@ const App = () => {
         <Route path='/productEdit/:id' element={<EditProducts />} />
         <Route path='categories' element={<Categories />} />
         <Route path='users' element={<Users />} />
+
 
         {/* <Route path='admin' element={<AdminRoutes />} >
 
