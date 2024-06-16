@@ -72,7 +72,6 @@ const NavbarUser = () => {
 
                         {/* User Details */}
                         <div className="hidden sm:flex sm:ml-2 space-x-2">
-                            {/* <UserProfileDropdown user={user} /> */}
                             <UserProfileDropdown />
 
 

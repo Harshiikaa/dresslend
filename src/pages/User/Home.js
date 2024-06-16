@@ -32,6 +32,7 @@ import question from '../../assets/images/question.png';
 import { Link } from 'react-router-dom';
 import FAQ from '../../components/FAQ';
 import NavbarUser from '../../components/NavbarUser';
+import NavbarAdmin from '../../components/NavbarAdmin';
 
 
 
@@ -40,7 +41,8 @@ const Home = () => {
   return (
     <div>
       {/* <Navbar /> */}
-      <NavbarUser />
+      {/* <NavbarUser /> */}
+      <NavbarAdmin />
       <div className="p-2 flex justify-between items-center h-screen space-y-0">
 
         {/* image 1 */}

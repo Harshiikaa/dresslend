@@ -17,7 +17,7 @@ const UserProfileDropdown = () => {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="inline-flex items-center bg-gray-100 justify-between w-full text-sm font-medium text-gray-700 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-300">
+                <Menu.Button className="inline-flex items-center bg-gray-100 justify-between w-full px-0 py-1 text-sm font-medium text-gray-700 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-300">
                     <img
                         src={user?.userImage || defaultImage}
                         alt="User Avatar"
@@ -25,7 +25,7 @@ const UserProfileDropdown = () => {
                     />
                     <div className="flex flex-col items-center">
                         <span className="text-xs text-gray-500">Welcome Back!</span>
-                        <span className="text-xs font-medium">{user ? user.firstName : 'User'}</span>
+                        <span className="text-sm font-medium">{user ? user.firstName : 'User'}</span>
                     </div>
                     <ChevronDownIcon className="w-5 h-5" aria-hidden="true" />
                 </Menu.Button>
