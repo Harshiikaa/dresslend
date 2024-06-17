@@ -117,7 +117,7 @@ const Products = ({ isOpen, onClose }) => {
                 <NavbarAdmin />
                 <div className="p-3 flex-1" >
                     <div className="flex flex-col w-full">
-                        <div className="p-0 overflow-auto">
+                        <div className="p-0">
                             <h1 className="text-4xl font-bold mb-2">Products</h1>
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2"

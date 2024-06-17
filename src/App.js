@@ -33,6 +33,7 @@ import TryFetch from './pages/User/TryFetch';
 import Users from './pages/Admin/Users';
 import MyOrders from './pages/User/MyOrders';
 import MyProfile from './pages/User/MyProfile';
+import Orders from './pages/Admin/Orders';
 
 
 
@@ -68,6 +69,8 @@ const App = () => {
         <Route path="/modernAccessories" element={<ModernAccessories />} />
         <Route path="/tryFetch" element={<TryFetch />} />
         <Route path="/productDetails/:id" element={<ProductDetails />} />
+        <Route path='myProfile' element={<MyProfile />} />
+        <Route path='muOrders' element={<MyOrders />} />
 
         {/* User Authorization */}
         {/* <Route path='user' element={<UserRoutes/>} >
@@ -76,10 +79,11 @@ const App = () => {
         {/* Admin Authorization */}
         <Route path='products' element={<Products />} />
         <Route path='/productEdit/:id' element={<EditProducts />} />
+        <Route path='orders' element={<Orders />} />
         <Route path='categories' element={<Categories />} />
         <Route path='users' element={<Users />} />
-        <Route path='profile' element={<MyProfile />} />
-        <Route path='orders' element={<MyOrders />} />
+
+
 
 
 

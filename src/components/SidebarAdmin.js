@@ -19,7 +19,9 @@ const SidebarAdmin = () => {
     return (
         <div className="flex">
             {/* Open/Close button */}
-            <div className={`${open ? "w-72" : "w-20"} bg-gray-200 border-r border-white h-screen p-5 pt-8 relative duration-300`}>
+            {/* <div className={`${open ? "w-72" : "w-20"} bg-gray-200 border-r border-white h-screen p-5 pt-8 relative duration-300`}> */}
+            <div className={`${open ? "w-72" : "w-20"} bg-white-800 shadow-lg border-r border-white h-screen p-5 pt-8 relative duration-300`}>
+
                 <img
                     src={Control}
                     className={`absolute cursor-pointer -right-3 top-9 w-7 border-gray-700 border-2 rounded-full ${!open && "rotate-180"}`}
