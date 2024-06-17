@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 import Control from '../assets/sidebar/control.png';
 import LogoRound from '../assets/sidebar/logoRound.png';
 import Products from '../assets/sidebar/products.png';
@@ -9,19 +10,16 @@ import Users from '../assets/sidebar/users.png';
 const SidebarAdmin = () => {
     const [open, setOpen] = useState(true);
     const Menus = [
-        { title: "Products", src: Products, gap: true },
-        { title: "Orders", src: Orders },
-        { title: "Categories", src: Categories },
-        { title: "Users", src: Users },
+        { title: "Products", src: Products, path: "/products", gap: true },
+        { title: "Orders", src: Orders, path: "/orders" },
+        { title: "Categories", src: Categories, path: "/categories" },
+        { title: "Users", src: Users, path: "/users" },
     ];
 
     return (
         <div className="flex">
             {/* Open/Close button */}
-            <div
-                className={`${open ? "w-72" : "w-20"} bg-gray-200 border-r border-white h-screen p-5 pt-8 relative duration-300`}
-
-            >
+            <div className={`${open ? "w-72" : "w-20"} bg-gray-200 border-r border-white h-screen p-5 pt-8 relative duration-300`}>
                 <img
                     src={Control}
                     className={`absolute cursor-pointer -right-3 top-9 w-7 border-gray-700 border-2 rounded-full ${!open && "rotate-180"}`}
@@ -36,24 +34,23 @@ const SidebarAdmin = () => {
                     />
                 </div>
 
-                {/* list of items */}
+                {/* List of items */}
                 <ul className="pt-6">
                     {Menus.map((Menu, index) => (
                         <li
                             key={index}
                             className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-400 text-gray-700 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-gray-300"}`}
                         >
-                            <img src={Menu.src} />
-                            <span className={`${!open && "hidden"} origin-left duration-200`}>
-                                {Menu.title}
-                            </span>
+                            <Link to={Menu.path} className="flex items-center gap-x-4">
+                                <img src={Menu.src} />
+                                <span className={`${!open && "hidden"} origin-left duration-200`}>
+                                    {Menu.title}
+                                </span>
+                            </Link>
                         </li>
                     ))}
                 </ul>
             </div>
-            {/* <div className="h-screen flex-1 p-7">
-                <h1 className="text-2xl font-semibold text-gray-800">Home Page</h1>
-            </div> */}
         </div>
     );
 };

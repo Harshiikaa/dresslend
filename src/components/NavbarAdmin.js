@@ -80,21 +80,8 @@ const NavbarAdmin = () => {
                                             <span className="text-xs text-gray-500">Welcome Back!</span>
                                             <span className="text-sm font-medium">{user ? user.firstName : 'User'}</span>
                                         </div>
-                                        {/* <ChevronDownIcon className="w-5 h-5" aria-hidden="true" /> */}
                                     </Menu.Button>
                                 </div>
-
-                                {/* <Transition
-                as={React.Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-            >
-                
-            </Transition> */}
                             </Menu>
 
 
