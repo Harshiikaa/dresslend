@@ -1,73 +1,59 @@
-import React, { useState } from 'react';
-import { SearchIcon, MenuAlt2Icon, XIcon } from '@heroicons/react/outline'; // Importing Heroicons
+import { useState } from "react";
+import Control from '../assets/sidebar/control.png';
+import LogoRound from '../assets/sidebar/logoRound.png';
+import Products from '../assets/sidebar/products.png';
+import Orders from '../assets/sidebar/orders.png';
+import Categories from '../assets/sidebar/categories.png';
+import Users from '../assets/sidebar/users.png';
 
 const SidebarAdmin = () => {
-    // State to manage sidebar visibility
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-
-    // Function to toggle sidebar visibility
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
-
-    // Function to close the sidebar
-    const closeSidebar = () => {
-        setSidebarOpen(false);
-    };
+    const [open, setOpen] = useState(true);
+    const Menus = [
+        { title: "Products", src: Products, gap: true },
+        { title: "Orders", src: Orders },
+        { title: "Categories", src: Categories },
+        { title: "Users", src: Users },
+    ];
 
     return (
-        <div>
-            {/* Navigation Toggle */}
-            <button
-                type="button"
-                className="text-gray-500 hover:text-gray-600"
-                onClick={toggleSidebar}
-                aria-label="Toggle navigation"
-            >
-                <span className="sr-only">Toggle Navigation</span>
-                <SearchIcon className="flex-shrink-0 size-4 text-black hover:text-[#F1A501]" />
-            </button>
-
-            {/* Sidebar */}
+        <div className="flex">
+            {/* Open/Close button */}
             <div
-                id="docs-sidebar"
-                className={`hs-overlay [--auto-close:lg] ${
-                    sidebarOpen ? 'hs-overlay-open:translate-x-0' : '-translate-x-full'
-                } transition-all duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300`}
+                className={`${open ? "w-72" : "w-20"} bg-gray-200 border-r border-white h-screen p-5 pt-8 relative duration-300`}
+
             >
-                <div className="px-6">
-                    <a className="flex-none text-xl font-semibold" href="#" aria-label="Brand">
-                        Brand
-                    </a>
-                    <button
-                        type="button"
-                        className="text-gray-500 hover:text-gray-600 absolute top-3 right-3"
-                        onClick={closeSidebar}
-                        aria-label="Close sidebar"
-                    >
-                        <XIcon className="h-5 w-5" />
-                    </button>
+                <img
+                    src={Control}
+                    className={`absolute cursor-pointer -right-3 top-9 w-7 border-gray-700 border-2 rounded-full ${!open && "rotate-180"}`}
+                    onClick={() => setOpen(!open)}
+                />
+
+                {/* Logo Animation */}
+                <div className="flex gap-x-4 items-center">
+                    <img
+                        src={LogoRound}
+                        className={`cursor-pointer duration-500 ${open && "rotate-[360deg]"}`}
+                    />
                 </div>
-                <nav
-                    className="hs-accordion-group p-6 w-full flex flex-col flex-wrap"
-                    data-hs-accordion-always-open
-                >
-                    <ul className="space-y-1.5">
-                        {/* Sidebar menu items */}
-                        {['Products', 'Orders', 'Categories', 'Users'].map((item) => (
-                            <li key={item}>
-                                <a
-                                    className="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-700 rounded-lg hover:bg-gray-100"
-                                    href="#"
-                                >
-                                    <MenuAlt2Icon className="size-4" />
-                                    {item}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+
+                {/* list of items */}
+                <ul className="pt-6">
+                    {Menus.map((Menu, index) => (
+                        <li
+                            key={index}
+                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-400 text-gray-700 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-gray-300"}`}
+                        >
+                            <img src={Menu.src} />
+                            <span className={`${!open && "hidden"} origin-left duration-200`}>
+                                {Menu.title}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
             </div>
+            {/* <div className="h-screen flex-1 p-7">
+                <h1 className="text-2xl font-semibold text-gray-800">Home Page</h1>
+            </div> */}
         </div>
     );
 };

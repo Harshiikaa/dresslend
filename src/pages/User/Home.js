@@ -40,9 +40,9 @@ import NavbarAdmin from '../../components/NavbarAdmin';
 const Home = () => {
   return (
     <div>
-      {/* <Navbar /> */}
+      <Navbar />
       {/* <NavbarUser /> */}
-      <NavbarAdmin />
+
       <div className="p-2 flex justify-between items-center h-screen space-y-0">
 
         {/* image 1 */}

@@ -47,7 +47,7 @@ const Navbar = () => {
                     <div className="relative flex items-center justify-between h-24">
                         {/* Logo */}
                         <div className="flex-shrink-0">
-                            <img className="h-16 w-auto" src={logo} alt="Workflow" />
+                            <img className="h-20 w-auto" src={logo} alt="Workflow" />
                         </div>
 
                         {/* Navigation Items */}
