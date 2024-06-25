@@ -3,15 +3,16 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}",],
   theme: {
     extend: {
-      color: {
+      colors: { // Note: It's "colors" not "color"
         customGray: '#F9FAFB',
         "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)",
         // OnSelect: '#9AA2AC',
-
-      }
+      },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'], // Add Poppins font here
+      },
     },
   },
   plugins: [],
 }
-

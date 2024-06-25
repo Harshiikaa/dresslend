@@ -69,7 +69,7 @@ const Categories = () => {
                     <div className="flex">
                         <div className="flex flex-col w-full">
                             <div className="p-0">
-                                <h1 className="text-6xl font-bold mb-6">Categories</h1>
+                                <h1 className="text-4xl font-bold mb-2">Products</h1>
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => setShowModal(true)}

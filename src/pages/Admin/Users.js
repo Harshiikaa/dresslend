@@ -21,7 +21,7 @@ const Users = () => {
             <div className="flex-1 flex flex-col">
                 <NavbarAdmin />
                 <div className="p-7 flex-1">
-                    <h1 className="text-6xl font-bold mb-6">Users</h1>
+                    <h1 className="text-4xl font-bold mb-2">Products</h1>
                     {/* for showing table */}
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">

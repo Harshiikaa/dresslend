@@ -14,6 +14,7 @@ const Orders = () => {
                     <div className="p-3 flex-1" >
                         <div className="flex flex-col w-full">
                             <div className="p-0">
+                                <h1 className="text-4xl font-bold mb-2">Orders</h1>
 
                                 {/* for showing table */}
                                 <table className="min-w-full divide-y divide-gray-200">
@@ -101,7 +102,6 @@ const Orders = () => {
                                         )}
                                     </tbody> */}
                                 </table>
-
                             </div>
                         </div>
                     </div>

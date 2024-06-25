@@ -67,11 +67,11 @@ const App = () => {
         <Route path="/bagsAndClutches" element={< BagsAndClutches />} />
         <Route path="/headWears" element={< HeadWears />} />
         <Route path="/modernAccessories" element={<ModernAccessories />} />
+    
+        <Route path='myProfile' element={<MyProfile />} />
+        <Route path='myOrders' element={<MyOrders />} />
         <Route path="/tryFetch" element={<TryFetch />} />
         <Route path="/productDetails/:id" element={<ProductDetails />} />
-        <Route path='myProfile' element={<MyProfile />} />
-        <Route path='muOrders' element={<MyOrders />} />
-
         {/* User Authorization */}
         {/* <Route path='user' element={<UserRoutes/>} >
         </Route> */}
