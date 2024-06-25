@@ -17,13 +17,21 @@ const Products = ({ isOpen, onClose }) => {
     const [productRentalPrice, setProductRentalPrice] = useState('')
     const [productSecurityDeposit, setProductSecurityDeposit] = useState('')
     const [productCategory, setProductCategory] = useState('')
-    const handleCategorySelect = (size) => {
-        setProductCategory(size);
+    const [selectedCategory, setSelectedCategory] = useState('Catgeory');
+    const handleCategorySelect = (categoryOption, categoryText) => {
+        setSelectedCategory(categoryText);
+        console.log(`Selected category option: ${categoryOption}`);
+        // Implement sorting logic here
     };
+
+
     const [productQuantity, setProductQuantity] = useState(1)
     const [productSize, setProductSize] = useState('')
-    const handleSizeSelect = (size) => {
-        setProductSize(size);
+    const [selectedSize, setSelectedSize] = useState('Size');
+    const handleSizeSelect = (sizeOption, sizeText) => {
+        setSelectedSize(sizeText);
+        console.log(`Selected size option: ${sizeOption}`);
+        // Implement sorting logic here
     };
     const [productDescription, setProductDescription] = useState('')
     const [productImage, setProductImage] = useState(null)
@@ -217,10 +225,11 @@ const Products = ({ isOpen, onClose }) => {
                                                         <Menu as="div" className="relative inline-block text-left w-full">
                                                             <div>
                                                                 <Menu.Button className="inline-flex w-full gap-1 justify-between rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100">
-                                                                    Select Category
+                                                                    {selectedCategory}
                                                                     <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                 </Menu.Button>
                                                             </div>
+
                                                             <Transition
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-100"
@@ -236,16 +245,17 @@ const Products = ({ isOpen, onClose }) => {
                                                                             {({ active }) => (
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={() => handleCategorySelect('Category 1')}
+                                                                                    onClick={() => handleCategorySelect('priceDesc', 'Price: High to Low')}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
                                                                                     )}
                                                                                 >
-                                                                                    Category 1
+                                                                                    Price High to Low
                                                                                 </a>
                                                                             )}
                                                                         </Menu.Item>
+
                                                                     </div>
                                                                 </Menu.Items>
                                                             </Transition>
@@ -299,10 +309,11 @@ const Products = ({ isOpen, onClose }) => {
                                                         <Menu as="div" className="relative inline-block text-left w-full">
                                                             <div>
                                                                 <Menu.Button className="inline-flex w-full gap-1 justify-between rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100">
-                                                                    Select Size
+                                                                    {selectedSize}
                                                                     <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                 </Menu.Button>
                                                             </div>
+
                                                             <Transition
                                                                 as={Fragment}
                                                                 enter="transition ease-out duration-100"
@@ -312,13 +323,13 @@ const Products = ({ isOpen, onClose }) => {
                                                                 leaveFrom="transform opacity-100 scale-100"
                                                                 leaveTo="transform opacity-0 scale-95"
                                                             >
-                                                                <Menu.Items className="absolute z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                <Menu.Items className="absolute z-10 mt-2 w-full text-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                     <div className="py-1">
                                                                         <Menu.Item>
                                                                             {({ active }) => (
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={() => handleSizeSelect('Free')}
+                                                                                    onClick={() => handleSizeSelect('Free', 'Free')}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
@@ -332,7 +343,7 @@ const Products = ({ isOpen, onClose }) => {
                                                                             {({ active }) => (
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={() => handleSizeSelect('Small')}
+                                                                                    onClick={() => handleSizeSelect('Small', 'Small')}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
@@ -346,7 +357,7 @@ const Products = ({ isOpen, onClose }) => {
                                                                             {({ active }) => (
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={() => handleSizeSelect('Medium')}
+                                                                                    onClick={() => handleSizeSelect('Medium', 'Medium')}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
@@ -360,7 +371,7 @@ const Products = ({ isOpen, onClose }) => {
                                                                             {({ active }) => (
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={() => handleSizeSelect('Large')}
+                                                                                    onClick={() => handleSizeSelect('Large', 'Large')}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
@@ -370,11 +381,12 @@ const Products = ({ isOpen, onClose }) => {
                                                                                 </a>
                                                                             )}
                                                                         </Menu.Item>
+
                                                                         <Menu.Item>
                                                                             {({ active }) => (
                                                                                 <a
                                                                                     href="#"
-                                                                                    onClick={() => handleSizeSelect('Extra Large')}
+                                                                                    onClick={() => handleSizeSelect('ExtraLarge', 'ExtraLarge')}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
@@ -384,6 +396,7 @@ const Products = ({ isOpen, onClose }) => {
                                                                                 </a>
                                                                             )}
                                                                         </Menu.Item>
+
                                                                     </div>
                                                                 </Menu.Items>
                                                             </Transition>
