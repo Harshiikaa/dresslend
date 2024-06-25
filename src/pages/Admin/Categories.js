@@ -69,7 +69,7 @@ const Categories = () => {
                     <div className="flex">
                         <div className="flex flex-col w-full">
                             <div className="p-0">
-                                <h1 className="text-4xl font-bold mb-2">Products</h1>
+                                <h1 className="text-4xl font-bold mb-2">Categories</h1>
                                 <button
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={() => setShowModal(true)}
@@ -150,25 +150,20 @@ const Categories = () => {
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {categories && categories.length > 0 ? (
-                                            <>
-                                                <tr>
-                                                    <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        Rendering categories...
+                                            categories.map((item) => (
+                                                <tr key={item._id}>
+
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
+                                                        {item.category}
+                                                    </td>
+
+                                                    <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium flex justify-center space-x-2">
+                                                        <button onClick={() => handleDelete(item._id)} className="text-red-600 hover:text-red-900">
+                                                            <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                                                        </button>
                                                     </td>
                                                 </tr>
-                                                {categories.map((item) => (
-                                                    <tr key={item._id}>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
-                                                            {item.category}
-                                                        </td>
-                                                        <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium flex justify-center space-x-2">
-                                                            <button onClick={() => handleDelete(item._id)} className="text-red-600 hover:text-red-900">
-                                                                <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </>
+                                            ))
                                         ) : (
                                             <tr>
                                                 <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
