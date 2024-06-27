@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HeartIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import logo from '../assets/images/logo.png';
 import Login from '../pages/Auth/Login';
@@ -24,10 +24,21 @@ const IconLink = ({ href, IconComponent }) => (
 );
 
 const NavbarUser = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        // Get user data from local storage
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        if (storedUser) {
+            setUser(storedUser);
+        }
+    }, []);
     // for the search
     const handleSearch = (query) => {
         console.log(`Searching for: ${query}`);
     };
+
+
 
     return (
         <>

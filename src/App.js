@@ -34,6 +34,14 @@ import Users from './pages/Admin/Users';
 import MyOrders from './pages/User/MyOrders';
 import MyProfile from './pages/User/MyProfile';
 import Orders from './pages/Admin/Orders';
+import SharedNavLayout from './components/SharedNavLayout';
+import LandingPage from './components/main-screens/LandingPage';
+import EthnicDresses from './components/main-screens/EthnicDresses';
+import WesternDresses from './components/main-screens/WesternDresses';
+import Accessories from './components/main-screens/Accessories';
+import AboutUs from './components/main-screens/AboutUs';
+import Help from './components/main-screens/Help';
+import AuthProvider from './components/AuthContent';
 
 
 
@@ -43,57 +51,62 @@ const App = () => {
   return (
     <Router>
       <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        {/* ethnic dresses routes */}
-        <Route path="/hakuPatasi" element={<HakuPatasi />} />
-        <Route path="/lehengaCholi" element={< LehengaCholi />} />
-        <Route path="/gunyocholo" element={< GunyoCholo />} />
-        <Route path="/gurungDress" element={<GurungDress />} />
-        <Route path="/dauraSurwal" element={< DauraSurwal />} />
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<SharedNavLayout />} >
+            <Route path="" element={<Home />} />
+          </Route>
 
-        {/* western dresses routes */}
-        <Route path="/formalWears" element={< FormalWears />} />
-        <Route path="/summerWears" element={< SummerWears />} />
-        <Route path="/winterWears" element={< WinterWears />} />
-        <Route path="/cosplayOutfits" element={<CosplayOutfits />} />
-        <Route path="/partyWears" element={< PartyWears />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route path='/landingPage' element={<LandingPage />} />
+          <Route path='/ethnicDresses' element={<EthnicDresses />} />
+          <Route path='/westernDresses' element={<WesternDresses />} />
+          <Route path='/accessories' element={<Accessories />} />
+          <Route path='/aboutUs' element={<AboutUs />} />
+          <Route path='/help' element={<Help />} /> */}
+          {/* <Route path="/" element={<Home />} /> */}
 
-        {/* Accessories routes */}
-        <Route path="/ethnicJewelry" element={< EthnicJewelry />} />
-        <Route path="/indianJewelry" element={< IndianJewelry />} />
-        <Route path="/bagsAndClutches" element={< BagsAndClutches />} />
-        <Route path="/headWears" element={< HeadWears />} />
-        <Route path="/modernAccessories" element={<ModernAccessories />} />
-    
-        <Route path='myProfile' element={<MyProfile />} />
-        <Route path='myOrders' element={<MyOrders />} />
-        <Route path="/tryFetch" element={<TryFetch />} />
-        <Route path="/productDetails/:id" element={<ProductDetails />} />
-        {/* User Authorization */}
-        {/* <Route path='user' element={<UserRoutes/>} >
+          {/* ethnic dresses routes */}
+          <Route path="/hakuPatasi" element={<HakuPatasi />} />
+          <Route path="/lehengaCholi" element={< LehengaCholi />} />
+          <Route path="/gunyocholo" element={< GunyoCholo />} />
+          <Route path="/gurungDress" element={<GurungDress />} />
+          <Route path="/dauraSurwal" element={< DauraSurwal />} />
+
+          {/* western dresses routes */}
+          <Route path="/formalWears" element={< FormalWears />} />
+          <Route path="/summerWears" element={< SummerWears />} />
+          <Route path="/winterWears" element={< WinterWears />} />
+          <Route path="/cosplayOutfits" element={<CosplayOutfits />} />
+          <Route path="/partyWears" element={< PartyWears />} />
+
+          {/* Accessories routes */}
+          <Route path="/ethnicJewelry" element={< EthnicJewelry />} />
+          <Route path="/indianJewelry" element={< IndianJewelry />} />
+          <Route path="/bagsAndClutches" element={< BagsAndClutches />} />
+          <Route path="/headWears" element={< HeadWears />} />
+          <Route path="/modernAccessories" element={<ModernAccessories />} />
+
+
+          <Route path='myProfile' element={<MyProfile />} />
+          <Route path='myOrders' element={<MyOrders />} />
+          <Route path="/tryFetch" element={<TryFetch />} />
+          <Route path="/productDetails/:id" element={<ProductDetails />} />
+          {/* User Authorization */}
+          {/* <Route path='user' element={<UserRoutes/>} >
         </Route> */}
 
-        {/* Admin Authorization */}
-        <Route path='products' element={<Products />} />
-        <Route path='/productEdit/:id' element={<EditProducts />} />
-        <Route path='orders' element={<Orders />} />
-        <Route path='categories' element={<Categories />} />
-        <Route path='users' element={<Users />} />
-
-
-
-
-
-
-        {/* <Route path='admin' element={<AdminRoutes />} >
-
-        </Route> */}
-
-
-      </Routes>
+          {/* Admin Authorization */}
+          <Route path='admin' element={<AdminRoutes />} >
+            <Route path='products' element={<Products />} />
+            <Route path='productEdit/:id' element={<EditProducts />} />
+            <Route path='orders' element={<Orders />} />
+            <Route path='categories' element={<Categories />} />
+            <Route path='users' element={<Users />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

@@ -14,7 +14,6 @@ const Login = ({ isOpen, onClose }) => {
   };
 
   const navigate = useNavigate();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleSubmit = (e) => {
@@ -33,7 +32,12 @@ const Login = ({ isOpen, onClose }) => {
           localStorage.setItem('token', res.data.token);
           const jsonDecode = JSON.stringify(res.data.userData);
           localStorage.setItem('user', jsonDecode);
-          navigate('/user/home');
+          // Check if the user is an admin
+          if (res.data.userData.isAdmin) {
+            navigate('/admin/products');
+          } else {
+            window.location.reload()
+          }
         }
       })
       .catch((err) => {
@@ -41,6 +45,31 @@ const Login = ({ isOpen, onClose }) => {
         console.log(err.message);
       });
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const data = {
+  //     email: email,
+  //     password: password,
+  //   };
+  //   loginUserApi(data)
+  //     .then((res) => {
+  //       if (res.data.success === false) {
+  //         toast.error(res.data.message);
+  //       } else {
+  //         toast.success(res.data.message);
+  //         localStorage.setItem('token', res.data.token);
+  //         const jsonDecode = JSON.stringify(res.data.userData);
+  //         localStorage.setItem('user', jsonDecode);
+  //         navigate('/');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       toast.error('Error in server');
+  //       console.log(err.message);
+  //     });
+  // };
+
   return (
     isOpen && (
       <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-40">

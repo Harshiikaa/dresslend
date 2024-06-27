@@ -34,11 +34,11 @@ const TryFetch = () => {
 
     return (
         <div>
-            <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 border-2 border-color: inherit z-50'>
+            <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 inherit z-50'>
                 <div className='flex gap-2'>
                     <button
                         onClick={handleBackClick}
-                        className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
+                        className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
                     >
                         <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </button>

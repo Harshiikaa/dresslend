@@ -241,23 +241,24 @@ const Products = ({ isOpen, onClose }) => {
                                                             >
                                                                 <Menu.Items className="absolute z-10 mt-2 w-full text-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                     <div className="py-1">
-                                                                        <Menu.Item>
-                                                                            {({ active }) => (
-                                                                                <a
-                                                                                    href="#"
-                                                                                    onClick={() => handleCategorySelect('priceDesc', 'Price: High to Low')}
-                                                                                    className={classNames(
-                                                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                                        'block px-4 py-2 text-sm'
-                                                                                    )}
-                                                                                >
-                                                                                    Price High to Low
-                                                                                </a>
-                                                                            )}
-                                                                        </Menu.Item>
-
+                                                                        {categories.map((category) => (
+                                                                            <Menu.Item key={category.category}>
+                                                                                {({ active }) => (
+                                                                                    <button
+                                                                                        onClick={() => handleCategorySelect(category.name)}
+                                                                                        className={classNames(
+                                                                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                                            'block px-4 py-2 text-sm w-full text-left'
+                                                                                        )}
+                                                                                    >
+                                                                                        {category.category}
+                                                                                    </button>
+                                                                                )}
+                                                                            </Menu.Item>
+                                                                        ))}
                                                                     </div>
                                                                 </Menu.Items>
+
                                                             </Transition>
                                                         </Menu>
                                                     </div>
