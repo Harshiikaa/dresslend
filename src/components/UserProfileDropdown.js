@@ -2,10 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import defaultImage from '../assets/images/blankProfilePic.png';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UserProfileDropdown = () => {
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
+    const logout = () => {
+        const confirmDialog = window.confirm('Are you sure, you want to logout?');
+        if (!confirmDialog) {
+            return;
+        } else {
+            localStorage.clear();
+            console.log('User logged out successfully');
+            toast.success('Logout successful', {
+                onClose: () => {
+                    // Reload the page after the toast is closed
+                    setTimeout(() => {
+                        navigate('/');
+                        window.location.reload();
+                    });
+                },
+                autoClose: 1000, // Toast will be visible for 1 second
+            });
+        }
+    };
     useEffect(() => {
         // Get user data from local storage
         const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -65,7 +87,7 @@ const UserProfileDropdown = () => {
                         <Menu.Item>
                             {({ active }) => (
                                 <button
-                                    onClick={() => console.log('Logout clicked')}
+                                    onClick={logout}
                                     className={`block w-full text-left px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
                                 >
                                     Logout
