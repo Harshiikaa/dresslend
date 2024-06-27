@@ -52,12 +52,12 @@ const NavbarUser = () => {
 
                         {/* Navigation Items */}
                         <div className="hidden sm:flex sm:ml-3 space-x-4 text-xs">
-                            <NavItem href="#" text="Home" />
-                            <NavItem href="#" text="Ethnic Wear" />
-                            <NavItem href="#" text="Western Wear" />
-                            <NavItem href="#" text="Accessories" />
-                            <NavItem href="#" text="About Us" />
-                            <NavItem href="#" text="Help" />
+                            <NavItem href="landingPage" text="Home" />
+                            <NavItem href="ethnicWear" text="Ethnic Wear" />
+                            <NavItem href="westernWear" text="Western Wear" />
+                            <NavItem href="accessories" text="Accessories" />
+                            <NavItem href="aboutUs" text="About Us" />
+                            <NavItem href="help" text="Help" />
                         </div>
 
                         {/* Searchbar */}
@@ -77,8 +77,8 @@ const NavbarUser = () => {
 
                         {/* Favorite and Shopping Bag */}
                         <div className="hidden sm:flex sm:ml-2 space-x-2">
-                            <IconLink href="#" IconComponent={HeartIcon} />
-                            <IconLink href="#" IconComponent={ShoppingBagIcon} />
+                            <IconLink href="favorites" IconComponent={HeartIcon} />
+                            <IconLink href="shoppingBag" IconComponent={ShoppingBagIcon} />
                         </div>
 
                         {/* User Details */}

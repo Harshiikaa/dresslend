@@ -42,6 +42,8 @@ import Accessories from './components/main-screens/Accessories';
 import AboutUs from './components/main-screens/AboutUs';
 import Help from './components/main-screens/Help';
 import AuthProvider from './components/AuthContent';
+import Favorites from './pages/User/Favorites';
+import ShoppingBag from './pages/User/ShoppingBag';
 
 
 
@@ -59,12 +61,7 @@ const App = () => {
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path='/landingPage' element={<LandingPage />} />
-          <Route path='/ethnicDresses' element={<EthnicDresses />} />
-          <Route path='/westernDresses' element={<WesternDresses />} />
-          <Route path='/accessories' element={<Accessories />} />
-          <Route path='/aboutUs' element={<AboutUs />} />
-          <Route path='/help' element={<Help />} /> */}
+
           {/* <Route path="/" element={<Home />} /> */}
 
           {/* ethnic dresses routes */}
@@ -89,6 +86,16 @@ const App = () => {
           <Route path="/modernAccessories" element={<ModernAccessories />} />
 
 
+          <Route path='/landingPage' element={<LandingPage />} />
+          <Route path='/ethnicWear' element={<EthnicDresses />} />
+          <Route path='/westernWear' element={<WesternDresses />} />
+          <Route path='/accessories' element={<Accessories />} />
+          <Route path='/aboutUs' element={<AboutUs />} />
+          <Route path='/help' element={<Help />} />
+
+
+          <Route path='favorites' element={<Favorites />} />
+          <Route path='shoppingBag' element={<ShoppingBag />} />
           <Route path='myProfile' element={<MyProfile />} />
           <Route path='myOrders' element={<MyOrders />} />
           <Route path="/tryFetch" element={<TryFetch />} />
@@ -96,6 +103,13 @@ const App = () => {
           {/* User Authorization */}
           {/* <Route path='user' element={<UserRoutes/>} >
         </Route> */}
+
+
+
+
+
+
+
 
           {/* Admin Authorization */}
           <Route path='admin' element={<AdminRoutes />} >
