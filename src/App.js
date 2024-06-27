@@ -44,6 +44,7 @@ import Help from './components/main-screens/Help';
 import AuthProvider from './components/AuthContent';
 import Favorites from './pages/User/Favorites';
 import ShoppingBag from './pages/User/ShoppingBag';
+import UserRoutes from './protected/UserRoutes';
 
 
 
@@ -57,10 +58,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SharedNavLayout />} >
             <Route path="" element={<Home />} />
-            <Route path='favorites' element={<Favorites />} />
-            <Route path='shoppingBag' element={<ShoppingBag />} />
-
-
+            <Route path="/tryFetch" element={<TryFetch />} />
+            <Route path="/productDetails/:id" element={<ProductDetails />} />
           </Route>
 
           <Route path="/login" element={<Login />} />
@@ -100,11 +99,13 @@ const App = () => {
 
           <Route path='myProfile' element={<MyProfile />} />
           <Route path='myOrders' element={<MyOrders />} />
-          <Route path="/tryFetch" element={<TryFetch />} />
-          <Route path="/productDetails/:id" element={<ProductDetails />} />
+
+
           {/* User Authorization */}
-          {/* <Route path='user' element={<UserRoutes/>} >
-        </Route> */}
+          <Route path='' element={<UserRoutes />} >
+            <Route path='favorites' element={<Favorites />} />
+            <Route path='shoppingBag' element={<ShoppingBag />} />
+          </Route>
 
 
 

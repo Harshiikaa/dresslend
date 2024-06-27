@@ -15,7 +15,6 @@ const SharedNavLayout = () => {
     return (
         <div>
             {auth.isLoggedIn ? <NavbarUser user={auth.user} /> : <Navbar />}
-            {/* <Navbar /> */}
             <div className="children">
                 <Outlet />
             </div>

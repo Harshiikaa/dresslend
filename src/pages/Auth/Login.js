@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import { LockClosedIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon } from '@heroicons/react/outline';
 import { useNavigate } from 'react-router-dom';
@@ -45,30 +44,6 @@ const Login = ({ isOpen, onClose }) => {
         console.log(err.message);
       });
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const data = {
-  //     email: email,
-  //     password: password,
-  //   };
-  //   loginUserApi(data)
-  //     .then((res) => {
-  //       if (res.data.success === false) {
-  //         toast.error(res.data.message);
-  //       } else {
-  //         toast.success(res.data.message);
-  //         localStorage.setItem('token', res.data.token);
-  //         const jsonDecode = JSON.stringify(res.data.userData);
-  //         localStorage.setItem('user', jsonDecode);
-  //         navigate('/');
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       toast.error('Error in server');
-  //       console.log(err.message);
-  //     });
-  // };
 
   return (
     isOpen && (

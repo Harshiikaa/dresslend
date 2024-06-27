@@ -2,6 +2,7 @@ import { ArrowLeftIcon, HeartIcon, StarIcon } from '@heroicons/react/outline';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSingleProductApi } from '../../apis/Api';
+import SearchResult from '../../components/SearchResult';
 
 const ProductDetails = () => {
 
@@ -49,39 +50,45 @@ const ProductDetails = () => {
 
         if (!product) return <div>Loading...</div>;
 
-
     };
     return (
         <div>
-            <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 border-2 border-color: inherit z-50'>
+            <div>
+                {/* <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 inherit z-50'> */}
                 <div className='flex gap-2'>
                     <button
                         onClick={handleBackClick}
-                        className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm  hover:bg-gray-100"
+                        className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
                     >
                         <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </button>
-                    {/* <div>
-                        <h1 className="text-xl font-regular">Search Result for</h1>
-                        <h1 className="text-2xl font-bold">Formal Outfits</h1>
-                    </div> */}
                 </div>
+                {/* </div> */}
+            </div>
 
-                <div className="max-w-6xl mx-auto p-4 mt-24 font-poppins">
+            <div className="max-w-6xl mx-auto p-2 font-poppins"> {/* Added mt-20 to push content below header */}
+                <div className="space-y-2">
                     <div className="bg-white p-4 border-2 border-gray-200 rounded-lg flex h-auto">
                         <img src={product.productImageURL} alt={product.productName} className="w-1/3 h-auto object-cover" />
                         <div className="ml-4 flex-1 flex flex-col justify-between">
                             <h2 className="text-2xl font-semibold">{product.productName}</h2>
-                            <p className="text-customGray font-medium text-lg">
-                                Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
-                            </p>
-                            <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
                             <div className="flex items-center">
                                 {[...Array(product.rating)].map((_, i) => (
                                     <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
                                 ))}
                             </div>
+                            <p className="text-customGray font-medium text-lg">
+                                Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
+                            </p>
+                            <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
+
                             <p className="text-gray-600 font-regular text-md">{product.productDescription}</p>
+                            <p className="text-gray-600 font-light text-md">Size: {product.productSize}</p>
+                            <p className="text-gray-600 font-light text-md">Category: {product.productCategory}</p>
+                            <p className="text-gray-600 font-light text-md">Available Quantity: {product.productQuantity}</p>
+
+
+
                         </div>
                     </div>
                 </div>

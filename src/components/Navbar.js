@@ -3,6 +3,7 @@ import { HeartIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/
 import logo from '../assets/images/logo.png';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
+import { toast } from 'react-toastify';
 
 const NavItem = ({ href, text, onClick }) => (
     <button
@@ -13,17 +14,16 @@ const NavItem = ({ href, text, onClick }) => (
     </button>
 );
 
-const IconLink = ({ href, IconComponent }) => (
-    <a
-        href={href}
+const IconLink = ({ IconComponent, onClick }) => (
+    <button
+        onClick={onClick}
         className="text-black-300 hover:text-[#F1A501] px-3 py-5 rounded-md flex items-center space-x-2 text-sm font-medium"
     >
         <IconComponent className="h-5 w-5 text-black" />
-    </a>
+    </button>
 );
 
 const Navbar = () => {
-    // for the login modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
@@ -35,9 +35,13 @@ const Navbar = () => {
         setIsRegisterModalOpen(!isRegisterModalOpen);
     };
 
-    // for the search
     const handleSearch = (query) => {
         console.log(`Searching for: ${query}`);
+    };
+
+    const handleIconClick = () => {
+        toast.info('Please login first.');
+        setIsModalOpen(true);
     };
 
     return (
@@ -52,12 +56,12 @@ const Navbar = () => {
 
                         {/* Navigation Items */}
                         <div className="hidden sm:flex sm:ml-3 space-x-4 text-xs">
-                            <NavItem href="#" text="Home" />
-                            <NavItem href="#" text="Ethnic Wear" />
-                            <NavItem href="#" text="Western Wear" />
-                            <NavItem href="#" text="Accessories" />
-                            <NavItem href="#" text="About Us" />
-                            <NavItem href="#" text="Help" />
+                            <NavItem text="Home" />
+                            <NavItem text="Ethnic Wear" />
+                            <NavItem text="Western Wear" />
+                            <NavItem text="Accessories" />
+                            <NavItem text="About Us" />
+                            <NavItem text="Help" />
                         </div>
 
                         {/* Searchbar */}
@@ -77,14 +81,14 @@ const Navbar = () => {
 
                         {/* Favorite and Shopping Bag */}
                         <div className="hidden sm:flex sm:ml-2 space-x-2">
-                            <IconLink href="#" IconComponent={HeartIcon} />
-                            <IconLink href="#" IconComponent={ShoppingBagIcon} />
+                            <IconLink IconComponent={HeartIcon} onClick={handleIconClick} />
+                            <IconLink IconComponent={ShoppingBagIcon} onClick={handleIconClick} />
                         </div>
 
                         {/* Login and Signup Buttons */}
                         <div className="hidden sm:flex sm:ml-2 space-x-2">
-                            <NavItem href="#" text="Login" onClick={handleModalToggle} />
-                            <NavItem href="#" text="Register" onClick={handleRegisterModalToggle} />
+                            <NavItem text="Login" onClick={handleModalToggle} />
+                            <NavItem text="Register" onClick={handleRegisterModalToggle} />
                         </div>
                     </div>
                 </div>
@@ -97,3 +101,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
