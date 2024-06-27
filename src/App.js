@@ -58,6 +58,8 @@ const App = () => {
           <Route path="/" element={<SharedNavLayout />} >
             <Route path="" element={<Home />} />
             <Route path='favorites' element={<Favorites />} />
+            <Route path='shoppingBag' element={<ShoppingBag />} />
+
 
           </Route>
 
@@ -96,7 +98,6 @@ const App = () => {
           <Route path='/help' element={<Help />} />
 
 
-          <Route path='shoppingBag' element={<ShoppingBag />} />
           <Route path='myProfile' element={<MyProfile />} />
           <Route path='myOrders' element={<MyOrders />} />
           <Route path="/tryFetch" element={<TryFetch />} />
