@@ -57,6 +57,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SharedNavLayout />} >
             <Route path="" element={<Home />} />
+            <Route path='favorites' element={<Favorites />} />
+
           </Route>
 
           <Route path="/login" element={<Login />} />
@@ -94,7 +96,6 @@ const App = () => {
           <Route path='/help' element={<Help />} />
 
 
-          <Route path='favorites' element={<Favorites />} />
           <Route path='shoppingBag' element={<ShoppingBag />} />
           <Route path='myProfile' element={<MyProfile />} />
           <Route path='myOrders' element={<MyOrders />} />
