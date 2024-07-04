@@ -56,11 +56,14 @@ const App = () => {
       <ToastContainer />
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<SharedNavLayout />} >
+          <Route path="/" element={<SharedNavLayout />}>
             <Route path="" element={<Home />} />
             <Route path="/tryFetch" element={<TryFetch />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
           </Route>
+
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -102,10 +105,10 @@ const App = () => {
 
 
           {/* User Authorization */}
-          <Route path='' element={<UserRoutes />} >
-            <Route path='favorites' element={<Favorites />} />
-            <Route path='shoppingBag' element={<ShoppingBag />} />
-          </Route>
+          {/* <Route element={<UserRoutes />} > */}
+          {/* <Route path='favorites' element={<Favorites />} />
+          <Route path='shoppingBag' element={<ShoppingBag />} /> */}
+          {/* </Route> */}
 
 
 

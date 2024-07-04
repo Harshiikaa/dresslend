@@ -34,3 +34,11 @@ export const getAllCategoriesApi = () => Api.get('/api/category/getCategories')
 // export const getSingleCategoryApi = (id) => Api.get(`/api/category/getCategory/${id}`)
 export const deleteCategoryApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
 
+// Favorite
+export const addFavoriteApi = (data) => Api.post('/api/favorite/addFavorite', data, config)
+export const getFavoritesByUserIDApi = (id) => Api.get(`/api/favorite/getFavoritesByUserID/${id}`, config)
+
+// export const getAllFavoriteApi = () => Api.get('/api/category/getCategories')
+// export const removeFavoriteApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
+
+
