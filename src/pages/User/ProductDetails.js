@@ -2,16 +2,66 @@ import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon } from '@heroico
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addFavoriteApi, getSingleProductApi } from '../../apis/Api';
+import { addFavoriteApi, addToShoppingBagApi, getSingleProductApi } from '../../apis/Api';
 import SearchResult from '../../components/SearchResult';
 import { toast } from 'react-toastify';
+import DatePickerCalendar from '../../components/DatePickerCalendar';
 
 const ProductDetails = () => {
     const { id } = useParams();
     const user = JSON.parse(localStorage.getItem('user'));
 
     const [userID, setUserID] = useState(''); // Set this to the actual user ID
+    const [productID, setProductID] = useState('');
+    const [deliveryDate, setDeliveryDate] = useState('');
+    const [returnDate, setReturnDate] = useState('');
+    const [totalPrice, setTotalPrice] = useState('');
+    const [quantity, setQuantity] = useState(1);
     const [isFavorite, setIsFavorite] = useState(false); // Initialize based on whether the product is already a favorite
+    const [product, setProduct] = useState({
+        productName: '',
+        productRentalPrice: '',
+        productSecurityDeposit: '',
+        productCategory: '',
+        productQuantity: '',
+        productSize: '',
+        productDescription: '',
+        productImageURL: null,
+    });
+
+
+
+    const handleRentNow = (e) => {
+        e.preventDefault()
+        // setProduct({ ...product, quantity: 1 });
+        const rentalPrice = parseFloat(product.productRentalPrice);
+        const securityDeposit = parseFloat(product.productSecurityDeposit);
+        const quantity = parseInt(product.productQuantity, 10);
+        // Calculate total price
+        const totalPrice = securityDeposit + rentalPrice * quantity;
+
+        const formData = new FormData()
+        formData.append('userID', user._id)
+        formData.append('productID', id)
+        formData.append('deliveryDate', deliveryDate)
+        formData.append('returnDate', returnDate)
+        formData.append('totalPrice', totalPrice)
+        formData.append('quantity', quantity)
+        // formData.append('productDescription', productDescription)
+        // formData.append('productImage', productImage)
+        console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity)
+        addToShoppingBagApi(formData).then((res) => {
+            if (res.data.success == false) {
+                toast.error(res.data.message)
+            } else {
+                toast.success(res.data.message)
+            }
+        }).catch(err => {
+            toast.error("Server Error")
+            console.log(err.message)
+        })
+    }
+
 
     const handleAddFavorite = async () => {
         const data = {
@@ -34,16 +84,6 @@ const ProductDetails = () => {
         }
     };
 
-    const [product, setProduct] = useState({
-        productName: '',
-        productRentalPrice: '',
-        productSecurityDeposit: '',
-        productCategory: '',
-        productQuantity: '',
-        productSize: '',
-        productDescription: '',
-        productImageURL: null,
-    });
 
 
     useEffect(() => {
@@ -69,6 +109,8 @@ const ProductDetails = () => {
     }, [id]);
 
 
+
+
     const navigate = useNavigate();
 
     const handleBackClick = () => {
@@ -77,6 +119,7 @@ const ProductDetails = () => {
         if (!product) return <div>Loading...</div>;
 
     };
+
     return (
         <div>
             <div>
@@ -125,12 +168,20 @@ const ProductDetails = () => {
                             </p>
                             <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
                             {/* calender */}
+                            <DatePickerCalendar />
 
                             <div>
                                 <p className="text-gray-600 font-light text-md">Size: <span className="font-regular text-[#505050]">{product.productSize}</span></p>
                                 <p className="text-gray-600 font-light text-md">Category: <span className="font-regular text-[#505050]">{product.productCategory}</span></p>
                                 <p className="text-gray-600 font-light text-md">Available Quantity: <span className="font-regular text-[#505050]">{product.productQuantity}</span></p>
                             </div>
+                            <div>
+                                <button onClick={handleRentNow} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                    Rent Now
+                                </button>
+                            </div>
+
+
                             <div>
                                 <h2 className="text-1xl font-medium font-poppins">Product Info</h2>
                                 <p className="text-gray-600 font-regular text-md ">{product.productDescription}</p>

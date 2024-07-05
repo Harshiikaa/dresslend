@@ -21,6 +21,7 @@ const Favorites = () => {
       .then((res) => {
         console.log("API Response:", res.data);
         setFavorites(res.data.favorites);
+        window.location.reload();
       })
       .catch(err => {
         toast.error("Server Error");

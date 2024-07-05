@@ -37,8 +37,14 @@ export const deleteCategoryApi = (id) => Api.delete(`/api/category/deleteCategor
 // Favorite
 export const addFavoriteApi = (data) => Api.post('/api/favorite/addFavorite', data, config)
 export const getFavoritesByUserIDApi = (id) => Api.get(`/api/favorite/getFavoritesByUserID/${id}`, config)
-
 // export const getAllFavoriteApi = () => Api.get('/api/category/getCategories')
 // export const removeFavoriteApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
 
+
+
+// Shopping Bag
+export const addToShoppingBagApi = (data) => Api.post('/api/shoppingBag/addToShoppingBag', data, config)
+export const getShoppingBagByUserIDApi = (id) => Api.get(`/api/shoppingBag/getShoppingBagByUserID/${id}`, config)
+// export const updateShoppingBagApi = (id, formData) => Api.put(`/api/shoppingBag/updateShoppingBag/${id}`, formData, config)
+export const removeFromShoppingBagApi = (id) => Api.delete(`/api/shoppingBag/removeFromShoppingBag/${id}`, config)
 
