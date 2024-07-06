@@ -162,6 +162,7 @@ const ProductDetails = () => {
         }
     };
 
+
     useEffect(() => {
         getSingleProductApi(id).then((res) => {
             setProduct({
@@ -182,6 +183,24 @@ const ProductDetails = () => {
     const handleBackClick = () => {
         navigate(-1);
         if (!product) return <div>Loading...</div>;
+    };
+
+    const [productQuantity, setProductQuantity] = useState(1)
+    // const [quantity, setQuantity] = useState(1);
+
+    const handleIncrease = () => {
+        setQuantity((prevQuantity) => {
+            if (prevQuantity < product.productQuantity) {
+                return prevQuantity + 1;
+            } else {
+                toast.warning('Please check the number of quantity available and choose');
+                return prevQuantity;
+            }
+        });
+    };
+
+    const handleDecrease = () => {
+        setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
     return (
@@ -291,6 +310,40 @@ const ProductDetails = () => {
                                         </div>
                                     )}
                                 </div>
+                            </div>
+                            {/* Quantity*/}
+                            <div className="items-center">
+                                <label
+                                    htmlFor="message"
+                                    className="block mb-2 text-sm font-medium text-gray-900"
+                                >
+                                    Quantity
+                                </label>
+                                <div className='flex'>
+                                    <button
+                                        type="button"
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-l"
+                                        onClick={handleDecrease}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        onChange={(e) => setProductQuantity(e.target.value)}
+                                        type="number"
+                                        name="Quantity"
+                                        id="Quantity"
+                                        value={quantity}
+                                        className="w-10 h-8 text-center bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-none focus:ring-blue-500 focus:border-blue-500 block text-center"
+                                    />
+                                    <button
+                                        type="button"
+                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-r"
+                                        onClick={handleIncrease}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+
                             </div>
                             <div>
                                 <p className="text-gray-600 font-light text-md">Size: <span className="font-regular text-[#505050]">{product.productSize}</span></p>

@@ -112,11 +112,6 @@ const App = () => {
 
 
 
-
-
-
-
-
           {/* Admin Authorization */}
           <Route path='admin' element={<AdminRoutes />} >
             <Route path='products' element={<Products />} />
