@@ -45,6 +45,7 @@ import AuthProvider from './components/AuthContent';
 import Favorites from './pages/User/Favorites';
 import ShoppingBag from './pages/User/ShoppingBag';
 import UserRoutes from './protected/UserRoutes';
+import EditShoppingBag from './pages/User/EditShoppingBag';
 
 
 
@@ -62,6 +63,8 @@ const App = () => {
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
+            <Route path='/shoppingBagEdit/:id' element={<EditShoppingBag />} />
+
           </Route>
 
 

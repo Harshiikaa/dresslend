@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, MinusIcon, MinusSmIcon, HeartIcon as OutlineHeartIcon, PlusIcon, StarIcon, } from '@heroicons/react/outline';
 import { PencilAltIcon, PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getShoppingBagByUserIDApi, removeFromShoppingBagApi } from '../../apis/Api';
 import SearchResult from '../../components/SearchResult';
 import { toast } from 'react-toastify';
@@ -111,7 +111,9 @@ const ShoppingBag = () => {
                                         // onClick={() => handleEditItem(item._id)}
                                         className="flex items-center justify-center w-full p-2 rounded"
                                         style={{ backgroundColor: "#F7FAFC", border: "1.5px solid #DEE2E7" }}>
-                                        <PencilAltIcon className="w-4 h-4  text-green-500" />
+                                        <Link to={`/shoppingBagEdit/${item._id}`} className="text-green-600 hover:text-indigo-900">
+                                            <PencilAltIcon className="w-4 h-4  text-green-500" />
+                                        </Link>
                                     </button>
                                 </div>
 
