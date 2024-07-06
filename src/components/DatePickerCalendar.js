@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from '@heroicons/react/solid';
 
-const DatePickerCalendar = () => {
+const DatePickerCalendar = ({ setDeliveryDate }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [showCalendar, setShowCalendar] = useState(false);
+    const [displayDate, setDisplayDate] = useState(null);
 
     const handleDateClick = (day) => {
         const selectedDateTime = new Date(currentYear, currentMonth, day).getTime();
@@ -73,6 +74,17 @@ const DatePickerCalendar = () => {
         setShowCalendar(!showCalendar);
     };
 
+    const handleSetDate = () => {
+        const date = new Date(currentYear, currentMonth, selectedDate);
+        setDisplayDate(date);
+        setDeliveryDate(date);  // Set the delivery date in the parent component
+        setShowCalendar(false);
+    };
+
+    const handleCancel = () => {
+        setShowCalendar(false);
+    };
+
     return (
         <div className="relative p-4">
             <div className="flex justify-between items-center mb-1">
@@ -80,11 +92,13 @@ const DatePickerCalendar = () => {
                     onClick={toggleCalendar}
                     className="flex items-center justify-center px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200"
                 >
-                    <span className="mr-2">Choose Date</span>
+                    <span className="mr-2">
+                        {displayDate ? displayDate.toLocaleDateString() : "Choose Date"}
+                    </span>
                     <CalendarIcon className="w-6 h-6 text-gray-600" />
                 </button>
                 {showCalendar && (
-                    <div className="absolute z-5 top-12 left-20">
+                    <div className="absolute z-5 top-12 left-0">
                         <div className="shadow-lg bg-white p-2 rounded-lg border border-gray-200">
                             <div className="flex justify-between items-center">
                                 <button
@@ -121,10 +135,16 @@ const DatePickerCalendar = () => {
                                 )}
                             </div>
                             <div className="flex items-center justify-end p-2 bg-gray-100 border-t">
-                                <button className="px-2 py-1 text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 hover:bg-gray-200">
+                                <button
+                                    onClick={handleCancel}
+                                    className="px-2 py-1 text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 hover:bg-gray-200"
+                                >
                                     Cancel
                                 </button>
-                                <button className="px-2 py-1 ml-2 text-sm text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 hover:bg-blue-700">
+                                <button
+                                    onClick={handleSetDate}
+                                    className="px-2 py-1 ml-2 text-sm text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 hover:bg-blue-700"
+                                >
                                     Set Date
                                 </button>
                             </div>
