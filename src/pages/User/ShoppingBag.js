@@ -2,7 +2,7 @@ import { ArrowLeftIcon, MinusIcon, MinusSmIcon, HeartIcon as OutlineHeartIcon, P
 import { PencilAltIcon, PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { addFavoriteApi, getShoppingBagByUserIDApi, getSingleProductApi } from '../../apis/Api';
+import { getShoppingBagByUserIDApi, removeFromShoppingBagApi } from '../../apis/Api';
 import SearchResult from '../../components/SearchResult';
 import { toast } from 'react-toastify';
 
@@ -29,8 +29,31 @@ const ShoppingBag = () => {
 
     console.log(shoppingBag);
 
+    const handleDelete = (id) => {
+        const confirmDialog = window.confirm('Are you sure, you want to remove this item from shopping Cart?')
+        if (!confirmDialog) {
+            return;
+        }
+        else {
+            removeFromShoppingBagApi(id).then((res) => {
+                if (res.data.success == true) {
+                    window.location.reload()
+                    toast.success(res.data.success)
+                }
+                else {
+                    toast.error(res.data.message)
+                }
+
+            })
+        }
+    }
+
+    const calculateSubtotal = () => {
+        return shoppingBag.reduce((acc, item) => acc + item.totalPrice, 0);
+    };
+
     return (
-        <div>
+        <div >
             <div className="max-w-6xl mx-auto p-2 mt-24 font-poppins">
                 <div className="space-y-2">
                     {shoppingBag.map((item) => (
@@ -79,7 +102,7 @@ const ShoppingBag = () => {
                                 {/* div 9  */}
                                 <div className="flex flex-col items-center justify-center space-y-2 gap-4">
                                     <button
-                                        // onClick={() => handleDeleteItem(item._id)}
+                                        onClick={() => handleDelete(item._id)}
                                         className="flex items-center justify-center w-full p-2 rounded"
                                         style={{ backgroundColor: "#F7FAFC", border: "1.5px solid #DEE2E7" }}>
                                         <TrashIcon className="w-4 h-4 text-red-500" />
@@ -98,6 +121,35 @@ const ShoppingBag = () => {
                     ))}
                 </div>
             </div>
+
+            {/* total calculation */}
+            <div class="max-w-xs mx-auto justify-content: flex-end bg-white p-6 rounded-lg shadow-md font-poppins">
+                <h2 class="text-center text-xl font-semibold mb-4">TOTALS</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span>SUBTOTAL</span>
+                        <span>Rs. {calculateSubtotal()}</span>
+                    </div>
+                    {/* <div class="flex justify-between">
+                        <span>SECURITY</span>
+                        <span>Rs. 0</span>
+                    </div> */}
+                    <div class="flex justify-between">
+                        <span>SHIPPING</span>
+                        <span>Rs. 0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>DISCOUNT</span>
+                        <span>Rs. 0</span>
+                    </div>
+                </div>
+                <div class="flex justify-between font-bold mt-4">
+                    <span>TOTAL</span>
+                    <span>Rs. {calculateSubtotal()}</span>
+                </div>
+                <button class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button>
+            </div>
+
 
         </div>
     )
