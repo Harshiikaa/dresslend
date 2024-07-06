@@ -116,8 +116,6 @@ const ShoppingBag = () => {
                                         </Link>
                                     </button>
                                 </div>
-
-
                             </div>
                         </div>
                     ))}
@@ -149,7 +147,8 @@ const ShoppingBag = () => {
                     <span>TOTAL</span>
                     <span>Rs. {calculateSubtotal()}</span>
                 </div>
-                <button class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button>
+                <button 
+                class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button>
             </div>
 
 
