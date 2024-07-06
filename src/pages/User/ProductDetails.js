@@ -3,9 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, CalendarIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { addFavoriteApi, addToShoppingBagApi, getSingleProductApi } from '../../apis/Api';
-import SearchResult from '../../components/SearchResult';
 import { toast } from 'react-toastify';
-import DatePickerCalendar from '../../components/DatePickerCalendar';
 
 const ProductDetails = () => {
 
@@ -83,8 +81,12 @@ const ProductDetails = () => {
 
     const handleSetDate = () => {
         const date = new Date(currentYear, currentMonth, selectedDate);
+        const returnDate = new Date(date);
+        returnDate.setDate(date.getDate() + 4); // Add 4 days to delivery date
+
         setDisplayDate(date);
         setDeliveryDate(date);  // Set the delivery date in the parent component
+        setReturnDate(returnDate); // Set the return date
         setShowCalendar(false);
     };
 
@@ -113,31 +115,31 @@ const ProductDetails = () => {
     });
 
     const handleRentNow = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         const rentalPrice = parseFloat(product.productRentalPrice);
         const securityDeposit = parseFloat(product.productSecurityDeposit);
         const quantity = parseInt(product.productQuantity, 10);
         const totalPrice = securityDeposit + rentalPrice * quantity;
 
-        const formData = new FormData()
-        formData.append('userID', user._id)
-        formData.append('productID', id)
-        formData.append('deliveryDate', deliveryDate)
-        formData.append('returnDate', returnDate)
-        formData.append('totalPrice', totalPrice)
-        formData.append('quantity', quantity)
-        console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity)
+        const formData = new FormData();
+        formData.append('userID', user._id);
+        formData.append('productID', id);
+        formData.append('deliveryDate', deliveryDate);
+        formData.append('returnDate', returnDate);
+        formData.append('totalPrice', totalPrice);
+        formData.append('quantity', quantity);
+        console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity);
         addToShoppingBagApi(formData).then((res) => {
-            if (res.data.success == false) {
-                toast.error(res.data.message)
+            if (res.data.success === false) {
+                toast.error(res.data.message);
             } else {
-                toast.success(res.data.message)
+                toast.success(res.data.message);
             }
         }).catch(err => {
-            toast.error("Server Error")
-            console.log(err.message)
-        })
-    }
+            toast.error("Server Error");
+            console.log(err.message);
+        });
+    };
 
     const handleAddFavorite = async () => {
         const data = {
@@ -249,7 +251,7 @@ const ProductDetails = () => {
                                                     </div>
                                                     <button
                                                         onClick={handleNextMonth}
-                                                        className="flex items-center justify-center w-5 h-5 rounded-full bg-gray-100 hover:bg-gray-200"
+                                                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200"
                                                     >
                                                         <ChevronRightIcon className="w-6 h-6 text-gray-600" />
                                                     </button>
