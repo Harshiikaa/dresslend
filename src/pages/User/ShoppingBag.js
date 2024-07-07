@@ -85,6 +85,10 @@ const ShoppingBag = () => {
                                         <div>
                                             <p className="text-sm">Return Date: <br /> {new Date(item.returnDate).toLocaleDateString()}</p>
                                         </div>
+                                        {/* div 7 */}
+                                        <div>
+                                            <p className="text-sm">Rented Quantity: <br /> {item.quantity} </p>
+                                        </div>
                                         {/* div 8 */}
                                         <div>
                                             <p className="text-sm font-semibold">Total Price:<br /> NPR. {item.totalPrice}</p>
@@ -147,8 +151,8 @@ const ShoppingBag = () => {
                     <span>TOTAL</span>
                     <span>Rs. {calculateSubtotal()}</span>
                 </div>
-                <button 
-                class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button>
+                <button
+                    class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button>
             </div>
 
 

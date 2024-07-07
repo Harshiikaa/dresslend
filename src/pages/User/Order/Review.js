@@ -1,7 +1,10 @@
 import { PencilAltIcon } from '@heroicons/react/outline'
 import React from 'react'
+import ShippingInfo from './ShippingInfo'
+import ShoppingBag from '../ShoppingBag'
 
 const Review = () => {
+
   return (
     <div>
       <div className="max-w-2xl mx-auto p-4 mt-8">
@@ -58,11 +61,13 @@ const Review = () => {
           </div>
           <hr class="my-4 border-gray-300" />
         </div>
-        <div className='flex felx-col justify-center'>
+        {/* <ShoppingBag /> */}
+
+        {/* <div className='flex felx-col justify-center'>
           <button type="submit" className="w-1/5 bg-blue-500 text-white py-2 rounded mt-4">
             CHECKOUT
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   )
