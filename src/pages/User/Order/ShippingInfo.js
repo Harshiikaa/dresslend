@@ -1,12 +1,69 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { createShippingInfoApi } from '../../../apis/Api';
+import { toast } from 'react-toastify';
 
 const ShippingInfo = () => {
     const navigate = useNavigate();
 
-    const handleCheckout = () => {
-        navigate('/checkout'); // Navigate to the checkout page
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [contactNumber, setContactNumber] = useState('');
+    const [city, setCity] = useState('');
+    const [address, setAddress] = useState('');
+    const [nearLandmark, setNeearLandmark] = useState('');
+
+
+    const changeFirstName = (e) => {
+        setFirstName(e.target.value);
     };
+    const changeLastName = (e) => {
+        setLastName(e.target.value);
+    };
+    const changeContactNumber = (e) => {
+        setContactNumber(e.target.value);
+    };
+    const changeCity = (e) => {
+        setCity(e.target.value);
+    };
+
+    const changeAddress = (e) => {
+        setAddress(e.target.value);
+    };
+    const changeNearLandmark = (e) => {
+        setNeearLandmark(e.target.value);
+    };
+
+    const handleCheckout = (e) => {
+        e.preventDefault();
+        const data = {
+            firstName: firstName,
+            lastName: lastName,
+            contactNumber: contactNumber,
+            city: city,
+            address: address,
+            nearLandmark: nearLandmark,
+        };
+        createShippingInfoApi(data)
+            .then((res) => {
+                if (res.data.success === false) {
+                    toast.error(res.data.message);
+                } else {
+                    toast.success(res.data.message);
+                    navigate('/review')
+
+                }
+            })
+            .catch((err) => {
+                toast.error('Server Error');
+                console.log(err.message);
+            });
+
+    };
+
+    // const handleCheckout = () => {
+    //     navigate('/checkout'); // Navigate to the checkout page
+    // };
     return (
         <div>
             <div className="max-w-2xl mx-auto p-4 mt-8">
@@ -46,16 +103,14 @@ const ShippingInfo = () => {
                             type="text"
                             name="firstName"
                             placeholder="First Name"
-                            // value={formData.firstName}
-                            // onChange={handleChange}
+                            onChange={changeFirstName}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                         <input
                             type="text"
                             name="lastName"
                             placeholder="Last Name"
-                            // value={formData.lastName}
-                            // onChange={handleChange}
+                            onChange={changeLastName}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                     </div>
@@ -64,14 +119,12 @@ const ShippingInfo = () => {
                             type="text"
                             name="contactNumber"
                             placeholder="Contact Number"
-                            // value={formData.contactNumber}
-                            // onChange={handleChange}
+                            onChange={changeContactNumber}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                         <select
                             name="city"
-                            // value={formData.city}
-                            // onChange={handleChange}
+                            onChange={changeCity}
                             className="w-full p-2 border border-gray-300 rounded"
                         >
                             <option value="">Select City</option>
@@ -86,16 +139,14 @@ const ShippingInfo = () => {
                             type="text"
                             name="address"
                             placeholder="Address"
-                            // value={formData.address}
-                            // onChange={handleChange}
+                            onChange={changeAddress}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                         <input
                             type="text"
                             name="address"
                             placeholder="Near Landmark"
-                            // value={formData.address}
-                            // onChange={handleChange}
+                            onChange={changeNearLandmark}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                     </div>
