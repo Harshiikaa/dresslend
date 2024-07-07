@@ -46,10 +46,11 @@ import Favorites from './pages/User/Favorites';
 import ShoppingBag from './pages/User/ShoppingBag';
 import UserRoutes from './protected/UserRoutes';
 import EditShoppingBag from './pages/User/EditShoppingBag';
-import Address from './pages/User/Order/Address';
+import ShippingInfo from './pages/User/Order/ShippingInfo';
 import Review from './pages/User/Order/Review';
 import Payment from './pages/User/Order/Payment';
 import Success from './pages/User/Order/Success';
+import EditShippingInfo from './pages/User/Order/EditShippingInfo';
 
 
 
@@ -68,7 +69,9 @@ const App = () => {
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path='/shoppingBagEdit/:id' element={<EditShoppingBag />} />
-            <Route path="/address" element={<Address />} />
+
+            <Route path="/shippingInfo" element={<ShippingInfo />} />
+            <Route path='/shippingInfoEdit/:id' element={<EditShippingInfo />} />
             <Route path="/review" element={<Review />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/success" element={<Success />} />

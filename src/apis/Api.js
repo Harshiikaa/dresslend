@@ -31,15 +31,11 @@ export const deleteProductApi = (id) => Api.delete(`/api/product/deleteProduct/$
 // Category
 export const createCategoryApi = (data) => Api.post('/api/category/createCategory', data, config)
 export const getAllCategoriesApi = () => Api.get('/api/category/getCategories')
-// export const getSingleCategoryApi = (id) => Api.get(`/api/category/getCategory/${id}`)
 export const deleteCategoryApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
 
 // Favorite
 export const addFavoriteApi = (data) => Api.post('/api/favorite/addFavorite', data, config)
 export const getFavoritesByUserIDApi = (id) => Api.get(`/api/favorite/getFavoritesByUserID/${id}`, config)
-// export const getAllFavoriteApi = () => Api.get('/api/category/getCategories')
-// export const removeFavoriteApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
-
 
 
 // Shopping Bag
@@ -49,3 +45,7 @@ export const getSingleShoppingBagApi = (id) => Api.get(`/api/shoppingBag/getSing
 export const updateShoppingBagApi = (id, formData) => Api.put(`/api/shoppingBag/updateShoppingBag/${id}`, formData, config)
 export const removeFromShoppingBagApi = (id) => Api.delete(`/api/shoppingBag/removeFromShoppingBag/${id}`, config)
 
+// Shipping Info
+export const createShippingInfoApi = (data) => Api.post('/api/shippingInfo/createShippingInfo', data, config)
+export const getSingleShippingInfoApi = (id) => Api.get(`/api/shippingInfo/getSingleShippingInfo/${id}`)
+export const updateShippingInfoApi = (id, formData) => Api.put(`/api/shippingInfo/updateShippingInfo/${id}`, formData, config)

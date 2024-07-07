@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Address = () => {
+const ShippingInfo = () => {
     const navigate = useNavigate();
 
     const handleCheckout = () => {
@@ -68,16 +68,6 @@ const Address = () => {
                             // onChange={handleChange}
                             className="w-full p-2 border border-gray-300 rounded"
                         />
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            // value={formData.email}
-                            // onChange={handleChange}
-                            className="w-full p-2 border border-gray-300 rounded"
-                        />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
                         <select
                             name="city"
                             // value={formData.city}
@@ -89,10 +79,21 @@ const Address = () => {
                             <option value="Lalitpur">Lalitpur</option>
                             <option value="Bhaktapur">Bhaktapur</option>
                         </select>
+
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
                         <input
                             type="text"
                             name="address"
                             placeholder="Address"
+                            // value={formData.address}
+                            // onChange={handleChange}
+                            className="w-full p-2 border border-gray-300 rounded"
+                        />
+                        <input
+                            type="text"
+                            name="address"
+                            placeholder="Near Landmark"
                             // value={formData.address}
                             // onChange={handleChange}
                             className="w-full p-2 border border-gray-300 rounded"
@@ -104,14 +105,10 @@ const Address = () => {
                             CHECKOUT
                         </button>
                     </div>
-
-
-
                 </form>
             </div>
-
         </div>
     )
 }
 
-export default Address
+export default ShippingInfo
