@@ -1,9 +1,42 @@
 import { PencilAltIcon } from '@heroicons/react/outline'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ShippingInfo from './ShippingInfo'
 import ShoppingBag from '../ShoppingBag'
+import { getSingleShippingInfoApi, updateShippingInfoApi } from '../../../apis/Api'
+import { toast } from 'react-toastify'
 
 const Review = () => {
+
+  useEffect(() => {
+    // Get user data from local storage
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser) {
+      setUser(storedUser);
+    }
+  }, []);
+  const [user, setUser] = useState(null);
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [nearLandmark, setNeearLandmark] = useState('');
+  // useEffect(() => {
+  //   // api call 
+  //   getSingleShippingInfoApi(id).then((res) => {
+  //     console.log(res.data)
+  //     setFirstName(res.data.ShippingInfo.firstName)
+  //     setLastName(res.data.product.productPrice)
+  //     setContactNumber(res.data.product.productCategory)
+  //     setCity(res.data.product.productDescription)
+  //     setAddress(res.data.product.productImage)
+  //     setNeearLandmark(res.data.product.productImageURL)
+  //   })
+
+  // }, [id])
+
+
 
   return (
     <div>
@@ -41,8 +74,14 @@ const Review = () => {
             {/* <!-- Account Details --> */}
             <div>
               <h2 class="text-lg font-bold mb-2">ACCOUNT DETAILS</h2>
-              <p>Harshika Chaudhary</p>
-              <p>chaudharyharshika8@gmail.com</p>
+              {user ? (
+                <>
+                  <p>{user.firstName}</p>
+                  <p>{user.email}</p>
+                </>
+              ) : (
+                <p>Loading...</p>
+              )}
             </div>
 
             {/* <!-- Shipping Details --> */}
@@ -61,13 +100,8 @@ const Review = () => {
           </div>
           <hr class="my-4 border-gray-300" />
         </div>
-        {/* <ShoppingBag /> */}
 
-        {/* <div className='flex felx-col justify-center'>
-          <button type="submit" className="w-1/5 bg-blue-500 text-white py-2 rounded mt-4">
-            CHECKOUT
-          </button>
-        </div> */}
+       
       </div>
     </div>
   )
