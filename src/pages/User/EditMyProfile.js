@@ -121,7 +121,10 @@ const EditMyProfile = () => {
                     </div>
                 </div>
 
-                <div class="flex justify-center">
+                <div class="flex justify-between">
+                    <button onClick={navigate('/myProfile')} class="bg-blue-500 text-white py-2 px-6 rounded mt-4 hover:bg-blue-600">
+                        CANCEL
+                    </button>
                     <button onClick={handleSubmit} class="bg-blue-500 text-white py-2 px-6 rounded mt-4 hover:bg-blue-600">
                         SAVE
                     </button>

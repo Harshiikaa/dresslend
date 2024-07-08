@@ -49,3 +49,11 @@ export const removeFromShoppingBagApi = (id) => Api.delete(`/api/shoppingBag/rem
 export const createShippingInfoApi = (data) => Api.post('/api/shippingInfo/createShippingInfo', data, config)
 export const getSingleShippingInfoApi = (id) => Api.get(`/api/shippingInfo/getSingleShippingInfo/${id}`)
 export const updateShippingInfoApi = (id, formData) => Api.put(`/api/shippingInfo/updateShippingInfo/${id}`, formData, config)
+
+// order
+
+// rating
+// export const createRatingApi = (data) => Api.post('/api/rating/createRating', data, config)
+// export const updateRatingApi = (id) => Api.get(`/api/rating/updateRating/${id}`, config)
+export const upsertRatingApi = (data) => Api.post('/api/rating/upsertRating', data, config);
+

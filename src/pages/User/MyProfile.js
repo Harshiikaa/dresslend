@@ -57,8 +57,6 @@ const MyProfile = () => {
         <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             {/* <!-- Profile Photo --> */}
             <div class="w-40 h-40 rounded-full overflow-hidden mb-4">
-                {/* <img src="https://via.placeholder.com/150" alt="Profile Photo" class="object-cover w-full h-full" /> */}
-                {/* Conditionally render the profile image or a placeholder image */}
                 {userImage ? (
                     <img src={userImage} className='object-fit-cover rounded-3' height={200} width={200} alt='Profile' />
                 ) : (
@@ -107,12 +105,6 @@ const MyProfile = () => {
                         Delete
                     </button>
                 </div>
-
-                {/* <div class="flex justify-center">
-                    <button class="bg-blue-500 text-white py-2 px-6 rounded mt-4 hover:bg-blue-600">
-                        SAVE
-                    </button>
-                </div> */}
             </form>
         </div>
     )

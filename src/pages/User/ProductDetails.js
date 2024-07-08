@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, CalendarIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import { addFavoriteApi, addToShoppingBagApi, getSingleProductApi } from '../../apis/Api';
+import { addFavoriteApi, addToShoppingBagApi, createRatingApi, getSingleProductApi, upsertRatingApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
+import { FaStar } from 'react-icons/fa';
 
 const ProductDetails = () => {
-
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
+    const [averageRating, setAverageRating] = useState(0);
+    const [ratingCount, setRatingCount] = useState(0);
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -52,7 +54,7 @@ const ProductDetails = () => {
             days.push(
                 <div
                     key={day}
-                    className={`w-12 h-12 flex items-center justify-center cursor-pointer 
+                    className={`w-12 h-12 flex items-center justify-center cursor-pointer
                         ${isToday ? 'bg-blue-500 text-white' : isSelected ? 'bg-blue-200' : isDisabled ? 'text-gray-400 cursor-not-allowed' : ''}
                     `}
                     onClick={() => isDisabled ? null : handleDateClick(day)}
@@ -165,6 +167,28 @@ const ProductDetails = () => {
         }
     };
 
+    const handleRatingSubmit = async () => {
+        const data = {
+            productID: id,
+            rating: rating,
+        };
+
+        try {
+            const response = await upsertRatingApi(data);
+
+            if (response.data.success) {
+                setAverageRating(response.data.averageRating);
+                setRatingCount(response.data.ratingCount);
+                toast.success(response.data.message);
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            console.error('Rating Submission Error:', error);
+            toast.error('Server Error');
+        }
+    };
+
 
     useEffect(() => {
         getSingleProductApi(id).then((res) => {
@@ -178,6 +202,8 @@ const ProductDetails = () => {
                 productDescription: res.data.product.productDescription,
                 productImageURL: res.data.product.productImageURL,
             });
+            setAverageRating(res.data.product.averageRating);
+            setRatingCount(res.data.product.ratingCount);
         });
     }, [id]);
 
@@ -205,6 +231,8 @@ const ProductDetails = () => {
     const handleDecrease = () => {
         setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
+
+    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
     return (
         <div>
@@ -236,11 +264,24 @@ const ProductDetails = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex items-center">
+
+                            {/* Rating */}
+                            {/* <div className="flex items-center">
                                 {[...Array(product.rating)].map((_, i) => (
                                     <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
                                 ))}
+                            </div> */}
+
+                            <div >
+                                <div className="flex items-center">
+                                    {[...Array(Math.round(validAverageRating))].map((_, i) => (
+                                        <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
+                                    ))}
+                                    <span className="ml-2 text-gray-600">({ratingCount} reviews)</span>
+                                </div>
+
                             </div>
+
                             <p className="text-customGray font-medium text-lg">
                                 Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
                             </p>
@@ -365,36 +406,28 @@ const ProductDetails = () => {
                         </div>
 
 
-                        {/* rating */}
-                        <div className="flex flex-col items-center">
-                            <div className="flex">
-                                {[...Array(5)].map((star, index) => {
-                                    const ratingValue = index + 1;
-                                    return (
-                                        <label key={index}>
-                                            <input
-                                                type="radio"
-                                                name="rating"
-                                                value={ratingValue}
-                                                className="hidden"
-                                                onClick={() => setRating(ratingValue)}
-                                            />
-                                            <StarIcon
-                                                size={24}
-                                                className={`cursor-pointer ${ratingValue <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'
-                                                    }`}
-                                                onMouseEnter={() => setHover(ratingValue)}
-                                                onMouseLeave={() => setHover(null)}
-                                            />
-                                        </label>
-                                    );
-                                })}
-                            </div>
+                    </div>
+                    <div className='bg-white p-2 border-2 border-gray-200 rounded-lg flex h-300'>
+                        <div className="flex">
+                            {[...Array(5)].map((star, index) => {
+                                const ratingValue = index + 1;
+                                return (
+                                    <label key={index} className="cursor-pointer">
+                                        <FaStar
+                                            size={24}
+                                            className={ratingValue <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'}
+                                            onClick={() => setRating(ratingValue)}
+                                            onMouseEnter={() => setHover(ratingValue)}
+                                            onMouseLeave={() => setHover(null)}
+                                        />
+                                    </label>
+                                );
+                            })}
                             <button
                                 className="mt-4 p-2 bg-blue-500 text-white rounded"
-                            // onClick={() => onSubmit(rating)}
+                                onClick={handleRatingSubmit}
                             >
-                                Submit Rating
+                                Submit
                             </button>
                         </div>
                     </div>
