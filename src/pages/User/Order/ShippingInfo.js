@@ -5,14 +5,13 @@ import { toast } from 'react-toastify';
 
 const ShippingInfo = () => {
     const navigate = useNavigate();
-
+    const [shoppingID, setShoppingID] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
     const [nearLandmark, setNeearLandmark] = useState('');
-
 
     const changeFirstName = (e) => {
         setFirstName(e.target.value);
@@ -37,6 +36,7 @@ const ShippingInfo = () => {
     const handleCheckout = (e) => {
         e.preventDefault();
         const data = {
+            // shoppingID: shoppingBag.shoppingID,
             firstName: firstName,
             lastName: lastName,
             contactNumber: contactNumber,

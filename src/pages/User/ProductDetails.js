@@ -7,6 +7,9 @@ import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
 
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -359,6 +362,40 @@ const ProductDetails = () => {
                                 <h2 className="text-1xl font-medium font-poppins">Product Info</h2>
                                 <p className="text-gray-600 font-regular text-md ">{product.productDescription}</p>
                             </div>
+                        </div>
+
+
+                        {/* rating */}
+                        <div className="flex flex-col items-center">
+                            <div className="flex">
+                                {[...Array(5)].map((star, index) => {
+                                    const ratingValue = index + 1;
+                                    return (
+                                        <label key={index}>
+                                            <input
+                                                type="radio"
+                                                name="rating"
+                                                value={ratingValue}
+                                                className="hidden"
+                                                onClick={() => setRating(ratingValue)}
+                                            />
+                                            <StarIcon
+                                                size={24}
+                                                className={`cursor-pointer ${ratingValue <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'
+                                                    }`}
+                                                onMouseEnter={() => setHover(ratingValue)}
+                                                onMouseLeave={() => setHover(null)}
+                                            />
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                            <button
+                                className="mt-4 p-2 bg-blue-500 text-white rounded"
+                            // onClick={() => onSubmit(rating)}
+                            >
+                                Submit Rating
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -4,10 +4,26 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import defaultImage from '../assets/images/blankProfilePic.png';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getSingleUserApi } from '../apis/Api';
 
 const UserProfileDropdown = () => {
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
+
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user.id);
+    const id = user.id;
+
+    const [userImage, setUserImage] = useState(null);
+
+
+    useEffect(() => {
+        getSingleUserApi(user._id).then((res) => {
+            console.log(res.data);
+            setUserImage(res.data.user.userImage);
+
+        });
+    }, [user]);
 
     const logout = () => {
         const confirmDialog = window.confirm('Are you sure, you want to logout?');
@@ -28,23 +44,30 @@ const UserProfileDropdown = () => {
             });
         }
     };
-    useEffect(() => {
-        // Get user data from local storage
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-        if (storedUser) {
-            setUser(storedUser);
-        }
-    }, []);
+    // useEffect(() => {
+    //     // Get user data from local storage
+    //     const storedUser = JSON.parse(localStorage.getItem('user'));
+    //     if (storedUser) {
+    //         setUser(storedUser);
+    //     }
+    // }, []);
 
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
                 <Menu.Button className="inline-flex items-center bg-gray-100 justify-between w-full px-0 py-1 text-sm font-medium text-gray-700 rounded-lg shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-300">
-                    <img
+                    {/* <img
                         src={user?.userImage || defaultImage}
                         alt="User Avatar"
                         className="w-10 h-10 rounded-lg mr-2 border-2"
-                    />
+                    /> */}
+
+                    {userImage ? (
+                        <img src={userImage} className='object-fit-cover w-10 h-10 rounded-lg mr-2 border-2' height={200} width={200} alt='Profile' />
+                    ) : (
+                        <img src={defaultImage} className='object-fit-cover w-10 h-10 rounded-lg mr-2 border-2' height={200} width={200} alt='Placeholder' />
+                    )}
+                    <hr />
                     <div className="flex flex-col items-center">
                         <span className="text-xs text-gray-500">Welcome Back!</span>
                         <span className="text-sm font-medium">{user ? user.firstName : 'User'}</span>

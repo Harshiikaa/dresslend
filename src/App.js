@@ -51,6 +51,7 @@ import Review from './pages/User/Order/Review';
 import Payment from './pages/User/Order/Payment';
 import Success from './pages/User/Order/Success';
 import EditShippingInfo from './pages/User/Order/EditShippingInfo';
+import EditMyProfile from './pages/User/EditMyProfile';
 
 
 
@@ -119,6 +120,8 @@ const App = () => {
 
 
           <Route path='myProfile' element={<MyProfile />} />
+          <Route path='editMyProfile/:id' element={<EditMyProfile />} />
+
           <Route path='myOrders' element={<MyOrders />} />
 
 
