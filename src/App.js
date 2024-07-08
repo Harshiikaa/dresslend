@@ -52,6 +52,7 @@ import Payment from './pages/User/Order/Payment';
 import Success from './pages/User/Order/Success';
 import EditShippingInfo from './pages/User/Order/EditShippingInfo';
 import EditMyProfile from './pages/User/EditMyProfile';
+import SearchResultPage from './pages/User/SearchResultPage';
 
 
 
@@ -66,6 +67,7 @@ const App = () => {
           <Route path="/" element={<SharedNavLayout />}>
             <Route path="" element={<Home />} />
             <Route path="/tryFetch" element={<TryFetch />} />
+            <Route path="/searchResult" element={<SearchResultPage />} />
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
