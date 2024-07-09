@@ -76,7 +76,7 @@ const UserProfileDropdown = () => {
                         <Menu.Item>
                             {({ active }) => (
                                 <a
-                                    href="/profile"
+                                    href="/myProfile"
                                     className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
                                 >
                                     My Profile
@@ -86,7 +86,7 @@ const UserProfileDropdown = () => {
                         <Menu.Item>
                             {({ active }) => (
                                 <a
-                                    href="/orders"
+                                    href="/myOrders"
                                     className={`block px-4 py-2 text-sm ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}`}
                                 >
                                     My Orders

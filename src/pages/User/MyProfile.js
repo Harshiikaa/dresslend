@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const MyProfile = () => {
 
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user.id);
+    console.log(user._id);
     const id = user.id;
 
     const navigate = useNavigate();
@@ -32,26 +32,26 @@ const MyProfile = () => {
         });
     }, [user]);
 
-    const handleDeleteUser = (id) => {
-        const confirmDialog = window.confirm('Are you sure, you want to delete your account?')
-        if (!confirmDialog) {
-            return;
-        }
-        else {
-            deleteUserApi(id).then((res) => {
-                if (res.data.success == true) {
-                    window.location.reload()
-                    localStorage.clear();
-                    toast.success(res.data.success)
-                    navigate('/')
-                }
-                else {
-                    toast.error(res.data.message)
-                }
+    // const handleDeleteUser = (id) => {
+    //     const confirmDialog = window.confirm('Are you sure, you want to delete your account?')
+    //     if (!confirmDialog) {
+    //         return;
+    //     }
+    //     else {
+    //         deleteUserApi(id).then((res) => {
+    //             if (res.data.success == true) {
+    //                 window.location.reload()
+    //                 localStorage.clear();
+    //                 toast.success(res.data.success)
+    //                 navigate('/')
+    //             }
+    //             else {
+    //                 toast.error(res.data.message)
+    //             }
 
-            })
-        }
-    }
+    //         })
+    //     }
+    // }
 
     return (
         <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -97,14 +97,14 @@ const MyProfile = () => {
 
 
                 </div>
-                <div className="flex justify-between">
-                    <Link to={`/editMyProfile/${user._id}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Edit
-                    </Link>
-                    <button onClick={() => handleDeleteUser(user._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                {/* <div className="items-center"> */}
+                <Link to="/editMyProfile" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Edit
+                </Link>
+                {/* <button onClick={() => handleDeleteUser(user._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                         Delete
-                    </button>
-                </div>
+                    </button> */}
+                {/* </div> */}
             </form>
         </div>
     )

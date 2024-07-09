@@ -122,7 +122,7 @@ const App = () => {
 
 
           <Route path='myProfile' element={<MyProfile />} />
-          <Route path='editMyProfile/:id' element={<EditMyProfile />} />
+          <Route path='/editMyProfile' element={<EditMyProfile />} />
 
           <Route path='myOrders' element={<MyOrders />} />
 

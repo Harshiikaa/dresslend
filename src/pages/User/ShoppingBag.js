@@ -12,6 +12,7 @@ const ShoppingBag = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [products, setProducts] = useState([]);
     const [shoppingBag, setShoppingBag] = useState([]);
+     const navigate = useNavigate();
 
     useEffect(() => {
         // Call your API function
@@ -51,6 +52,11 @@ const ShoppingBag = () => {
     const calculateSubtotal = () => {
         return shoppingBag.reduce((acc, item) => acc + item.totalPrice, 0);
     };
+
+
+    const handleCheckout = () => {
+        navigate('/shippingInfo', { state: { shoppingBag } });
+    }
 
     return (
         <div >
@@ -151,7 +157,7 @@ const ShoppingBag = () => {
                     <span>TOTAL</span>
                     <span>Rs. {calculateSubtotal()}</span>
                 </div>
-                <button
+                <button onClick={handleCheckout}
                     class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button>
             </div>
 

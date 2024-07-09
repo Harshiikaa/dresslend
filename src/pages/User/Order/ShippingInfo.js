@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { createShippingInfoApi } from '../../../apis/Api';
 import { toast } from 'react-toastify';
 
 const ShippingInfo = () => {
     const navigate = useNavigate();
-    const [shoppingID, setShoppingID] = useState('');
+    const location = useLocation();
+    const shoppingBag = location.state?.shoppingBag || []; 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -36,13 +37,13 @@ const ShippingInfo = () => {
     const handleCheckout = (e) => {
         e.preventDefault();
         const data = {
-            // shoppingID: shoppingBag.shoppingID,
-            firstName: firstName,
-            lastName: lastName,
-            contactNumber: contactNumber,
-            city: city,
-            address: address,
-            nearLandmark: nearLandmark,
+            shoppingBag,
+            firstName,
+            lastName,
+            contactNumber,
+            city,
+            address,
+            nearLandmark,
         };
         createShippingInfoApi(data)
             .then((res) => {
@@ -61,9 +62,6 @@ const ShippingInfo = () => {
 
     };
 
-    // const handleCheckout = () => {
-    //     navigate('/checkout'); // Navigate to the checkout page
-    // };
     return (
         <div>
             <div className="max-w-2xl mx-auto p-4 mt-8">
@@ -96,7 +94,6 @@ const ShippingInfo = () => {
 
                 </div>
                 <form
-                    // onSubmit={handleSubmit}
                     className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <input
