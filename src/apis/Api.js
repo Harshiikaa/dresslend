@@ -57,3 +57,6 @@ export const updateShippingInfoApi = (id, formData) => Api.put(`/api/shippingInf
 // export const updateRatingApi = (id) => Api.get(`/api/rating/updateRating/${id}`, config)
 export const upsertRatingApi = (data) => Api.post('/api/rating/upsertRating', data, config);
 
+
+export const addToShoppingBagListApi = (data) => Api.post('/api/shoppingBagList/addToShoppingBagList', data, config)
+

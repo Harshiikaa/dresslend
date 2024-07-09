@@ -1,18 +1,24 @@
 import React, { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { createShippingInfoApi } from '../../../apis/Api';
 import { toast } from 'react-toastify';
 
 const ShippingInfo = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const shoppingBag = location.state?.shoppingBag || []; 
+    const { id } = useParams();
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    const [userID, setUserID] = useState('');
+    const shoppingBag = location.state?.shoppingBag || [];
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
     const [nearLandmark, setNeearLandmark] = useState('');
+
+
 
     const changeFirstName = (e) => {
         setFirstName(e.target.value);
@@ -34,31 +40,30 @@ const ShippingInfo = () => {
         setNeearLandmark(e.target.value);
     };
 
+
     const handleCheckout = (e) => {
         e.preventDefault();
-        const data = {
-            shoppingBag,
-            firstName,
-            lastName,
-            contactNumber,
-            city,
-            address,
-            nearLandmark,
-        };
-        createShippingInfoApi(data)
-            .then((res) => {
-                if (res.data.success === false) {
-                    toast.error(res.data.message);
-                } else {
-                    toast.success(res.data.message);
-                    navigate('/review')
+        const formData = new FormData();
+        formData.append('userID', user._id);
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('contactNumber', contactNumber);
+        formData.append('city', city);
+        formData.append('address', address);
+        formData.append('nearLandmark', nearLandmark);
+        console.log(userID, firstName, lastName, contactNumber, city, address, nearLandmark);
+        createShippingInfoApi(formData).then((res) => {
+            if (res.data.success === false) {
+                toast.error(res.data.message);
+            } else {
+                toast.success(res.data.message);
+            }
+        }).catch(err => {
+            toast.error("Server Error");
+            console.log(err.message);
+        });
 
-                }
-            })
-            .catch((err) => {
-                toast.error('Server Error');
-                console.log(err.message);
-            });
+        navigate('/review');
 
     };
 

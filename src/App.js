@@ -75,14 +75,10 @@ const App = () => {
 
             <Route path="/shippingInfo" element={<ShippingInfo />} />
             <Route path='/shippingInfoEdit/:id' element={<EditShippingInfo />} />
+
             <Route path="/review" element={<Review />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/success" element={<Success />} />
-
-
-
-
-
           </Route>
 
 

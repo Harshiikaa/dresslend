@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Payment = () => {
+    
     return (
         <div>
             <div className="max-w-2xl mx-auto p-4 mt-8">
@@ -32,7 +33,27 @@ const Payment = () => {
                     </div>
 
                 </div>
-             
+                <div class="w-full max-w-xs mx-auto">
+                    <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+                        <h2 class="text-xl font-semibold text-blue-500 mb-4">Payment Method</h2>
+                        <form>
+                            <div class="mb-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-blue-500" name="payment" value="cod" />
+                                    <span class="ml-2">Cash on Delivery</span>
+                                </label>
+                            </div>
+                            <div class="mb-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-blue-500" name="payment" value="khalti" />
+                                    <span class="ml-2">Khalti</span>
+                                </label>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded">Place Order</button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div>
     )

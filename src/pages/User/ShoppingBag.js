@@ -1,8 +1,8 @@
 import { ArrowLeftIcon, MinusIcon, MinusSmIcon, HeartIcon as OutlineHeartIcon, PlusIcon, StarIcon, } from '@heroicons/react/outline';
 import { PencilAltIcon, PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getShoppingBagByUserIDApi, removeFromShoppingBagApi } from '../../apis/Api';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { addToShoppingBagListApi, getShoppingBagByUserIDApi, removeFromShoppingBagApi } from '../../apis/Api';
 import SearchResult from '../../components/SearchResult';
 import { toast } from 'react-toastify';
 
@@ -12,7 +12,38 @@ const ShoppingBag = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [products, setProducts] = useState([]);
     const [shoppingBag, setShoppingBag] = useState([]);
-     const navigate = useNavigate();
+    const navigate = useNavigate();
+
+
+    const location = useLocation();
+    // const shoppingBag = location.state?.shoppingBag || [];
+    // const [userID, setUserID] = useState('');
+    // const [shoppingBagIDs, setShoppingBagIDs] = useState('');
+
+    // const handleCheckout = (e) => {
+    //     e.preventDefault();
+    //     const data = {
+    //         userID,
+    //         shoppingBagIDs,
+    //     };
+    //     addToShoppingBagListApi(data)
+    //         .then((res) => {
+    //             if (res.data.success === false) {
+    //                 toast.error(res.data.message);
+    //             } else {
+    //                 toast.success(res.data.message);
+    //                 navigate('/review')
+
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             toast.error('Server Error');
+    //             console.log(err.message);
+    //         });
+    // };
+
+
+
 
     useEffect(() => {
         // Call your API function
@@ -53,10 +84,18 @@ const ShoppingBag = () => {
         return shoppingBag.reduce((acc, item) => acc + item.totalPrice, 0);
     };
 
+    // const handleCheckout = () => {
+    //     navigate('/shippingInfo', { state: { shoppingBag } });
+    // }
 
-    const handleCheckout = () => {
-        navigate('/shippingInfo', { state: { shoppingBag } });
-    }
+
+    const handleCheckout = ({ shoppingBag }) => {
+        const dataToSave = shoppingBag;
+        console.log(dataToSave)
+        navigate(
+            '/shippingInfo',
+            { state: { shoppingBag: dataToSave } });
+    };
 
     return (
         <div >
