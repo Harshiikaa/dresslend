@@ -31,15 +31,17 @@ const Review = () => {
 
   console.log(shoppingBag);
 
+  const calculateSubtotal = () => {
+    return shoppingBag.reduce((acc, item) => acc + item.totalPrice, 0);
+  };
 
-  // useEffect(() => {
-  //   // Get user data from local storage
-  //   const storedUser = JSON.parse(localStorage.getItem('user'));
-  //   if (storedUser) {
-  //     setUser(storedUser);
-  //   }
-  // }, []);
-  // const [user, setUser] = useState(null);
+  const handleCheckout = ({ shoppingBag }) => {
+    const dataToSave = shoppingBag;
+    console.log(dataToSave)
+    navigate(
+      '/shippingInfo',
+      { state: { shoppingBag: dataToSave } });
+  };
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -47,20 +49,6 @@ const Review = () => {
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
   const [nearLandmark, setNeearLandmark] = useState('');
-  // useEffect(() => {
-  //   // api call 
-  //   getSingleShippingInfoApi(id).then((res) => {
-  //     console.log(res.data)
-  //     setFirstName(res.data.ShippingInfo.firstName)
-  //     setLastName(res.data.product.productPrice)
-  //     setContactNumber(res.data.product.productCategory)
-  //     setCity(res.data.product.productDescription)
-  //     setAddress(res.data.product.productImage)
-  //     setNeearLandmark(res.data.product.productImageURL)
-  //   })
-
-  // }, [id])
-
 
   const handleDelete = (id) => {
     const confirmDialog = window.confirm('Are you sure, you want to remove this item from shopping Cart?')
@@ -221,7 +209,32 @@ const Review = () => {
                 </div>
               </div>
             </div>
+
           ))}
+        </div>
+        {/* total calculation */}
+        <div class="max-w-xs mx-auto justify-content: flex-end bg-white p-6 rounded-lg shadow-md font-poppins">
+          <h2 class="text-center text-xl font-semibold mb-4">TOTALS</h2>
+          <div class="space-y-2">
+            <div class="flex justify-between">
+              <span>SUBTOTAL</span>
+              <span>Rs. {calculateSubtotal()}</span>
+            </div>
+            <div class="flex justify-between">
+              <span>SHIPPING</span>
+              <span>Rs. 0</span>
+            </div>
+            <div class="flex justify-between">
+              <span>DISCOUNT</span>
+              <span>Rs. 0</span>
+            </div>
+          </div>
+          <div class="flex justify-between font-bold mt-4">
+            <span>TOTAL</span>
+            <span>Rs. {calculateSubtotal()}</span>
+          </div>
+          {/* <button onClick={handleCheckout}
+            class="w-full bg-blue-500 text-white py-2 rounded mt-4">CHECKOUT</button> */}
         </div>
         <button onClick={handleNextReview}
           class="w-full bg-blue-500 text-white py-2 rounded mt-4">NEXT</button>

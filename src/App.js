@@ -75,11 +75,17 @@ const App = () => {
 
             <Route path="/shippingInfo" element={<ShippingInfo />} />
             <Route path='/shippingInfoEdit/:id' element={<EditShippingInfo />} />
-
             <Route path="/review" element={<Review />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/success" element={<Success />} />
+
+            <Route path='myProfile' element={<MyProfile />} />
+            <Route path='/editMyProfile' element={<EditMyProfile />} />
+
+            <Route path='myOrders' element={<MyOrders />} />
+
           </Route>
+
 
 
           <Route path="/login" element={<Login />} />
@@ -117,10 +123,6 @@ const App = () => {
           <Route path='/help' element={<Help />} />
 
 
-          <Route path='myProfile' element={<MyProfile />} />
-          <Route path='/editMyProfile' element={<EditMyProfile />} />
-
-          <Route path='myOrders' element={<MyOrders />} />
 
 
           {/* User Authorization */}

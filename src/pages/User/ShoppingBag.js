@@ -13,38 +13,8 @@ const ShoppingBag = () => {
     const [products, setProducts] = useState([]);
     const [shoppingBag, setShoppingBag] = useState([]);
     const navigate = useNavigate();
-
-
     const location = useLocation();
-    // const shoppingBag = location.state?.shoppingBag || [];
-    // const [userID, setUserID] = useState('');
-    // const [shoppingBagIDs, setShoppingBagIDs] = useState('');
-
-    // const handleCheckout = (e) => {
-    //     e.preventDefault();
-    //     const data = {
-    //         userID,
-    //         shoppingBagIDs,
-    //     };
-    //     addToShoppingBagListApi(data)
-    //         .then((res) => {
-    //             if (res.data.success === false) {
-    //                 toast.error(res.data.message);
-    //             } else {
-    //                 toast.success(res.data.message);
-    //                 navigate('/review')
-
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             toast.error('Server Error');
-    //             console.log(err.message);
-    //         });
-    // };
-
-
-
-
+   
     useEffect(() => {
         // Call your API function
         getShoppingBagByUserIDApi(user._id)

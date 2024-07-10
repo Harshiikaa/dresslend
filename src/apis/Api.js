@@ -47,10 +47,16 @@ export const removeFromShoppingBagApi = (id) => Api.delete(`/api/shoppingBag/rem
 
 // Shipping Info
 export const createShippingInfoApi = (data) => Api.post('/api/shippingInfo/createShippingInfo', data, config)
+export const getShippingInfoByUserIDApi = (id) => Api.get(`/api/shippingInfo/getShippingInfoByUserID/${id}`, config)
 export const getSingleShippingInfoApi = (id) => Api.get(`/api/shippingInfo/getSingleShippingInfo/${id}`)
 export const updateShippingInfoApi = (id, formData) => Api.put(`/api/shippingInfo/updateShippingInfo/${id}`, formData, config)
 
 // order
+export const createOrderApi = (data) => Api.post('/api/order/createOrder', data, config)
+export const getOrderByUserIDApi = (id) => Api.get(`/api/order/getOrderByUserID/${id}`, config)
+export const getAllOrdersApi = () => Api.get('/api/order/getAllOrders')
+export const updateOrderStatusApi = (id, formData) => Api.put(`/api/order/updateOrderStatus/${id}`, formData, config)
+export const cancelOrderApi = (id) => Api.delete(`/api/order/cancelOrder/${id}`, config)
 
 // rating
 // export const createRatingApi = (data) => Api.post('/api/rating/createRating', data, config)

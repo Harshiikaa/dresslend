@@ -1,10 +1,13 @@
 import { CheckCircleIcon, CheckIcon, UserIcon } from '@heroicons/react/outline'
 import React from 'react'
 import thankyou from '../../../assets/images/thankyou.png'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Success = () => {
   const navigate = useNavigate();
+  const handleGoToOrders = () => {
+    navigate('/orders'); // Navigate to '/orders' route
+  };
   return (
     <div>
       <div className="max-w-2xl mx-auto p-4 mt-8">
@@ -49,9 +52,12 @@ const Success = () => {
 
         </div>
         <div className='flex felx-col justify-center'>
-          <button type="submit" onClick={navigate('/orders')} className="w-1/5 bg-blue-500 text-white py-2 rounded mt-4">
+          {/* <button type="submit" className="w-1/5 bg-blue-500 text-white py-2 rounded mt-4">
             Go to Orders
-          </button>
+          </button> */}
+          <Link to="/myOrders" className="w-1/5 bg-blue-500 text-white py-2 rounded mt-4 block text-center">
+            Go to Orders
+          </Link>
         </div>
 
       </div>
