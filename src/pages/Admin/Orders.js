@@ -113,6 +113,7 @@ const Orders = () => {
                                     <tr>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Image</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '200px' }}>Order Status</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Date</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Delivery Date</th>
@@ -120,7 +121,6 @@ const Orders = () => {
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Price</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shipping Info</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style={{ width: '200px' }}>Order Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -131,15 +131,6 @@ const Orders = () => {
                                                     <img src={order.productImage} alt={order.productName} className="h-10 w-10" />
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.productName}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.quantity}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.createdAt)}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.deliveryDate)}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.returnDate)}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.totalPrice}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.paymentMethod}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    <pre className="whitespace-pre-wrap">{order.shippingInfo}</pre>
-                                                </td>
                                                 <td className={`px-6 py-4 whitespace-nowrap text-sm ${getStatusClass(order.orderStatus)}`}>
                                                     <select
                                                         value={order.orderStatus}
@@ -152,6 +143,15 @@ const Orders = () => {
                                                         <option value="Delivered" style={{ color: 'green' }}>Delivered</option>
                                                         <option value="Canceled" style={{ color: 'red' }}>Canceled</option>
                                                     </select>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.quantity}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.createdAt)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.deliveryDate)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{formatDate(order.returnDate)}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.totalPrice}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.paymentMethod}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    <pre className="whitespace-pre-wrap">{order.shippingInfo}</pre>
                                                 </td>
                                             </tr>
                                         ))

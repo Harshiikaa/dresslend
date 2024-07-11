@@ -55,7 +55,10 @@ export const updateShippingInfoApi = (id, formData) => Api.put(`/api/shippingInf
 export const createOrderApi = (data) => Api.post('/api/order/createOrder', data, config)
 export const getOrderByUserIDApi = (id) => Api.get(`/api/order/getOrderByUserID/${id}`, config)
 export const getAllOrdersApi = () => Api.get('/api/order/getAllOrders')
-export const updateOrderStatusApi = (id, formData) => Api.put(`/api/order/updateOrderStatus/${id}`, formData, config)
+// export const updateOrderStatusApi = (id) => Api.put(`/api/order/updateOrderStatus/${id}`)
+export const updateOrderStatusApi = (id, orderStatus) => {
+    return Api.put(`/api/order/updateOrderStatus/${id}`, { orderStatus });
+};
 export const cancelOrderApi = (id) => Api.delete(`/api/order/cancelOrder/${id}`, config)
 
 // rating
