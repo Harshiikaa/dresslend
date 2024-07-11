@@ -10,10 +10,10 @@ import Users from '../assets/sidebar/users.png';
 const SidebarAdmin = () => {
     const [open, setOpen] = useState(true);
     const Menus = [
-        { title: "Products", src: Products, path: "/products", gap: true },
-        { title: "Orders", src: Orders, path: "/orders" },
-        { title: "Categories", src: Categories, path: "/categories" },
-        { title: "Users", src: Users, path: "/users" },
+        { title: "Products", src: Products, path: "/admin/products", gap: true },
+        { title: "Orders", src: Orders, path: "/admin/orders" },
+        { title: "Categories", src: Categories, path: "/admin/categories" },
+        { title: "Users", src: Users, path: "/admin/users" },
     ];
 
     return (

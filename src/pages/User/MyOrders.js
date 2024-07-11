@@ -79,21 +79,6 @@ const MyOrders = () => {
                                                 </div>
                                                 <a href={`/productDetails/${shoppingBag._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                                             </div>
-                                            {/* <div className="flex flex-col items-center justify-center space-y-2 gap-4">
-                                                <button
-                                                    onClick={() => handleDelete(shoppingBag._id)}
-                                                    className="flex items-center justify-center w-full p-2 rounded"
-                                                    style={{ backgroundColor: "#F7FAFC", border: "1.5px solid #DEE2E7" }}>
-                                                    <TrashIcon className="w-4 h-4 text-red-500" />
-                                                </button>
-                                                <button
-                                                    className="flex items-center justify-center w-full p-2 rounded"
-                                                    style={{ backgroundColor: "#F7FAFC", border: "1.5px solid #DEE2E7" }}>
-                                                    <Link to={`/shoppingBagEdit/${shoppingBag._id}`} className="text-green-600 hover:text-indigo-900">
-                                                        <PencilAltIcon className="w-4 h-4 text-green-500" />
-                                                    </Link>
-                                                </button>
-                                            </div> */}
                                         </div>
                                     </div>
                                 );
@@ -110,80 +95,3 @@ const MyOrders = () => {
 };
 
 export default MyOrders;
-
-
-// import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { getOrderByUserIDApi } from '../../apis/Api';
-// import { toast } from 'react-toastify';
-
-// const MyOrders = () => {
-//     const { id } = useParams();
-//     const user = JSON.parse(localStorage.getItem('user'));
-//     const [orders, setOrders] = useState([]);
-
-//     useEffect(() => {
-//         // Call your API function
-//         getOrderByUserIDApi(user._id)
-//             .then((res) => {
-//                 console.log("API Response:", res.data);
-//                 setOrders(res.data.order);
-//             })
-//             .catch(err => {
-//                 toast.error("Server Error");
-//                 console.log(err.message);
-//             });
-//     }, [user._id]);
-
-//     const formatDate = (dateString) => {
-//         const date = new Date(dateString);
-//         return isNaN(date) ? 'Invalid Date' : date.toLocaleString();
-//     };
-
-//     return (
-//         <div>
-//             <div className="max-w-6xl mx-auto p-2 mt-24 font-poppins">
-//                 {orders.map(order => (
-//                     <div key={order._id} className="border p-4 mb-4 rounded shadow-sm">
-//                         <h3 className="text-lg font-bold">Order ID: {order._id}</h3>
-//                         <p>Order Status: {order.orderStatus}</p>
-//                         <p>Payment Method: {order.paymentMethod}</p>
-//                         <p>Created At: {formatDate(order.createdAt)}</p>
-//                         <p>Shipping ID: {order.shippingID}</p>
-//                         <h4 className="text-md font-semibold mt-2">Items:</h4>
-//                         {order.shoppingItemList && order.shoppingItemList.length > 0 ? (
-//                             order.shoppingItemList.map(item => {
-//                                 const shoppingBag = item.shoppingBagID;
-//                                 const product = shoppingBag.productID;
-//                                 return (
-//                                     <div key={item._id} className="ml-4 border p-2 mb-2 rounded">
-//                                         {product ? (
-//                                             <>
-//                                                 <p>Product Name: {product.productName}</p>
-//                                                 <p>Product Category: {product.productCategory}</p>
-//                                                 <p>Product Description: {product.productDescription}</p>
-//                                                 <img src={product.productImageURL} alt={product.productName} className="w-32 h-32" />
-//                                             </>
-//                                         ) : (
-//                                             <p>Product details not available</p>
-//                                         )}
-//                                         <p>Quantity: {shoppingBag.quantity}</p>
-//                                         <p>Delivery Date: {formatDate(shoppingBag.deliveryDate)}</p>
-//                                         <p>Return Date: {formatDate(shoppingBag.returnDate)}</p>
-//                                         <p>Total Price: {shoppingBag.totalPrice}</p>
-//                                     </div>
-//                                 );
-//                             })
-//                         ) : (
-//                             <p>No items found for this order.</p>
-//                         )}
-//                         <p>Total Payment: {order.totalPayment}</p>
-//                     </div>
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default MyOrders;
-
