@@ -68,7 +68,7 @@ const App = () => {
             <Route path="" element={<Home />} />
             <Route path="/tryFetch" element={<TryFetch />} />
             <Route path="/search" element={<SearchResults />} />
-            \            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path='/shoppingBagEdit/:id' element={<EditShoppingBag />} />
@@ -80,7 +80,7 @@ const App = () => {
             <Route path="/success" element={<Success />} />
 
             <Route path='myProfile' element={<MyProfile />} />
-            <Route path='/editMyProfile' element={<EditMyProfile />} />
+            <Route path='/editMyProfile/:id' element={<EditMyProfile />} />
 
             <Route path='myOrders' element={<MyOrders />} />
 

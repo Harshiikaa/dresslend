@@ -18,16 +18,16 @@ const EditMyProfile = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [oldImage, setOldImage] = useState(null);
 
-    // useEffect(() => {
-    //     getSingleUserApi(user._id).then((res) => {
-    //         setFirstName(res.data.user.firstName);
-    //         setLastName(res.data.user.lastName);
-    //         setPhoneNumber(res.data.user.phoneNumber);
-    //         setEmail(res.data.user.email);
-    //         setUserImage(res.data.user.userImage);
-    //         setOldImage(res.data.user.userImage);
-    //     });
-    // }, [user._id]);
+    useEffect(() => {
+        getSingleUserApi(user._id).then((res) => {
+            setFirstName(res.data.user.firstName);
+            setLastName(res.data.user.lastName);
+            setPhoneNumber(res.data.user.phoneNumber);
+            setEmail(res.data.user.email);
+            setUserImage(res.data.user.userImage);
+            setOldImage(res.data.user.userImage);
+        });
+    }, [user._id]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -63,6 +63,9 @@ const EditMyProfile = () => {
 
     const handleBackClick = () => {
         navigate(-1); // This navigates to the previous page
+    };
+    const handleGo = () => {
+        navigate('/myProfile');
     };
     return (
         <div>
@@ -109,13 +112,13 @@ const EditMyProfile = () => {
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="first-name">
                                 First Name
                             </label>
-                            <input value={user.firstName} onChange={(e) => setFirstName(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="first-name" type="text" placeholder="First Name" />
+                            <input value={firstName} onChange={(e) => setFirstName(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="first-name" type="text" placeholder="First Name" />
                         </div>
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="last-name">
                                 Last Name
                             </label>
-                            <input value={user.lastName} onChange={(e) => setLastName(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="last-name" type="text" placeholder="Last Name" />
+                            <input value={lastName} onChange={(e) => setLastName(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="last-name" type="text" placeholder="Last Name" />
                         </div>
                     </div>
                     <div class="flex flex-wrap -mx-3 mb-6">
@@ -123,18 +126,18 @@ const EditMyProfile = () => {
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="contact-number">
                                 Contact Number
                             </label>
-                            <input value={user.phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="contact-number" type="text" placeholder="Contact Number" />
+                            <input value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="contact-number" type="text" placeholder="Contact Number" />
                         </div>
                         <div class="w-full md:w-1/2 px-3">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
                                 Email
                             </label>
-                            <input value={user.email} onChange={(e) => setEmail(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email" type="email" placeholder="Email" />
+                            <input value={email} onChange={(e) => setEmail(e.target.value)} class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email" type="email" placeholder="Email" />
                         </div>
                     </div>
 
                     <div class="flex justify-between">
-                        <button onClick={navigate('/myProfile')} class="bg-blue-500 text-white py-2 px-6 rounded mt-4 hover:bg-blue-600">
+                        <button onClick={handleGo} class="bg-blue-500 text-white py-2 px-6 rounded mt-4 hover:bg-blue-600">
                             CANCEL
                         </button>
                         <button onClick={handleSubmit} class="bg-blue-500 text-white py-2 px-6 rounded mt-4 hover:bg-blue-600">

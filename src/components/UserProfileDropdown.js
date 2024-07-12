@@ -9,8 +9,7 @@ import { getSingleUserApi } from '../apis/Api';
 const UserProfileDropdown = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user.id);
-    const id = user.id;
+    console.log(user._id);
 
     const [userImage, setUserImage] = useState(null);
 

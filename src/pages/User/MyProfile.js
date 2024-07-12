@@ -96,7 +96,7 @@ const MyProfile = () => {
                         </div>
                     </div>
                     {/* <div className="items-center"> */}
-                    <Link to="/editMyProfile" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to={`/editMyProfile/${user._id}`} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Edit
                     </Link>
                 </form>
