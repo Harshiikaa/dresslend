@@ -52,7 +52,7 @@ import Payment from './pages/User/Order/Payment';
 import Success from './pages/User/Order/Success';
 import EditShippingInfo from './pages/User/Order/EditShippingInfo';
 import EditMyProfile from './pages/User/EditMyProfile';
-import SearchResultPage from './pages/User/SearchResultPage';
+import SearchResults from './pages/User/SearchResult';
 
 
 
@@ -67,8 +67,8 @@ const App = () => {
           <Route path="/" element={<SharedNavLayout />}>
             <Route path="" element={<Home />} />
             <Route path="/tryFetch" element={<TryFetch />} />
-            <Route path="/searchResult" element={<SearchResultPage />} />
-            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/search" element={<SearchResults />} />
+            \            <Route path="/favorites" element={<Favorites />} />
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path='/shoppingBagEdit/:id' element={<EditShoppingBag />} />
@@ -84,44 +84,46 @@ const App = () => {
 
             <Route path='myOrders' element={<MyOrders />} />
 
+            {/* ethnic dresses routes */}
+            <Route path="/ethnicWear" element={<EthnicDresses />} />
+            <Route path="/hakuPatasi" element={<HakuPatasi />} />
+            <Route path="/lehengaCholi" element={< LehengaCholi />} />
+            <Route path="/gunyocholo" element={< GunyoCholo />} />
+            <Route path="/gurungDress" element={<GurungDress />} />
+            <Route path="/dauraSurwal" element={< DauraSurwal />} />
+
+            {/* western dresses routes */}
+            <Route path="/formalWears" element={< FormalWears />} />
+            <Route path="/summerWears" element={< SummerWears />} />
+            <Route path="/winterWears" element={< WinterWears />} />
+            <Route path="/cosplayOutfits" element={<CosplayOutfits />} />
+            <Route path="/partyWears" element={< PartyWears />} />
+
+            {/* Accessories routes */}
+            <Route path="/ethnicJewelry" element={< EthnicJewelry />} />
+            <Route path="/indianJewelry" element={< IndianJewelry />} />
+            <Route path="/bagsAndClutches" element={< BagsAndClutches />} />
+            <Route path="/headWears" element={< HeadWears />} />
+            <Route path="/modernAccessories" element={<ModernAccessories />} />
+
+            <Route path='/landingPage' element={<LandingPage />} />
+            <Route path='/ethnicWear' element={<EthnicDresses />} />
+            <Route path='/westernWear' element={<WesternDresses />} />
+            <Route path='/accessories' element={<Accessories />} />
+            <Route path='/aboutUs' element={<AboutUs />} />
+            <Route path='/help' element={<Help />} />
+
+
           </Route>
 
 
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> */}
 
           {/* <Route path="/" element={<Home />} /> */}
 
-          {/* ethnic dresses routes */}
-          <Route path="/ethnicWear" element={<EthnicDresses />} />
-          <Route path="/hakuPatasi" element={<HakuPatasi />} />
-          <Route path="/lehengaCholi" element={< LehengaCholi />} />
-          <Route path="/gunyocholo" element={< GunyoCholo />} />
-          <Route path="/gurungDress" element={<GurungDress />} />
-          <Route path="/dauraSurwal" element={< DauraSurwal />} />
 
-          {/* western dresses routes */}
-          <Route path="/formalWears" element={< FormalWears />} />
-          <Route path="/summerWears" element={< SummerWears />} />
-          <Route path="/winterWears" element={< WinterWears />} />
-          <Route path="/cosplayOutfits" element={<CosplayOutfits />} />
-          <Route path="/partyWears" element={< PartyWears />} />
-
-          {/* Accessories routes */}
-          <Route path="/ethnicJewelry" element={< EthnicJewelry />} />
-          <Route path="/indianJewelry" element={< IndianJewelry />} />
-          <Route path="/bagsAndClutches" element={< BagsAndClutches />} />
-          <Route path="/headWears" element={< HeadWears />} />
-          <Route path="/modernAccessories" element={<ModernAccessories />} />
-
-
-          <Route path='/landingPage' element={<LandingPage />} />
-          <Route path='/ethnicWear' element={<EthnicDresses />} />
-          <Route path='/westernWear' element={<WesternDresses />} />
-          <Route path='/accessories' element={<Accessories />} />
-          <Route path='/aboutUs' element={<AboutUs />} />
-          <Route path='/help' element={<Help />} />
 
 
 

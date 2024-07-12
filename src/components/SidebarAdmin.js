@@ -41,7 +41,7 @@ const SidebarAdmin = () => {
     ];
 
     return (
-        <div className="flex">
+        <div className="flex font-poppins">
             {/* Open/Close button */}
             <div className={`${open ? "w-72" : "w-20"} bg-white-800 shadow-lg border-r border-white h-screen p-5 pt-8 relative duration-300`}>
                 <img

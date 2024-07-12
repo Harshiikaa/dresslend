@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
+
 const SearchResult = () => {
     const [selectedSort, setSelectedSort] = useState('Sort By');
 
@@ -21,7 +22,7 @@ const SearchResult = () => {
     };
 
     return (
-        <div>
+        <div className="mt-24"> {/* Adjust the top margin as needed */}
             <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 inherit z-50'>
                 <div className='flex gap-2'>
                     <button
@@ -90,9 +91,8 @@ const SearchResult = () => {
                     </Menu>
                 </div>
             </div>
-
         </div>
     )
 }
 
-export default SearchResult
+export default SearchResult;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { HeartIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
+import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
@@ -8,7 +9,7 @@ import { toast } from 'react-toastify';
 const NavItem = ({ href, text, onClick }) => (
     <button
         onClick={onClick}
-        className="text-black-300 hover:text-[#F1A501] px-3 py-2 rounded-md text-sm font-medium cursor-pointer focus:outline-none"
+        className="text-black-300 hover:text-[#F1A501] px-2 py-1 rounded-md text-sm font-medium cursor-pointer focus:outline-none"
     >
         {text}
     </button>
@@ -26,6 +27,8 @@ const IconLink = ({ IconComponent, onClick }) => (
 const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     const handleModalToggle = () => {
         setIsModalOpen(!isModalOpen);
@@ -35,8 +38,10 @@ const Navbar = () => {
         setIsRegisterModalOpen(!isRegisterModalOpen);
     };
 
-    const handleSearch = (query) => {
-        console.log(`Searching for: ${query}`);
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${searchQuery}`);
+        }
     };
 
     const handleIconClick = () => {
@@ -69,11 +74,13 @@ const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-4 pr-10 py-3 mt-2.5 border rounded-md border-black focus:outline-none w-48 h-10"
                             />
                             <button
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2"
-                                onClick={() => handleSearch()}
+                                onClick={handleSearch}
                             >
                                 <SearchIcon className="h-5 w-5 text-black hover:text-[#F1A501]" />
                             </button>
@@ -101,4 +108,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

@@ -31,7 +31,9 @@ export const deleteProductApi = (id) => Api.delete(`/api/product/deleteProduct/$
 // Category
 export const createCategoryApi = (data) => Api.post('/api/category/createCategory', data, config)
 export const getAllCategoriesApi = () => Api.get('/api/category/getCategories')
-export const deleteCategoryApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
+// export const deleteCategoryApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`, config)
+export const deleteCategoryApi = (id) => Api.delete(`/api/category/deleteCategory/${id}`)
+
 
 // Favorite
 export const addFavoriteApi = (data) => Api.post('/api/favorite/addFavorite', data, config)

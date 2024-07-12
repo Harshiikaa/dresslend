@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { HeartIcon, SearchIcon, ShoppingBagIcon, XIcon } from '@heroicons/react/outline';
 import logo from '../assets/images/logo.png';

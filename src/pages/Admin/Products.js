@@ -12,35 +12,32 @@ function classNames(...classes) {
 }
 
 const Products = ({ isOpen, onClose }) => {
-    // make usestate
-    const [productName, setProductName] = useState('')
-    const [productRentalPrice, setProductRentalPrice] = useState('')
-    const [productSecurityDeposit, setProductSecurityDeposit] = useState('')
-    const [productCategory, setProductCategory] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState('Catgeory');
-    const handleCategorySelect = (categoryOption, categoryText) => {
-        setSelectedCategory(categoryText);
-        console.log(`Selected category option: ${categoryOption}`);
-        // Implement sorting logic here
+
+    const handleIncrease = () => {
+        setQuantity((prevQuantity) => prevQuantity + 1);
+    };
+    const handleDecrease = () => {
+        setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
-
-    const [productQuantity, setProductQuantity] = useState(1)
-    const [productSize, setProductSize] = useState('')
+    // State management
+    const [productName, setProductName] = useState('');
+    const [productRentalPrice, setProductRentalPrice] = useState('');
+    const [productSecurityDeposit, setProductSecurityDeposit] = useState('');
+    const [productCategory, setProductCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('Category');
+    const [productQuantity, setProductQuantity] = useState(1);
+    const [productSize, setProductSize] = useState('');
     const [selectedSize, setSelectedSize] = useState('Size');
-    const handleSizeSelect = (sizeOption, sizeText) => {
-        setSelectedSize(sizeText);
-        console.log(`Selected size option: ${sizeOption}`);
-        // Implement sorting logic here
-    };
-    const [productDescription, setProductDescription] = useState('')
-    const [productImage, setProductImage] = useState(null)
-    const [previewImage, setPreviewImage] = useState(null)
+    const [productDescription, setProductDescription] = useState('');
+    const [productImage, setProductImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [quantity, setQuantity] = useState(1);
-    const [products, setProducts] = useState([])
-    const [categories, setCategories] = useState([])
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
 
+    // Fetch categories
     useEffect(() => {
         getAllCategoriesApi().then((res) => {
             const categoriesData = res.data.categories;
@@ -51,47 +48,53 @@ const Products = ({ isOpen, onClose }) => {
         });
     }, []);
 
-
-    const handleIncrease = () => {
-        setQuantity((prevQuantity) => prevQuantity + 1);
+    // Handle category select
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+        setProductCategory(category);
+        console.log(`Selected category: ${category}`);
     };
-    const handleDecrease = () => {
-        setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+
+    // Handle size select
+    const handleSizeSelect = (size) => {
+        setSelectedSize(size);
+        setProductSize(size);
+        console.log(`Selected size: ${size}`);
     };
 
-    // Function for image upload and preview 
+    // Image upload and preview
     const handleImageUpload = (event) => {
-        const file = event.target.files[0]
-        setProductImage(file)
-        setPreviewImage(URL.createObjectURL(file))
-    }
+        const file = event.target.files[0];
+        setProductImage(file);
+        setPreviewImage(URL.createObjectURL(file));
+    };
 
-    // Function to handle form submission
-    const handleSumbit = (e) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append('productName', productName)
-        formData.append('productRentalPrice', productRentalPrice)
-        formData.append('productSecurityDeposit', productSecurityDeposit)
-        formData.append('productCategory', productCategory)
-        formData.append('productQuantity', productQuantity)
-        formData.append('productSize', productSize)
-        formData.append('productDescription', productDescription)
-        formData.append('productImage', productImage)
-        console.log(productName, productRentalPrice, productSecurityDeposit, productCategory, productQuantity, productSize, productDescription, productImage)
+    // Form submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('productName', productName);
+        formData.append('productRentalPrice', productRentalPrice);
+        formData.append('productSecurityDeposit', productSecurityDeposit);
+        formData.append('productCategory', productCategory);
+        formData.append('productQuantity', productQuantity);
+        formData.append('productSize', productSize);
+        formData.append('productDescription', productDescription);
+        formData.append('productImage', productImage);
+
         createProductApi(formData).then((res) => {
-            if (res.data.success == false) {
-                toast.error(res.data.message)
+            if (!res.data.success) {
+                toast.error(res.data.message);
             } else {
-                toast.success(res.data.message)
+                toast.success(res.data.message);
             }
         }).catch(err => {
-            toast.error("Server Error")
-            console.log(err.message)
-        })
-    }
+            toast.error("Server Error");
+            console.log(err.message);
+        });
+    };
 
-    // get all products
+    // Fetch all products
     useEffect(() => {
         getAllProductsApi().then((res) => {
             const productsData = res.data.products;
@@ -99,24 +102,24 @@ const Products = ({ isOpen, onClose }) => {
         });
     }, []);
 
+    // Handle product deletion
     const handleDelete = (id) => {
-        const confirmDialog = window.confirm('Are you sure, you want to delete this product?')
+        const confirmDialog = window.confirm('Are you sure, you want to delete this product?');
         if (!confirmDialog) {
             return;
         }
-        else {
-            deleteProductApi(id).then((res) => {
-                if (res.data.success == true) {
-                    window.location.reload()
-                    toast.success(res.data.success)
-                }
-                else {
-                    toast.error(res.data.message)
-                }
+        deleteProductApi(id).then((res) => {
+            if (res.data.success) {
+                window.location.reload();
+                toast.success(res.data.message);
+                setShowModal(false); // Close the modal on successful category creation
+                window.location.reload();
+            } else {
+                toast.error(res.data.message);
+            }
+        });
+    };
 
-            })
-        }
-    }
 
     return (
         <div className="flex h-screen overflow-hidden">
@@ -217,6 +220,52 @@ const Products = ({ isOpen, onClose }) => {
                                                     {/* Category Dropdown */}
                                                     <div className="relative">
                                                         <label
+                                                            htmlFor="category"
+                                                            className="block mb-2 text-sm font-medium text-gray-900"
+                                                        >
+                                                            Category
+                                                        </label>
+                                                        <Menu as="div" className="relative inline-block text-left w-full">
+                                                            <div>
+                                                                <Menu.Button className="inline-flex w-full gap-1 justify-between rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100">
+                                                                    {selectedCategory}
+                                                                    <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                </Menu.Button>
+                                                            </div>
+                                                            <Transition
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-100"
+                                                                enterFrom="transform opacity-0 scale-95"
+                                                                enterTo="transform opacity-100 scale-100"
+                                                                leave="transition ease-in duration-75"
+                                                                leaveFrom="transform opacity-100 scale-100"
+                                                                leaveTo="transform opacity-0 scale-95"
+                                                            >
+                                                                <Menu.Items className="absolute z-10 mt-2 w-full text-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                    <div className="py-1">
+                                                                        {categories.map((category) => (
+                                                                            <Menu.Item key={category.category}>
+                                                                                {({ active }) => (
+                                                                                    <button
+                                                                                        onClick={() => handleCategorySelect(category.category)}
+                                                                                        className={classNames(
+                                                                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                                            'block px-4 py-2 text-sm w-full text-left'
+                                                                                        )}
+                                                                                    >
+                                                                                        {category.category}
+                                                                                    </button>
+                                                                                )}
+                                                                            </Menu.Item>
+                                                                        ))}
+                                                                    </div>
+                                                                </Menu.Items>
+                                                            </Transition>
+                                                        </Menu>
+                                                    </div>
+
+                                                    {/* <div className="relative">
+                                                        <label
                                                             htmlFor="message"
                                                             className="block mb-2 text-sm font-medium text-gray-900"
                                                         >
@@ -261,7 +310,7 @@ const Products = ({ isOpen, onClose }) => {
 
                                                             </Transition>
                                                         </Menu>
-                                                    </div>
+                                                    </div> */}
 
 
                                                     {/* Quantity*/}
@@ -457,7 +506,7 @@ const Products = ({ isOpen, onClose }) => {
                                                         Close
                                                     </button>
                                                     <button
-                                                        onClick={handleSumbit}
+                                                        onClick={handleSubmit}
                                                         type="button"
                                                         className="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 focus:ring-4 focus:ring-blue-300"
                                                     >
@@ -472,91 +521,97 @@ const Products = ({ isOpen, onClose }) => {
                             {/* End Modal */}
 
                             {/* for showing table */}
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Product Image
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Product Name
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Rental Price
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Security Deposit
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Category
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Quantity
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Size
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Description
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {products && products.length > 0 ? (
-                                        products.map((item) => (
-                                            <tr key={item._id}>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <img
-                                                        src={item.productImageURL}
-                                                        alt=""
-                                                        className="w-16 h-16 object-cover"
-                                                    />
-                                                </td>
+                            <div className="relative">
+                                <div className="overflow-x-auto overflow-y-auto max-h-96">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Product Image
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Product Name
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Rental Price
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Security Deposit
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Action
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Category
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Quantity
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Size
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Description
+                                                </th>
 
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
-                                                    {item.productName}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    NPR.{item.productRentalPrice}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    NPR.{item.productSecurityDeposit}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    {item.productCategory}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 ">
-                                                    {item.productQuantity}
-                                                </td>
-
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                    {item.productSize}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
-                                                    {item.productDescription.slice(0, 10)}
-                                                </td>
-                                                <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium flex justify-center space-x-2">
-                                                    <Link to={`/productEdit/${item._id}`} className="text-green-600 hover:text-indigo-900">
-                                                        <PencilIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </Link>
-                                                    <button onClick={() => handleDelete(item._id)} className="text-red-600 hover:text-red-900">
-                                                        <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </button>
-                                                </td>
                                             </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                No products available
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {products && products.length > 0 ? (
+                                                products.map((item) => (
+                                                    <tr key={item._id}>
+                                                        <td className="px-6 py-4 whitespace-nowrap">
+                                                            <img
+                                                                src={item.productImageURL}
+                                                                alt=""
+                                                                className="w-16 h-16 object-cover"
+                                                            />
+                                                        </td>
+
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
+                                                            {item.productName}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            NPR.{item.productRentalPrice}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            NPR.{item.productSecurityDeposit}
+                                                        </td>
+                                                        <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium justify-center space-x-2">
+                                                            <Link to={`/productEdit/${item._id}`} className="text-green-600 hover:text-indigo-900">
+                                                                <PencilIcon className="h-5 w-5" aria-hidden="true" />
+                                                            </Link>
+                                                            <button onClick={() => handleDelete(item._id)} className="text-red-600 hover:text-red-900">
+                                                                <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                                                            </button>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {item.productCategory}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {item.productQuantity}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                            {item.productSize}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 overflow-hidden overflow-ellipsis">
+                                                            {item.productDescription.slice(0, 10)}
+                                                        </td>
+
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="9" className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        No products available
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

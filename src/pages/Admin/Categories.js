@@ -23,6 +23,8 @@ const Categories = () => {
                 toast.error(res.data.message)
             } else {
                 toast.success(res.data.message)
+                setShowModal(false); // Close the modal on successful category creation
+                window.location.reload();
             }
         }).catch(err => {
             toast.error("Server Error")
