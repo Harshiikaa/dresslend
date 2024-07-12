@@ -6,11 +6,11 @@ const Help = () => {
     return (
         <div>
             {/* Help */}
-            <div className=' h-screen bg-gradient-to-r '>
+            <div className='bg-gradient-to-r'>
                 <p className="text-center text-base font-semibold text-black-500 ">
                     Help
                 </p>
-                <p className="text-center text-3xl font-extrabold text-gray-700">
+                <p className="text-center text-2xl font-extrabold text-gray-700">
                     Do you have questions?
                 </p>
                 {/* <div className='flex justify-center min-h-screen'> */}
