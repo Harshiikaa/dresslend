@@ -33,8 +33,8 @@ const FAQ = () => {
                 <div className="p-2 bg-gray-200 rounded-lg flex-1">
                     <Accordion
                         title="How do I return the rented items?"
-                        answer="Returning items is straightforward. After your rental 
-                        period, you'll receive 24 hours to return the item. We will send 
+                        answer="Returning items is straightforward. After your default 3 days rental 
+                        period is over, you'll receive a call from the service to return the item. We will send 
                         our staff to get the item wherever you want and if you are outside 
                         the valley, it will cost you accordingly."
                     />

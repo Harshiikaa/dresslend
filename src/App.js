@@ -94,6 +94,7 @@ const App = () => {
           {/* <Route path="/" element={<Home />} /> */}
 
           {/* ethnic dresses routes */}
+          <Route path="/ethnicWear" element={<EthnicDresses />} />
           <Route path="/hakuPatasi" element={<HakuPatasi />} />
           <Route path="/lehengaCholi" element={< LehengaCholi />} />
           <Route path="/gunyocholo" element={< GunyoCholo />} />

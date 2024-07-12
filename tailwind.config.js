@@ -7,7 +7,8 @@ module.exports = {
         customGray: '#505050',
         borderOutline: '#B5BAC0',
         iconFill: '#F6FCFF',
-
+        boldText: '#181E4B',
+        orangeTheme: '#F1A501',
         "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)",
 
