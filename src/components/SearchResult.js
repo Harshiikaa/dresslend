@@ -1,7 +1,8 @@
 import { Menu, Transition } from '@headlessui/react';
 import { ArrowLeftIcon, ChevronDownIcon } from '@heroicons/react/outline'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContent';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -9,6 +10,9 @@ function classNames(...classes) {
 
 const SearchResult = () => {
     const [selectedSort, setSelectedSort] = useState('Sort By');
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
+    const { auth, checkAuth } = useContext(AuthContext);
 
     const handleSortSelect = (sortOption, sortText) => {
         setSelectedSort(sortText);
@@ -23,7 +27,7 @@ const SearchResult = () => {
 
     return (
         <div className="mt-24"> {/* Adjust the top margin as needed */}
-            <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 inherit z-50'>
+            {/* <div className='w-full flex justify-between bg-white fixed top-0 left-0 right-0 p-4 inherit z-50'>
                 <div className='flex gap-2'>
                     <button
                         onClick={handleBackClick}
@@ -90,7 +94,7 @@ const SearchResult = () => {
                         </Transition>
                     </Menu>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

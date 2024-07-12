@@ -1,10 +1,12 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { addFavoriteApi, getAllProductsApi } from '../../apis/Api';
-import React, { useEffect, Fragment, useState } from 'react';
+import React, { useEffect, Fragment, useState, useContext } from 'react';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { toast } from 'react-toastify';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
+import { AuthContext } from '../../components/AuthContent';
+import Login from '../Auth/Login';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -13,14 +15,14 @@ const SearchResults = () => {
     const [products, setProducts] = useState([]);
     const location = useLocation();
     const query = new URLSearchParams(location.search).get('query');
-
-    // 
-
     const [selectedSort, setSelectedSort] = useState('Sort By');
     const [isFavorite, setIsFavorite] = useState(false);
     const navigate = useNavigate();
     const { id } = useParams();
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+
     const user = JSON.parse(localStorage.getItem('user'));
+    const { auth, checkAuth } = useContext(AuthContext);
 
     const handleSortSelect = (sortOption, sortText) => {
         setSelectedSort(sortText);
@@ -33,8 +35,13 @@ const SearchResults = () => {
     };
 
     const handleAddFavorite = async (productId) => {
+        if (!checkAuth()) {
+            toast.warning('Please login first');
+            setIsLoginOpen(true);
+            return;
+        }
         const data = {
-            userID: user.id,
+            userID: auth.user.id,
             productID: productId,
         };
 
@@ -196,6 +203,8 @@ const SearchResults = () => {
                 </div>
 
             </div>
+            <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+
         </div>
 
     );

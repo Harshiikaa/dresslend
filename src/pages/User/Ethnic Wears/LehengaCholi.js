@@ -88,7 +88,7 @@ const LehengaCholi = () => {
               <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold">Haku Patasi</h1>
+              <h1 className="text-2xl font-bold">Lehenga Choli</h1>
             </div>
           </div>
 

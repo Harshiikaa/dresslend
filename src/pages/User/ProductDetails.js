@@ -286,16 +286,35 @@ const ProductDetails = () => {
 
     const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
+
     return (
         <div className='font-poppins'>
-            <div className='flex gap-2'>
+            <div className="mt-8">
+                <div className='w-full flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
+                    <div className='flex gap-2'>
+                        <button
+                            onClick={handleBackClick}
+                            className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
+                        >
+                            <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                        </button>
+                        <div>
+                            <h1 className="text-2xl font-bold">{product.productName}</h1>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            {/* <div className='flex gap-2'>
                 <button
                     onClick={handleBackClick}
                     className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
                 >
                     <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </button>
-            </div>
+            </div> */}
             <div className="max-w-6xl mx-auto p-2 font-poppins">
                 <div className="space-y-2">
                     <div className="bg-white p-2 border-2 border-gray-200 rounded-lg flex h-300">
