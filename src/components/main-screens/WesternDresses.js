@@ -10,9 +10,9 @@ import { Link } from 'react-router-dom';
 const WesternDresses = () => {
   return (
     <div>
-        
+
       {/* Western Wear */}
-      <div className=' h-screen bg-gradient-to-r from-indigo-500 to-blue-600'>
+      <div className=' h-screen bg-gradient-to-r'>
         <p className="text-center text-base font-semibold text-black-500 font-size">
           Wester Wear
         </p>
@@ -40,7 +40,7 @@ const WesternDresses = () => {
       </div>
 
 
-      
+
     </div>
   )
 }

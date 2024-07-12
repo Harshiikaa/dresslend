@@ -32,11 +32,8 @@ const LandingPage = () => {
                         Explore
                     </button>
                 </div>
-
-
-
                 {/* image 2 */}
-                <div className="relative mt-2.5 mr-3 w-max">
+                <div className="relative mt-3 mr-2 w-max">
                     <img
                         src={frame2}
                         alt="Western Dress image"

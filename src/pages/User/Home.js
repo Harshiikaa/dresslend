@@ -1,6 +1,4 @@
 import React from 'react'
-import NavbarUser from '../../components/NavbarUser';
-import NavbarAdmin from '../../components/NavbarAdmin';
 import LandingPage from '../../components/main-screens/LandingPage';
 import EthnicDresses from '../../components/main-screens/EthnicDresses';
 import WesternDresses from '../../components/main-screens/WesternDresses';
@@ -10,7 +8,7 @@ import Help from '../../components/main-screens/Help';
 
 const Home = () => {
   return (
-    <div>
+    <div className='font-poppins'>
       <LandingPage />
       <EthnicDresses />
       <WesternDresses />
