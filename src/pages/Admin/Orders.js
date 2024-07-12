@@ -83,13 +83,13 @@ const Orders = () => {
 
     const getStatusClass = (status) => {
         switch (status) {
-            case 'Pending':
+            case 'PENDING':
                 return 'text-gray-500 font-bold';
-            case 'In Process':
+            case 'IN PROCESS':
                 return 'text-yellow-500 font-bold';
-            case 'Delivered':
+            case 'DELIVERED':
                 return 'text-green-500 font-bold';
-            case 'Canceled':
+            case 'CANCELED':
                 return 'text-red-500 font-bold';
             default:
                 return '';
@@ -139,8 +139,8 @@ const Orders = () => {
                                                         style={{ color: getStatusClass(order.orderStatus).split(' ')[0].replace('text-', '') }}
                                                     >
                                                         <option value="Pending" style={{ color: 'gray' }}>Pending</option>
-                                                        <option value="In Process" style={{ color: 'yellow' }}>In Process</option>
-                                                        <option value="Delivered" style={{ color: 'green' }}>Delivered</option>
+                                                        <option value="In Process" style={{ color: 'green' }}>In Process</option>
+                                                        <option value="Delivered" style={{ color: 'blue' }}>Delivered</option>
                                                         <option value="Canceled" style={{ color: 'red' }}>Canceled</option>
                                                     </select>
                                                 </td>

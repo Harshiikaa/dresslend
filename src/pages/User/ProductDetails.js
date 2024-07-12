@@ -17,6 +17,8 @@ const ProductDetails = () => {
     const [averageRating, setAverageRating] = useState(0);
     const [ratingCount, setRatingCount] = useState(0);
 
+
+    // calendar
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -103,6 +105,10 @@ const ProductDetails = () => {
     const handleCancel = () => {
         setShowCalendar(false);
     };
+    // Calendar end
+
+
+
     const { id } = useParams();
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -126,7 +132,6 @@ const ProductDetails = () => {
 
     const handleRentNow = (e) => {
         e.preventDefault();
-
         if (!checkAuth()) {
             toast.warning('Please login first');
             setIsLoginOpen(true);
@@ -186,14 +191,15 @@ const ProductDetails = () => {
     //     });
     // };
 
-    const handleAddFavorite = async (id) => {
+
+    const handleAddFavorite = async () => {
         if (!checkAuth()) {
             toast.warning('Please login first');
             setIsLoginOpen(true);
             return;
         }
         const data = {
-            userID: auth.user.id,
+            userID: user._id,
             productID: id,
         };
 
@@ -212,7 +218,7 @@ const ProductDetails = () => {
         }
     };
 
-    const handleRatingSubmit = async (id) => {
+    const handleRatingSubmit = async () => {
         if (!checkAuth()) {
             toast.warning('Please login first');
             setIsLoginOpen(true);
@@ -266,9 +272,8 @@ const ProductDetails = () => {
         if (!product) return <div>Loading...</div>;
     };
 
+    // Quantity
     const [productQuantity, setProductQuantity] = useState(1)
-    // const [quantity, setQuantity] = useState(1);
-
     const handleIncrease = () => {
         setQuantity((prevQuantity) => {
             if (prevQuantity < product.productQuantity) {
@@ -289,6 +294,7 @@ const ProductDetails = () => {
 
     return (
         <div className='font-poppins'>
+            {/* Back button */}
             <div className="mt-8">
                 <div className='w-full flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
                     <div className='flex gap-2'>
@@ -302,19 +308,9 @@ const ProductDetails = () => {
                             <h1 className="text-2xl font-bold">{product.productName}</h1>
                         </div>
                     </div>
-
-
                 </div>
             </div>
-
-            {/* <div className='flex gap-2'>
-                <button
-                    onClick={handleBackClick}
-                    className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
-                >
-                    <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                </button>
-            </div> */}
+            {/* main content */}
             <div className="max-w-6xl mx-auto p-2 font-poppins">
                 <div className="space-y-2">
                     <div className="bg-white p-2 border-2 border-gray-200 rounded-lg flex h-300">
@@ -335,15 +331,7 @@ const ProductDetails = () => {
                                     </button>
                                 </div>
                             </div>
-
-                            {/* Rating */}
-                            {/* <div className="flex items-center">
-                                {[...Array(product.rating)].map((_, i) => (
-                                    <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
-                                ))}
-                            </div> */}
-
-                            <div >
+                            {/* <div >
                                 <div className="flex items-center">
                                     {[...Array(Math.round(validAverageRating))].map((_, i) => (
                                         <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
@@ -351,13 +339,28 @@ const ProductDetails = () => {
                                     <span className="ml-2 text-gray-600">({ratingCount} reviews)</span>
                                 </div>
 
-                            </div>
+                            </div> */}
 
+                            <div className="flex space-x-1 items-center">
+                                {[...Array(5)].map((_, index) => {
+                                    const ratingValue = index + 1;
+                                    return (
+                                        <label key={index} className="cursor-pointer">
+                                            <FaStar
+                                                size={24}
+                                                className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                // onMouseEnter={() => setHover(ratingValue)}
+                                                // onMouseLeave={() => setHover(null)}
+                                            />
+                                        </label>
+                                    );
+                                })}
+                                <span className="ml-2 text-gray-600">({ratingCount} reviews)</span>
+                            </div>
                             <p className="text-customGray font-medium text-lg">
                                 Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
                             </p>
                             <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
-
                             <div className="relative p-4">
                                 <div className="flex justify-between items-center mb-1">
                                     <button

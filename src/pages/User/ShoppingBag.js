@@ -75,7 +75,6 @@ const ShoppingBag = () => {
         <div >
             <div className="mt-8 font-poppins"> {/* Adjust the top margin as needed */}
                 <div className='w-full flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
-
                     <div className='flex gap-2'>
                         <button
                             onClick={handleBackClick}
@@ -89,6 +88,7 @@ const ShoppingBag = () => {
                     </div>
                 </div>
             </div>
+            {/* content */}
             <div className="max-w-6xl mx-auto p-2 font-poppins">
                 <div className="space-y-2">
                     {shoppingBag.map((item) => (
@@ -160,7 +160,6 @@ const ShoppingBag = () => {
                     ))}
                 </div>
             </div>
-
             {/* total calculation */}
             <div class="max-w-xs mx-auto justify-content: flex-end bg-white p-6 rounded-lg shadow-md font-poppins">
                 <h2 class="text-center text-xl font-semibold mb-4">TOTALS</h2>

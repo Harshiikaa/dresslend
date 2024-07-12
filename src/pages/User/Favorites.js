@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { getFavoritesByUserIDApi } from '../../apis/Api';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
-import SearchResult from '../../components/SearchResult';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -21,7 +20,7 @@ const Favorites = () => {
       .then((res) => {
         console.log("API Response:", res.data);
         setFavorites(res.data.favorites);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch(err => {
         toast.error("Server Error");
@@ -40,7 +39,6 @@ const Favorites = () => {
     <div>
       <div className="mt-8"> {/* Adjust the top margin as needed */}
         <div className='w-full font-poppins flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
-
           <div className='flex gap-2'>
             <button
               onClick={handleBackClick}
@@ -54,7 +52,7 @@ const Favorites = () => {
           </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto p-2 mt-24 font-poppins"> {/* Added mt-20 to push content below header */}
+      <div className="max-w-6xl mx-auto p-2 font-poppins"> {/* Added mt-20 to push content below header */}
         <div className="space-y-2">
           {favorites.map((item) => (
             <div key={item._id} className="bg-white p-2 border-2 border-color: inherit rounded-lg flex h-60"> {/* Set a fixed height for each item */}
@@ -62,13 +60,13 @@ const Favorites = () => {
               <div className="ml-4 flex-1 flex flex-col justify-between">
                 <div className='p-4 space-y-4'>
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold">{item.productName}</h2>
+                    <h2 className="text-xl font-semibold">{item.productID.productName}</h2>
 
                   </div>
                   <p className="text-customGray font-medium text-sm">
-                    Rental Price <span className="font-bold text-gray-800">NPR. {item.productRentalPrice}</span> for 4 days
+                    Rental Price <span className="font-bold text-gray-800">NPR. {item.productID.productRentalPrice}</span> for 4 days
                   </p>
-                  <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {item.productSecurityDeposit}</p>
+                  <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {item.productID.productSecurityDeposit}</p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       {[...Array(item.rating)].map((_, i) => (
@@ -76,11 +74,9 @@ const Favorites = () => {
                       ))}
                     </div>
                   </div>
-                  <p className="text-gray-600 font-regular text-sm">{item.productDescription}</p>
-                  <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
+                  <p className="text-gray-600 font-regular text-sm">{item.productID.productDescription}</p>
+                  <a href={`/productDetails/${item.productID._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                 </div>
-
-
               </div>
 
               <div className="flex items-start ml-4 p-3">

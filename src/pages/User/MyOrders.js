@@ -37,15 +37,30 @@ const MyOrders = () => {
         navigate(-1); // This navigates to the previous page
     };
 
+
+    const getStatusClass = (status) => {
+        switch (status) {
+            case 'PENDING':
+                return 'text-gray-500';
+            case 'IN PROCESS':
+                return 'text-green-500';
+            case 'DELIVERED':
+                return 'text-blue-500';
+            case 'CANCELED':
+                return 'text-red-500';
+            default:
+                return 'text-black';
+        }
+    };
     return (
         <div>
-            <div className="mt-8"> {/* Adjust the top margin as needed */}
-                <div className='w-full font-poppins flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
+            <div className="mt-8">
+                <div className='w-full font-poppins flex justify-between bg-white p-4 z-50'>
 
                     <div className='flex gap-2'>
                         <button
                             onClick={handleBackClick}
-                            className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
+                            className="inline-flex items-center gap-2 rounded-md bg-gray-50 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
                         >
                             <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                         </button>
@@ -56,22 +71,24 @@ const MyOrders = () => {
                 </div>
             </div>
 
-            <div className="max-w-6xl mx-auto p-2 mt-24 font-poppins">
+            <div className="max-w-6xl mx-auto p-2 font-poppins">
                 {orders.map(order => (
                     <div key={order._id} className="border p-4 mb-4 rounded shadow-sm">
-                        <h3 className="text-lg font-bold">Order ID: {order._id}</h3>
-                        <p>Order Status: {order.orderStatus}</p>
-                        <p>Payment Method: {order.paymentMethod}</p>
-                        <p>Created At: {formatDate(order.createdAt)}</p>
-                        <p>Shipping ID: {order.shippingID}</p>
-                        <h4 className="text-md font-semibold mt-2">Items:</h4>
+                        {/* <h3 className="text-lg font-bold">Order ID: {order._id}</h3> */}
+                        <p className={getStatusClass(order.orderStatus) + " font-semibold"}>{order.orderStatus}</p>
+                        <p className="text-sm font-semibold bg-purple-600 text-white p-1 rounded">{order.paymentMethod}</p>
+                        {/* <p>Shipping ID: {order.shippingID}</p> */}
+                        {/* <h4 className="text-md font-semibold mt-2">Items:</h4> */}
                         <div className="space-y-2">
                             {order.shoppingItemList && order.shoppingItemList.length > 0 ? (
                                 order.shoppingItemList.map(item => {
                                     const shoppingBag = item.shoppingBagID;
-                                    const product = shoppingBag.productID;
+                                    const product = shoppingBag ? shoppingBag.productID : null;
+                                    if (!product) {
+                                        return <p key={item._id}></p>;
+                                    }
                                     return (
-                                        <div key={item._id} className="bg-white p-4 flex border-2 border-color: inherit rounded-lg h-auto">
+                                        <div key={item._id} className="bg-white p-4 flex border-2 rounded-lg h-auto">
                                             <img src={product.productImageURL} alt={product.productName} className="w-1/6 h-55 object-cover" />
                                             <div className="flex-1 flex justify-between gap-4">
                                                 <div className='flex flex-col items-start gap-4 pl-4'>
@@ -81,7 +98,7 @@ const MyOrders = () => {
                                                             <p className="text-customGray font-medium text-sm">
                                                                 Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
                                                             </p>
-                                                            <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.productSecurityDeposit}</p>
+                                                            <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.securityDeposit}</p>
                                                         </div>
                                                         <div>
                                                             <p className="text-sm">Rental Date:<br />{formatDate(shoppingBag.deliveryDate)}</p>
@@ -93,7 +110,7 @@ const MyOrders = () => {
                                                             <p className="text-sm">Rented Quantity: <br />{shoppingBag.quantity}</p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-sm font-semibold">Total Price:<br /> NPR. {shoppingBag.totalPrice}</p>
+                                                            <p className="text-sm font-semibold">Price:<br /> NPR. {shoppingBag.totalPrice}</p>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center">
@@ -103,18 +120,31 @@ const MyOrders = () => {
                                                     </div>
                                                     <a href={`/productDetails/${shoppingBag._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                                                 </div>
+                                                {/* total Price display */}
+                                                {/* <div className="flex flex-col items-center justify-center space-y-2 gap-4">
+                                                    <p className="text-sm font-semibold bg-purple-600 text-white p-1 rounded">{order.paymentMethod}</p>
+
+
+                                                </div> */}
+
                                             </div>
                                         </div>
                                     );
                                 })
+
                             ) : (
                                 <p>No items found for this order.</p>
                             )}
+
                         </div>
-                        <p>Total Payment: {order.totalPayment}</p>
+                        <p className="text-sm font-semibold">Total Price: NPR. {order.totalPayment}</p>
+                        <p>Created At: {formatDate(order.createdAt)}</p>
+
                     </div>
+
                 ))}
             </div>
+
         </div>
     );
 };
