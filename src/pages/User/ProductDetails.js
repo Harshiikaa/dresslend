@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, CalendarIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { addFavoriteApi, addToShoppingBagApi, createRatingApi, getSingleProductApi, upsertRatingApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
 import { FaStar } from 'react-icons/fa';
+import { AuthContext } from '../../components/AuthContent';
+import Login from '../Auth/Login';
 
 const ProductDetails = () => {
+    const { auth, checkAuth } = useContext(AuthContext);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const [averageRating, setAverageRating] = useState(0);
@@ -121,19 +126,27 @@ const ProductDetails = () => {
 
     const handleRentNow = (e) => {
         e.preventDefault();
+
+        if (!checkAuth()) {
+            toast.warning('Please login first');
+            setIsLoginOpen(true);
+            return;
+        }
+
         const rentalPrice = parseFloat(product.productRentalPrice);
         const securityDeposit = parseFloat(product.productSecurityDeposit);
         const quantity = parseInt(product.productQuantity, 10);
         const totalPrice = securityDeposit + rentalPrice * quantity;
 
         const formData = new FormData();
-        formData.append('userID', user._id);
+        formData.append('userID', auth.user.id);
         formData.append('productID', id);
         formData.append('deliveryDate', deliveryDate);
         formData.append('returnDate', returnDate);
         formData.append('totalPrice', totalPrice);
         formData.append('quantity', quantity);
-        console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity);
+        console.log(auth.user.id, id, deliveryDate, returnDate, totalPrice, quantity);
+
         addToShoppingBagApi(formData).then((res) => {
             if (res.data.success === false) {
                 toast.error(res.data.message);
@@ -146,9 +159,41 @@ const ProductDetails = () => {
         });
     };
 
-    const handleAddFavorite = async () => {
+    // const handleRentNow = (e) => {
+    //     e.preventDefault();
+    //     const rentalPrice = parseFloat(product.productRentalPrice);
+    //     const securityDeposit = parseFloat(product.productSecurityDeposit);
+    //     const quantity = parseInt(product.productQuantity, 10);
+    //     const totalPrice = securityDeposit + rentalPrice * quantity;
+
+    //     const formData = new FormData();
+    //     formData.append('userID', user._id);
+    //     formData.append('productID', id);
+    //     formData.append('deliveryDate', deliveryDate);
+    //     formData.append('returnDate', returnDate);
+    //     formData.append('totalPrice', totalPrice);
+    //     formData.append('quantity', quantity);
+    //     console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity);
+    //     addToShoppingBagApi(formData).then((res) => {
+    //         if (res.data.success === false) {
+    //             toast.error(res.data.message);
+    //         } else {
+    //             toast.success(res.data.message);
+    //         }
+    //     }).catch(err => {
+    //         toast.error("Server Error");
+    //         console.log(err.message);
+    //     });
+    // };
+
+    const handleAddFavorite = async (id) => {
+        if (!checkAuth()) {
+            toast.warning('Please login first');
+            setIsLoginOpen(true);
+            return;
+        }
         const data = {
-            userID: user,
+            userID: auth.user.id,
             productID: id,
         };
 
@@ -167,7 +212,14 @@ const ProductDetails = () => {
         }
     };
 
-    const handleRatingSubmit = async () => {
+    const handleRatingSubmit = async (id) => {
+        if (!checkAuth()) {
+            toast.warning('Please login first');
+            setIsLoginOpen(true);
+            // window.location.reload();
+
+            return;
+        }
         const data = {
             productID: id,
             rating: rating,
@@ -235,7 +287,7 @@ const ProductDetails = () => {
     const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
     return (
-        <div>
+        <div className='font-poppins'>
             <div className='flex gap-2'>
                 <button
                     onClick={handleBackClick}
@@ -286,7 +338,6 @@ const ProductDetails = () => {
                                 Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
                             </p>
                             <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
-                            {/* <DatePickerCalendar setDeliveryDate={setDeliveryDate} /> */}
 
                             <div className="relative p-4">
                                 <div className="flex justify-between items-center mb-1">
@@ -404,25 +455,34 @@ const ProductDetails = () => {
                                 <p className="text-gray-600 font-regular text-md ">{product.productDescription}</p>
                             </div>
                         </div>
-
-
                     </div>
-                    <div className='bg-white p-2 border-2 border-gray-200 rounded-lg flex h-300'>
-                        <div className="flex">
-                            {[...Array(5)].map((star, index) => {
-                                const ratingValue = index + 1;
-                                return (
-                                    <label key={index} className="cursor-pointer">
-                                        <FaStar
-                                            size={24}
-                                            className={ratingValue <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'}
-                                            onClick={() => setRating(ratingValue)}
-                                            onMouseEnter={() => setHover(ratingValue)}
-                                            onMouseLeave={() => setHover(null)}
-                                        />
-                                    </label>
-                                );
-                            })}
+                    {/* Rating */}
+                    <div className="bg-white p-4 border-2 border-gray-200 rounded-lg mx-auto mt-10">
+                        <div className="border-b-2 border-gray-200 pb-2 mb-4">
+                            <ul className="flex space-x-4">
+                                <li className="text-blue-500 border-b-2 border-blue-500 pb-1">Rating</li>
+                                {/* Add other tabs here if needed */}
+                            </ul>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <p className="text-gray-600 font-light text-md"><span className="font-medium text-grayText">Your Rating</span></p>
+
+                            <div className="flex space-x-1">
+                                {[...Array(5)].map((star, index) => {
+                                    const ratingValue = index + 1;
+                                    return (
+                                        <label key={index} className="cursor-pointer">
+                                            <FaStar
+                                                size={24}
+                                                className={ratingValue <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                onClick={() => setRating(ratingValue)}
+                                                onMouseEnter={() => setHover(ratingValue)}
+                                                onMouseLeave={() => setHover(null)}
+                                            />
+                                        </label>
+                                    );
+                                })}
+                            </div>
                             <button
                                 className="mt-4 p-2 bg-blue-500 text-white rounded"
                                 onClick={handleRatingSubmit}
@@ -433,6 +493,8 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+            <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+
         </div>
     );
 }
