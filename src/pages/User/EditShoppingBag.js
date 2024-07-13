@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, CalendarIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
-import { addFavoriteApi, addToShoppingBagApi, getSingleProductApi, getSingleShoppingBagApi } from '../../apis/Api';
+import { addFavoriteApi, addToShoppingBagApi, getShoppingBagByUserIDApi, getSingleProductApi, getSingleShoppingBagApi, updateShoppingBagApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditShoppingBag = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('user'));
-
+    // const user = JSON.parse(localStorage.getItem('user'));
     const [productName, setProductName] = useState('');
     const [productRentalPrice, setProductRentalPrice] = useState('');
     const [productSecurityDeposit, setProductSecurityDeposit] = useState('');
@@ -124,6 +123,7 @@ const EditShoppingBag = () => {
         productImageURL: null,
     });
 
+
     useEffect(() => {
         // Fetch product details from API when component mounts
         getSingleProductApi(id).then((res) => {
@@ -164,37 +164,36 @@ const EditShoppingBag = () => {
         });
     }, [id]);
 
-    // const handleRentNow = (e) => {
-    //     e.preventDefault();
-    //     const rentalPrice = parseFloat(product.productRentalPrice);
-    //     const securityDeposit = parseFloat(product.productSecurityDeposit);
-    //     const quantity = parseInt(product.productQuantity, 10);
-    //     const totalPrice = securityDeposit + rentalPrice * quantity;
-
-    //     const formData = new FormData();
-    //     formData.append('userID', user._id);
-    //     formData.append('productID', id);
-    //     formData.append('deliveryDate', deliveryDate);
-    //     formData.append('returnDate', returnDate);
-    //     formData.append('totalPrice', totalPrice);
-    //     formData.append('quantity', quantity);
-    //     console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity);
-    //     addToShoppingBagApi(formData).then((res) => {
-    //         if (res.data.success === false) {
-    //             toast.error(res.data.message);
-    //         } else {
-    //             toast.success(res.data.message);
-    //         }
-    //     }).catch(err => {
-    //         toast.error("Server Error");
-    //         console.log(err.message);
-    //     });
-    // };
+    const handleSave = (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('deliveryDate', deliveryDate);
+        formData.append('quantity', quantity);
+        formData.append('returnDate', returnDate);
+        formData.append('totalPrice', totalPrice);
+        updateShoppingBagApi(id, formData)
+            .then((res) => {
+                if (res.data.success === true) {
+                    toast.success(res.data.message);
+                    navigate('/shoppingBag');
+                } else {
+                    toast.error(res.data.message);
+                }
+            })
+            .catch(() => {
+                toast.error('Server Error');
+            });
+    };
 
 
     const handleBackClick = () => {
         navigate(-1);
         if (!product) return <div>Loading...</div>;
+    };
+
+
+    const handleCancelForm = () => {
+        navigate('/shoppingBag');
     };
 
     const [productQuantity, setProductQuantity] = useState(1)
@@ -227,22 +226,16 @@ const EditShoppingBag = () => {
             <div className="max-w-6xl mx-auto p-2 font-poppins">
                 <div className="space-y-2">
                     <div className="bg-white p-2 border-2 border-gray-200 rounded-lg flex h-300">
-                        <img src={product.productImageURL} alt={product.productName} className="w-1/3 h-auto object-cover" />
                         <div className="ml-4 flex-1 flex flex-col justify-between font-poppins">
                             <div className='flex justify-between'>
                                 <h2 className="text-2xl font-semibold">{productID.productName}</h2>
 
                             </div>
-                            <div className="flex items-center">
-                                {[...Array(product.rating)].map((_, i) => (
-                                    <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
-                                ))}
-                            </div>
+
                             <p className="text-customGray font-medium text-lg">
-                                Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
+                                Rental Price <span className="font-bold text-gray-800">NPR. {productID.productRentalPrice}</span> for 4 days
                             </p>
-                            <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
-                            {/* <DatePickerCalendar setDeliveryDate={setDeliveryDate} /> */}
+                            <p className="text-gray-600 font-light text-md">Security Deposit Rs. {productID.productSecurityDeposit}</p>
 
                             <div className="relative p-4">
                                 <div className="flex justify-between items-center mb-1">
@@ -345,16 +338,6 @@ const EditShoppingBag = () => {
                                 </div>
 
                             </div>
-                            <div>
-                                <p className="text-gray-600 font-light text-md">Size: <span className="font-regular text-[#505050]">{product.productSize}</span></p>
-                                <p className="text-gray-600 font-light text-md">Category: <span className="font-regular text-[#505050]">{product.productCategory}</span></p>
-                                <p className="text-gray-600 font-light text-md">Available Quantity: <span className="font-regular text-[#505050]">{product.productQuantity}</span></p>
-                            </div>
-
-                            <div>
-                                <h2 className="text-1xl font-medium font-poppins">Product Info</h2>
-                                <p className="text-gray-600 font-regular text-md ">{product.productDescription}</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -363,15 +346,14 @@ const EditShoppingBag = () => {
                 <button
                     type="button"
                     className="px-4 py-2 text-sm text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400 focus:outline-none"
-                // onClick={() => navigate('/shoppingBag')}
+                    onClick={handleCancelForm}
                 >
                     Cancel
                 </button>
                 <button
                     type="submit"
                     className="px-6 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                // onClick={() => navigate('/shoppingBag')}
-                >
+                    onClick={handleSave}                >
                     Save Changes
                 </button>
             </div>

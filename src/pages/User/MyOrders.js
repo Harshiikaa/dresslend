@@ -4,11 +4,18 @@ import { getOrderByUserIDApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
 import { TrashIcon, PencilAltIcon, StarIcon } from '@heroicons/react/solid';
 import { ArrowLeftIcon } from '@heroicons/react/outline';
+import { FaStar } from 'react-icons/fa';
 
 const MyOrders = () => {
     const { id } = useParams();
     const user = JSON.parse(localStorage.getItem('user'));
     const [orders, setOrders] = useState([]);
+
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+    const [averageRating, setAverageRating] = useState(0);
+    const [ratingCount, setRatingCount] = useState(0);
+    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
     useEffect(() => {
         getOrderByUserIDApi(user._id)
@@ -74,11 +81,18 @@ const MyOrders = () => {
             <div className="max-w-6xl mx-auto p-2 font-poppins">
                 {orders.map(order => (
                     <div key={order._id} className="border p-4 mb-4 rounded shadow-sm">
-                        {/* <h3 className="text-lg font-bold">Order ID: {order._id}</h3> */}
-                        <p className={getStatusClass(order.orderStatus) + " font-semibold"}>{order.orderStatus}</p>
-                        <p className="text-sm font-semibold bg-purple-600 text-white p-1 rounded">{order.paymentMethod}</p>
-                        {/* <p>Shipping ID: {order.shippingID}</p> */}
-                        {/* <h4 className="text-md font-semibold mt-2">Items:</h4> */}
+                        <div className="flex flex-row justify-between items-center">
+                            <div className="flex flex-row justify-start">
+                                <p className={getStatusClass(order.orderStatus) + " font-semibold"}>{order.orderStatus}</p>
+                            </div>
+                            <div className="flex flex-row justify-end">
+                                <button className="text-sm font-bold bg-paymentbg text-white py-1 px-3 rounded">
+                                    {order.paymentMethod.toUpperCase()}
+                                </button>
+                            </div>
+                        </div>
+
+
                         <div className="space-y-2">
                             {order.shoppingItemList && order.shoppingItemList.length > 0 ? (
                                 order.shoppingItemList.map(item => {
@@ -113,12 +127,21 @@ const MyOrders = () => {
                                                             <p className="text-sm font-semibold">Price:<br /> NPR. {shoppingBag.totalPrice}</p>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center">
-                                                        {[...Array(4)].map((_, i) => (
-                                                            <StarIcon key={i} className="w-4 h-4 text-yellow-500" />
-                                                        ))}
+                                                    <div className="flex space-x-1 items-center">
+                                                        {[...Array(5)].map((_, index) => {
+                                                            const ratingValue = index + 1;
+                                                            return (
+                                                                <label key={index} className="cursor-pointer">
+                                                                    <FaStar
+                                                                        size={24}
+                                                                        className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                                    />
+                                                                </label>
+                                                            );
+                                                        })}
+                                                        <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCount} reviews)</span>
                                                     </div>
-                                                    <a href={`/productDetails/${shoppingBag._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
+                                                    {/* <a href={`/productDetails/${shoppingBag._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a> */}
                                                 </div>
                                                 {/* total Price display */}
                                                 {/* <div className="flex flex-col items-center justify-center space-y-2 gap-4">

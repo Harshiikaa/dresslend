@@ -1,19 +1,27 @@
-import { HeartIcon as OutlineHeartIcon, PlusIcon, StarIcon, } from '@heroicons/react/outline';
+import { ArrowLeftIcon, ArrowNarrowLeftIcon, HeartIcon as OutlineHeartIcon, PlusIcon, StarIcon, } from '@heroicons/react/outline';
 import { PencilAltIcon, PencilIcon, TrashIcon } from '@heroicons/react/solid';
 import React, { useEffect, useState } from 'react'
 import { getShoppingBagByUserIDApi, getSingleShippingInfoApi, removeFromShoppingBagApi, updateShippingInfoApi } from '../../../apis/Api'
 import { toast } from 'react-toastify'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { FaStar } from 'react-icons/fa';
 
 const Review = () => {
   const { id } = useParams();
+  const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user'));
   const [products, setProducts] = useState([]);
   const [shoppingBag, setShoppingBag] = useState([]);
   const navigate = useNavigate();
+  const [shippingInfo, setShippingInfo] = useState(location.state?.shippingInfo || {});
 
+  console.log(shippingInfo);
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
+  const [averageRating, setAverageRating] = useState(0);
+  const [ratingCount, setRatingCount] = useState(0);
+  const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
-  const location = useLocation();
 
   useEffect(() => {
     // Call your API function
@@ -77,9 +85,16 @@ const Review = () => {
     );
   };
 
+  const handleBackClick = () => {
+    navigate(-1); // This navigates to the previous page
+  };
+
+
   return (
-    <div>
-      <div className="max-w-2xl mx-auto p-4 mt-8">
+    <div className='mt-8'>
+      <div className='w-full flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
+      </div>
+      <div className="max-w-2xl mx-auto">
         {/* process board */}
         <div className="text-center mb-6 bg-gray-200 p-4">
           <h2 className="text-2xl font-semibold">PLACE YOUR RENT</h2>
@@ -124,17 +139,20 @@ const Review = () => {
             </div>
 
             {/* <!-- Shipping Details --> */}
-            <div>
-              <div class="flex items-center mb-2">
+            <div className='font-poppins'>
+              <div class="flex items-center mb-2 ">
                 <h2 class="text-lg font-bold">SHIPPING DETAILS</h2>
-                <a href="#" className="ml-2 text-blue-500">
+                {/* <Link to={`/shippingInfoEdit/${shippingInfo._id}`} className="ml-2 text-blue-500">
                   <PencilAltIcon className="h-5 w-5" />
-                </a>
+                </Link> */}
+
+
               </div>
-              <p>Full Name</p>
-              <p>Contact Number</p>
-              <p>Email</p>
-              <p>City, Address</p>
+              <p>{shippingInfo.firstName} {shippingInfo.lastName}</p>
+              <p>{shippingInfo.contactNumber}</p>
+              <p>{shippingInfo.city}</p>
+              <p>{shippingInfo.address}</p>
+              <p>{shippingInfo.nearLandmark}</p>
             </div>
           </div>
           <hr class="my-4 border-gray-300" />
@@ -182,12 +200,21 @@ const Review = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center">
-                    {[...Array(4)].map((_, i) => (
-                      <StarIcon key={i} className="w-4 h-4 text-yellow-500" />
-                    ))}
+                  <div className="flex space-x-1 items-center">
+                    {[...Array(5)].map((_, index) => {
+                      const ratingValue = index + 1;
+                      return (
+                        <label key={index} className="cursor-pointer">
+                          <FaStar
+                            size={24}
+                            className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                          />
+                        </label>
+                      );
+                    })}
+                    <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCount} reviews)</span>
                   </div>
-                  <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
+                  {/* <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a> */}
                 </div>
 
                 {/* div 9  */}

@@ -10,6 +10,7 @@ module.exports = {
         boldText: '#181E4B',
         orangeTheme: '#F1A501',
         grayText: "#8B96A5",
+        paymentbg: "#8B2950",
         "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)",
 

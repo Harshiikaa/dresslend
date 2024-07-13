@@ -136,7 +136,7 @@ const Payment = () => {
                                     type="radio"
                                     className="form-radio text-blue-500"
                                     name="payment"
-                                    value="cod"
+                                    value="CASH ON DELIVERY"
                                     onChange={(e) => setPaymentMethod(e.target.value)}
                                 />
                                 <span className="ml-2">Cash on Delivery</span>
@@ -148,7 +148,7 @@ const Payment = () => {
                                     type="radio"
                                     className="form-radio text-blue-500"
                                     name="payment"
-                                    value="khalti"
+                                    value="KHALTI"
                                     onChange={(e) => setPaymentMethod(e.target.value)}
                                 />
                                 <span className="ml-2">Khalti</span>

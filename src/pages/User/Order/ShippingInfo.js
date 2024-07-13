@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
 import { createShippingInfoApi } from '../../../apis/Api';
 import { toast } from 'react-toastify';
+import { ArrowLeftIcon, ArrowNarrowLeftIcon } from '@heroicons/react/outline';
 
 const ShippingInfo = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { id } = useParams();
     const user = JSON.parse(localStorage.getItem('user'));
-
     const [userID, setUserID] = useState('');
     const shoppingBag = location.state?.shoppingBag || [];
     const [firstName, setFirstName] = useState('');
@@ -41,6 +41,32 @@ const ShippingInfo = () => {
     };
 
 
+    // const handleCheckout = (e) => {
+    //     e.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append('userID', user._id);
+    //     // formData.append('shoppingBagID', user._id);
+    //     formData.append('firstName', firstName);
+    //     formData.append('lastName', lastName);
+    //     formData.append('contactNumber', contactNumber);
+    //     formData.append('city', city);
+    //     formData.append('address', address);
+    //     formData.append('nearLandmark', nearLandmark);
+    //     console.log(user._id, firstName, lastName, contactNumber, city, address, nearLandmark);
+    //     createShippingInfoApi(formData).then((res) => {
+    //         if (res.data.success === false) {
+    //             toast.error(res.data.message);
+    //         } else {
+    //             toast.success(res.data.message);
+    //         }
+    //     }).catch(err => {
+    //         toast.error("Server Error");
+    //         console.log(err.message);
+    //     });
+
+    //     navigate('/review');
+
+    // };
     const handleCheckout = (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -51,25 +77,58 @@ const ShippingInfo = () => {
         formData.append('city', city);
         formData.append('address', address);
         formData.append('nearLandmark', nearLandmark);
-        console.log(userID, firstName, lastName, contactNumber, city, address, nearLandmark);
-        createShippingInfoApi(formData).then((res) => {
-            if (res.data.success === false) {
-                toast.error(res.data.message);
-            } else {
-                toast.success(res.data.message);
-            }
-        }).catch(err => {
-            toast.error("Server Error");
-            console.log(err.message);
-        });
 
-        navigate('/review');
-
+        // Assuming createShippingInfoApi handles the creation and returns success
+        createShippingInfoApi(formData)
+            .then((res) => {
+                if (res.data.success === false) {
+                    toast.error(res.data.message);
+                } else {
+                    toast.success(res.data.message);
+                    // Pass data to Review component
+                    handleNavigateToReview();
+                }
+            })
+            .catch(err => {
+                toast.error("Server Error");
+                console.log(err.message);
+            });
     };
 
+    const handleNavigateToReview = () => {
+        navigate('/review', {
+            state: {
+                shippingInfo: {
+                    firstName,
+                    lastName,
+                    contactNumber,
+                    city,
+                    address,
+                    nearLandmark
+                },
+                // shoppingBag  // assuming you have shoppingBag state
+            }
+        });
+    };
+
+    const handleBackClick = () => {
+        navigate(-1); // This navigates to the previous page
+    };
+
+
     return (
-        <div>
-            <div className="max-w-2xl mx-auto p-4 mt-8">
+        <div className='mt-8'>
+            <div className='w-full flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
+                <div className='flex gap-2'>
+                    <button
+                        onClick={handleBackClick}
+                        className="inline-flex items-center gap-2 rounded-md bg-gray-50 px-2 py-2 text-sm ring-inset ring-gray-300 hover:bg-gray-100"
+                    >
+                        <ArrowLeftIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </button>
+                </div>
+            </div>
+            <div className="max-w-2xl mx-auto">
                 {/* process board */}
                 <div className="text-center mb-6 bg-gray-200 p-4">
                     <h2 className="text-2xl font-semibold">PLACE YOUR RENT</h2>
@@ -155,7 +214,7 @@ const ShippingInfo = () => {
 
                     <div className='flex felx-col justify-center'>
                         <button type="submit" onClick={handleCheckout} className="w-1/5 bg-blue-500 text-white py-2 rounded mt-4">
-                            CHECKOUT
+                            NEXT
                         </button>
                     </div>
                 </form>

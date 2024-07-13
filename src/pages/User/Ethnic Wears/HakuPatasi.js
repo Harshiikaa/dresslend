@@ -163,7 +163,7 @@ const HakuPatasi = () => {
                   <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                 </div>
               </div>
-              <div className="flex items-start ml-4 p-3">
+              {/* <div className="flex items-start ml-4 p-3">
                 <button
                   className={`p-2 rounded-lg border border-borderOutline`}
                   onClick={() => handleAddFavorite(item._id)}
@@ -174,7 +174,7 @@ const HakuPatasi = () => {
                     <OutlineHeartIcon className="w-6 h-6 text-gray-400" aria-hidden="true" />
                   )}
                 </button>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

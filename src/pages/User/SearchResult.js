@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
 import { AuthContext } from '../../components/AuthContent';
 import Login from '../Auth/Login';
+import { FaStar } from 'react-icons/fa';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -20,6 +21,13 @@ const SearchResults = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+    const [averageRating, setAverageRating] = useState(0);
+    const [ratingCount, setRatingCount] = useState(0);
+    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
+  
+  
 
     const user = JSON.parse(localStorage.getItem('user'));
     const { auth, checkAuth } = useContext(AuthContext);
@@ -175,17 +183,26 @@ const SearchResults = () => {
                                         </p>
                                         <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.productSecurityDeposit}</p>
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center">
-                                                {[...Array(product.rating)].map((_, i) => (
-                                                    <StarIcon key={i} className="w-4 h-4 text-yellow-500" />
-                                                ))}
-                                            </div>
+                                        <div className="flex space-x-1 items-center">
+                                        {[...Array(5)].map((_, index) => {
+                                            const ratingValue = index + 1;
+                                            return (
+                                                <label key={index} className="cursor-pointer">
+                                                    <FaStar
+                                                        size={24}
+                                                        className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                    />
+                                                </label>
+                                            );
+                                        })}
+                                        <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCount} reviews)</span>
+                                    </div>
                                         </div>
                                         <p className="text-gray-600 font-regular text-sm">{product.productDescription}</p>
                                         <a href={`/productDetails/${product._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                                     </div>
                                 </div>
-                                <div className="flex items-start ml-4 p-3">
+                                {/* <div className="flex items-start ml-4 p-3">
                                     <button
                                         className={`p-2 rounded-lg border border-borderOutline`}
                                         onClick={() => handleAddFavorite(product._id)}
@@ -196,7 +213,7 @@ const SearchResults = () => {
                                             <OutlineHeartIcon className="w-6 h-6 text-gray-400" aria-hidden="true" />
                                         )}
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
                         ))}
                     </div>

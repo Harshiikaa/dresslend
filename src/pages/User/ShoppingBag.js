@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { addToShoppingBagListApi, getShoppingBagByUserIDApi, removeFromShoppingBagApi } from '../../apis/Api';
 import SearchResult from '../../components/SearchResult';
 import { toast } from 'react-toastify';
+import { FaStar } from 'react-icons/fa';
 
 
 const ShoppingBag = () => {
@@ -14,6 +15,13 @@ const ShoppingBag = () => {
     const [shoppingBag, setShoppingBag] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+    const [averageRating, setAverageRating] = useState(0);
+    const [ratingCount, setRatingCount] = useState(0);
+    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
+
 
     useEffect(() => {
         // Call your API function
@@ -53,10 +61,6 @@ const ShoppingBag = () => {
     const calculateSubtotal = () => {
         return shoppingBag.reduce((acc, item) => acc + item.totalPrice, 0);
     };
-
-    // const handleCheckout = () => {
-    //     navigate('/shippingInfo', { state: { shoppingBag } });
-    // }
 
 
     const handleCheckout = ({ shoppingBag }) => {
@@ -130,12 +134,28 @@ const ShoppingBag = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center">
+                                    {/* <div className="flex items-center">
                                         {[...Array(4)].map((_, i) => (
                                             <StarIcon key={i} className="w-4 h-4 text-yellow-500" />
                                         ))}
+                                    </div> */}
+
+                                    <div className="flex space-x-1 items-center">
+                                        {[...Array(5)].map((_, index) => {
+                                            const ratingValue = index + 1;
+                                            return (
+                                                <label key={index} className="cursor-pointer">
+                                                    <FaStar
+                                                        size={24}
+                                                        className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                    />
+                                                </label>
+                                            );
+                                        })}
+                                        <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCount} reviews)</span>
                                     </div>
-                                    <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
+
+                                    {/* <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a> */}
                                 </div>
 
                                 {/* div 9  */}

@@ -5,6 +5,7 @@ import logo from '../assets/images/logo.png';
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import UserProfileDropdown from './UserProfileDropdown';
+import { useNavigate } from 'react-router-dom';
 
 const NavItem = ({ href, text, onClick }) => (
     <button
@@ -15,17 +16,35 @@ const NavItem = ({ href, text, onClick }) => (
     </button>
 );
 
-const IconLink = ({ href, IconComponent }) => (
-    <a
-        href={href}
-        className="text-black-300 hover:text-[#F1A501] px-3 py-5 rounded-md flex items-center space-x-2 text-sm font-medium"
-    >
-        <IconComponent className="h-5 w-5 text-black" />
-    </a>
+// const IconLink = ({ href, IconComponent }) => (
+//     <a
+//         href={href}
+//         className="text-black-300 hover:text-[#F1A501] px-3 py-5 rounded-md flex items-center space-x-2 text-sm font-medium"
+//     >
+//         <IconComponent className="h-5 w-5 text-black" />
+//     </a>
+// );
+const IconLink = ({ href, IconComponent, badgeCount }) => (
+    <div className="relative">
+        <a
+            href={href}
+            className="text-black-300 hover:text-[#F1A501] px-3 py-5 rounded-md flex items-center space-x-2 text-sm font-medium"
+        >
+            <IconComponent className="h-5 w-5 text-black" />
+        </a>
+        {badgeCount > 0 && (
+            <span className="absolute top-1 right-1 inline-flex items-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                {badgeCount}
+            </span>
+        )}
+    </div>
 );
 
 const NavbarUser = () => {
     const [user, setUser] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Get user data from local storage
@@ -34,9 +53,12 @@ const NavbarUser = () => {
             setUser(storedUser);
         }
     }, []);
+
     // for the search
-    const handleSearch = (query) => {
-        console.log(`Searching for: ${query}`);
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${searchQuery}`);
+        }
     };
 
 
@@ -66,6 +88,8 @@ const NavbarUser = () => {
                             <input
                                 type="text"
                                 placeholder="Search..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-4 pr-10 py-3 mt-2.5 border rounded-md border-black focus:outline-none w-48 h-10"
                             />
                             <button
