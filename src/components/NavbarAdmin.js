@@ -51,7 +51,7 @@ const NavbarAdmin = () => {
                         </div>
 
                         {/* Searchbar */}
-                        <div className="relative">
+                        {/* <div className="relative">
                             <input
                                 type="text"
                                 placeholder="Search..."
@@ -63,7 +63,7 @@ const NavbarAdmin = () => {
                             >
                                 <SearchIcon className="h-5 w-5 text-black hover:text-[#F1A501]" />
                             </button>
-                        </div>
+                        </div> */}
 
 
                         {/* User Details */}

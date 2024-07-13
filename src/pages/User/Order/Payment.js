@@ -14,7 +14,7 @@ const Payment = () => {
     const [shippingInfo, setShippingInfo] = useState({ shippingID: '' });
     const [totalPayment, setTotalPayment] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState('');
-    const [orderStatus, setOrderStatus] = useState('pending');
+    const [orderStatus, setOrderStatus] = useState('PENDING');
     const [createdAt, setCreatedAt] = useState('');
 
     const [shoppingBag, setShoppingBag] = useState([]);

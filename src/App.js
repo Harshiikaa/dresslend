@@ -53,6 +53,8 @@ import Success from './pages/User/Order/Success';
 import EditShippingInfo from './pages/User/Order/EditShippingInfo';
 import EditMyProfile from './pages/User/EditMyProfile';
 import SearchResults from './pages/User/SearchResult';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 
 
@@ -72,6 +74,8 @@ const App = () => {
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path='/shoppingBagEdit/:id' element={<EditShoppingBag />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
+            <Route path="/resetPassword/:token" element={<ResetPassword />} />
 
             <Route path="/shippingInfo" element={<ShippingInfo />} />
             <Route path='/shippingInfoEdit/:id' element={<EditShippingInfo />} />

@@ -1,6 +1,4 @@
 
-
-
 import React, { useState } from 'react';
 import { UserIcon, MailIcon, LockClosedIcon, EyeIcon, EyeOffIcon, XIcon, PhoneIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
@@ -15,7 +13,6 @@ const Register = ({ isOpen, onClose }) => {
     const handleTogglePassword = () => {
         setShowPassword((prev) => !prev);
     };
-
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -55,16 +52,13 @@ const Register = ({ isOpen, onClose }) => {
                     toast.error(res.data.message);
                 } else {
                     toast.success(res.data.message);
-                    navigate('/login');
+                    navigate('/');
                 }
             })
             .catch((err) => {
                 toast.error('Server Error');
                 console.log(err.message);
             });
-
-
-
     }
 
     return (
@@ -192,18 +186,19 @@ const Register = ({ isOpen, onClose }) => {
 
                             <div className="text-sm font-medium text-gray-500 text-center">
                                 Already have an account{' '}
-                                <a
-                                    href="/login"
-                                    className="text-blue-700 hover:underline"
+                                <button
+                                    type="button"
+                                    className="text-blue-700 hover:underline focus:outline-none"
                                 >
-                                    login
-                                </a>
+                                    Login
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         )
+
     );
 };
 

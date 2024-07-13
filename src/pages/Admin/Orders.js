@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { getAllOrdersApi, updateOrderStatusApi } from '../../apis/Api'; // Assuming you have these functions
@@ -28,28 +30,31 @@ const Orders = () => {
             order.shoppingItemList.forEach(item => {
                 const shoppingBag = item.shoppingBagID;
                 const shipping = order.shippingID;
-                const shippingInfo = shipping ? `
-                    Name: ${shipping.firstName} ${shipping.lastName}
-                    Contact: ${shipping.contactNumber}
-                    City: ${shipping.city}
-                    Address: ${shipping.address}
-                    Near Landmark: ${shipping.nearLandmark}
-                ` : 'No Shipping Info';
 
-                flattenedData.push({
-                    orderId: order._id, // Add orderId to the data
-                    orderStatus: order.orderStatus,
-                    paymentMethod: order.paymentMethod,
-                    createdAt: order.createdAt,
-                    totalPayment: order.totalPayment,
-                    productName: shoppingBag.productID.productName,
-                    productImage: shoppingBag.productID.productImageURL,
-                    deliveryDate: shoppingBag.deliveryDate,
-                    returnDate: shoppingBag.returnDate,
-                    quantity: shoppingBag.quantity,
-                    totalPrice: shoppingBag.totalPrice,
-                    shippingInfo,
-                });
+                if (shoppingBag && shoppingBag.productID) {
+                    const shippingInfo = shipping ? `
+                        Name: ${shipping.firstName} ${shipping.lastName}
+                        Contact: ${shipping.contactNumber}
+                        City: ${shipping.city}
+                        Address: ${shipping.address}
+                        Near Landmark: ${shipping.nearLandmark}
+                    ` : 'No Shipping Info';
+
+                    flattenedData.push({
+                        orderId: order._id,
+                        orderStatus: order.orderStatus,
+                        paymentMethod: order.paymentMethod,
+                        createdAt: order.createdAt,
+                        totalPayment: order.totalPayment,
+                        productName: shoppingBag.productID.productName,
+                        productImage: shoppingBag.productID.productImageURL,
+                        deliveryDate: shoppingBag.deliveryDate,
+                        returnDate: shoppingBag.returnDate,
+                        quantity: shoppingBag.quantity,
+                        totalPrice: shoppingBag.totalPrice,
+                        shippingInfo,
+                    });
+                }
             });
         });
         return flattenedData;
@@ -60,24 +65,60 @@ const Orders = () => {
         return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString();
     };
 
+    // const handleStatusChange = (orderId, newStatus) => {
+    //     console.log('Status change triggered:', orderId, newStatus); // Add this log
+    //     updateOrderStatusApi(orderId, newStatus)
+    //         .then((res) => {
+    //             console.log('Update Response:', res); // Log the response
+    //             if (res.success) {
+    //                 toast.success("Order status updated successfully");
+    //                 setOrders(prevOrders => {
+    //                     const updatedOrders = prevOrders.map(order => {
+    //                         if (order._id === orderId) {
+    //                             return { ...order, orderStatus: newStatus };
+    //                         }
+    //                         return order;
+    //                     });
+    //                     window.location.reload();
+    //                     setFlattenedOrders(flattenOrderData(updatedOrders));
+    //                     return updatedOrders;
+    //                 });
+
+    //             } else {
+    //                 toast.error("Failed to update order status in the backend");
+    //             }
+    //         })
+    //         .catch(err => {
+    //             toast.error("Failed to update order status");
+    //             console.log('Error:', err.message);
+    //         });
+    // };
     const handleStatusChange = (orderId, newStatus) => {
+        console.log('Status change triggered:', orderId, newStatus); // Add this log
         updateOrderStatusApi(orderId, newStatus)
             .then((res) => {
-                toast.success("Order status updated successfully");
-                setOrders(prevOrders => {
-                    const updatedOrders = prevOrders.map(order => {
-                        if (order._id === orderId) {
-                            return { ...order, orderStatus: newStatus };
-                        }
-                        return order;
+                console.log('Update Response:', res); // Log the response
+                if (res.success) {
+                    toast.success("Order status updated successfully");
+                    setOrders(prevOrders => {
+                        const updatedOrders = prevOrders.map(order => {
+                            if (order._id === orderId) {
+                                return { ...order, orderStatus: newStatus };
+                            }
+                            return order;
+                        });
+                        window.location.reload();
+                        setFlattenedOrders(flattenOrderData(updatedOrders));
+                        return updatedOrders;
                     });
-                    setFlattenedOrders(flattenOrderData(updatedOrders));
-                    return updatedOrders;
-                });
+                } else {
+                    toast.error("Failed to update order status in the backend");
+                    console.error("Failed to update order status. API Response:", res);
+                }
             })
             .catch(err => {
                 toast.error("Failed to update order status");
-                console.log(err.message);
+                console.error('Error:', err.message);
             });
     };
 
@@ -96,16 +137,14 @@ const Orders = () => {
         }
     };
 
-    const userFirstName = localStorage.getItem('firstName') || 'Unknown';
-    const userLastName = localStorage.getItem('lastName') || 'User';
-    const userName = `${userFirstName} ${userLastName}`;
-
     return (
         <div className="flex h-screen overflow-hidden">
             <SidebarAdmin />
             <div className="flex-1 flex flex-col">
                 <NavbarAdmin />
-                <div className="max-w-6xl mx-auto p-2 mt-24 font-poppins">
+                <div className="max-w-6xl mx-auto p-2 font-poppins">
+                    <h1 className="text-4xl font-bold mb-2">Orders</h1>
+
                     <div className="overflow-x-auto">
                         <div className="min-w-full max-h-96 overflow-y-auto">
                             <table className="min-w-full divide-y divide-gray-200">
@@ -138,10 +177,10 @@ const Orders = () => {
                                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                         style={{ color: getStatusClass(order.orderStatus).split(' ')[0].replace('text-', '') }}
                                                     >
-                                                        <option value="Pending" style={{ color: 'gray' }}>Pending</option>
-                                                        <option value="In Process" style={{ color: 'green' }}>In Process</option>
-                                                        <option value="Delivered" style={{ color: 'blue' }}>Delivered</option>
-                                                        <option value="Canceled" style={{ color: 'red' }}>Canceled</option>
+                                                        <option value="PENDING" style={{ color: 'gray' }}>Pending</option>
+                                                        <option value="IN PROCESS" style={{ color: 'yellow' }}>In Process</option>
+                                                        <option value="DELIVERED" style={{ color: 'green' }}>Delivered</option>
+                                                        <option value="CANCELED" style={{ color: 'red' }}>Canceled</option>
                                                     </select>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.quantity}</td>
@@ -164,28 +203,6 @@ const Orders = () => {
                             </table>
                         </div>
                     </div>
-
-                    {/* Table for User Data */}
-                    <div className="mt-8 overflow-x-auto">
-                        <div className="min-w-full max-h-96 overflow-y-auto">
-                            <h2 className="text-xl font-bold mb-4">User Data</h2>
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shipping ID</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full Name</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Number</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">City</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Near Landmark</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {/* Render user data here */}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -193,3 +210,4 @@ const Orders = () => {
 };
 
 export default Orders;
+

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import Control from '../assets/sidebar/control.png';
 import LogoRound from '../assets/sidebar/logoRound.png';
@@ -10,7 +10,12 @@ import { toast } from 'react-toastify';
 
 const SidebarAdmin = () => {
     const [open, setOpen] = useState(true);
+    const [selectedMenu, setSelectedMenu] = useState(localStorage.getItem('selectedMenu') || 'Products');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.setItem('selectedMenu', selectedMenu);
+    }, [selectedMenu]);
 
     const logout = () => {
         const confirmDialog = window.confirm('Are you sure, you want to logout?');
@@ -40,6 +45,14 @@ const SidebarAdmin = () => {
         { title: "Logout", src: Users, action: logout, gap: true },
     ];
 
+    const handleMenuClick = (title, action) => {
+        if (action) {
+            action();
+        } else {
+            setSelectedMenu(title);
+        }
+    };
+
     return (
         <div className="flex font-poppins">
             {/* Open/Close button */}
@@ -63,10 +76,11 @@ const SidebarAdmin = () => {
                     {Menus.map((Menu, index) => (
                         <li
                             key={index}
-                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-400 text-gray-700 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-gray-300"}`}
+                            className={`flex rounded-md p-2 cursor-pointer hover:bg-gray-400 text-gray-700 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"} ${selectedMenu === Menu.title && "bg-gray-300"}`}
+                            onClick={() => handleMenuClick(Menu.title, Menu.action)}
                         >
                             {Menu.action ? (
-                                <div className="flex items-center gap-x-4" onClick={Menu.action}>
+                                <div className="flex items-center gap-x-4">
                                     <img src={Menu.src} />
                                     <span className={`${!open && "hidden"} origin-left duration-200`}>
                                         {Menu.title}

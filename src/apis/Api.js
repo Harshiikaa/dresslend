@@ -20,6 +20,8 @@ export const getAllUsersApi = () => Api.get('/api/user/getUsers')
 export const getSingleUserApi = (id) => Api.get(`/api/user/getSingleUser/${id}`)
 export const updateUserApi = (id, formData) => Api.put(`/api/user/updateUser/${id}`, formData, config)
 export const deleteUserApi = (id) => Api.delete(`/api/user/deleteUser/${id}`, config)
+export const sendResetPasswordMailApi = (token, data) => Api.post(`/api/user/resetPassword/${token}`, data, config)
+export const forgetPasswordApi = (data) => Api.post(`/api/user/forgetPassword`, data)
 
 // Products
 export const createProductApi = (data) => Api.post('/api/product/createProduct', data, config)
