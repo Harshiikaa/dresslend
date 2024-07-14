@@ -40,36 +40,72 @@ const Login = ({ isOpen, onClose }) => {
     const handleRegisterModalClose = () => {
         setIsRegisterModalOpen(false);
     };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = {
-            email: email,
-            password: password,
-        };
-
-        loginUserApi(data)
-            .then((res) => {
-                if (res.data.success === false) {
-                    toast.error(res.data.message);
-                } else {
-                    toast.success(res.data.message);
-                    localStorage.setItem('token', res.data.token);
-                    const jsonDecode = JSON.stringify(res.data.userData);
-                    localStorage.setItem('user', jsonDecode);
-                    // Check if the user is an admin
-                    if (res.data.userData.isAdmin) {
-                        navigate('/admin/products');
-                    } else {
-                        window.location.reload();
-                    }
-                }
-            })
-            .catch((err) => {
-                toast.error('Error in server');
-                console.log(err.message);
-            });
+// Your existing handleSubmit function
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+        email: email,
+        password: password,
     };
+    loginUserApi(data)
+        .then((res) => {
+            if (res.data.success === false) {
+                toast.error(res.data.message, {
+                    autoClose: 500, // Auto close the toast after 0.5 seconds
+                });
+            } else {
+                toast.success(res.data.message, {
+                    autoClose: 500, // Auto close the toast after 0.5 seconds
+                    onClose: () => {
+                        localStorage.setItem('token', res.data.token);
+                        const jsonDecode = JSON.stringify(res.data.userData);
+                        localStorage.setItem('user', jsonDecode);
+                        // Check if the user is an admin
+                        if (res.data.userData.isAdmin) {
+                            navigate('/admin/products');
+                        } else {
+                            window.location.reload();
+                        }
+                    },
+                });
+            }
+        })
+        .catch((err) => {
+            toast.error('Error in server', {
+                autoClose: 500, // Auto close the toast after 0.5 seconds
+            });
+            console.log(err.message);
+        });
+};
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const data = {
+    //         email: email,
+    //         password: password,
+    //     };
+    //     loginUserApi(data)
+    //         .then((res) => {
+    //             if (res.data.success === false) {
+    //                 toast.error(res.data.message);
+    //             } else {
+    //                 toast.success(res.data.message);
+    //                 localStorage.setItem('token', res.data.token);
+    //                 const jsonDecode = JSON.stringify(res.data.userData);
+    //                 localStorage.setItem('user', jsonDecode);
+    //                 // Check if the user is an admin
+    //                 if (res.data.userData.isAdmin) {
+    //                     navigate('/admin/products');
+    //                 } else {
+    //                     window.location.reload();
+    //                 }
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             toast.error('Error in server');
+    //             console.log(err.message);
+    //         });
+    // };
 
     return (
         <>

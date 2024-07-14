@@ -157,6 +157,7 @@ const ProductDetails = () => {
             if (res.data.success === false) {
                 toast.error(res.data.message);
             } else {
+                window.location.reload()
                 toast.success(res.data.message);
             }
         }).catch(err => {
@@ -172,12 +173,10 @@ const ProductDetails = () => {
             setIsLoginOpen(true);
             return;
         }
-
         const data = {
             userID: user._id,
             productID: id,
         };
-
         try {
             const response = await addFavoriteApi(data);
 
@@ -187,9 +186,13 @@ const ProductDetails = () => {
                 if (message.includes('added')) {
                     setIsFavorite(true);
                     toast.success('Item added to Favorite');
+                    // window.location.reload()
+
                 } else if (message.includes('removed')) {
                     setIsFavorite(false);
+                    // window.location.reload()
                     toast.success('Item removed from Favorite');
+
                 } else {
                     toast.error('Unexpected response from server');
                 }
@@ -201,33 +204,6 @@ const ProductDetails = () => {
             toast.error('Server Error');
         }
     };
-
-
-    // const handleAddFavorite = async () => {
-    //     if (!checkAuth()) {
-    //         toast.warning('Please login first');
-    //         setIsLoginOpen(true);
-    //         return;
-    //     }
-    //     const data = {
-    //         userID: user._id,
-    //         productID: id,
-    //     };
-
-    //     try {
-    //         const response = await addFavoriteApi(data);
-
-    //         if (response.data.success === true) {
-    //             setIsFavorite(true);
-    //             toast.success(response.data.message);
-    //         } else {
-    //             toast.error(response.data.message || 'Failed to add favorite');
-    //         }
-    //     } catch (error) {
-    //         console.error('Add Favorite Error:', error);
-    //         toast.error('Server Error');
-    //     }
-    // };
 
     const handleRatingSubmit = async () => {
         if (!checkAuth()) {
