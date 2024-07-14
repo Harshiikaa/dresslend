@@ -2,6 +2,7 @@ import React from 'react'
 // import Navbar from './Navbar'
 import frame1 from '../../assets/images/Frame387.png'
 import frame2 from '../../assets/images//Frame388.png'
+import { Link } from 'react-scroll'
 
 const LandingPage = () => {
     return (
@@ -28,10 +29,22 @@ const LandingPage = () => {
                         at Affordable <br />
                         Prices."
                     </p>
-                    <button href='#ethnicWear' className="mt-4 bg-orangeTheme text-white rounded-md px-6 py-3 border border-transparent shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orangeTheme focus:ring-opacity-50 transition-all duration-300">
+                    {/* <button className="mt-4 bg-orangeTheme text-white rounded-md px-6 py-3 border border-transparent shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orangeTheme focus:ring-opacity-50 transition-all duration-300">
 
                         Explore
-                    </button>
+                    </button> */}
+                    <div className="flex justify-center mt-8">
+                        <Link
+                            to="ethnicWear"
+                            spy={true}
+                            smooth={true}
+                            offset={-100}
+                            duration={500}
+                            className="mt-4 bg-orangeTheme text-white rounded-md px-6 py-3 border border-transparent shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orangeTheme focus:ring-opacity-50 transition-all duration-300 cursor-pointer"
+                        >
+                            Explore
+                        </Link>
+                    </div>
                 </div>
                 {/* image 2 */}
                 <div className="relative mt-3 mr-2 w-max">

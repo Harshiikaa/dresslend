@@ -3,6 +3,7 @@ import wideSelection from '../../assets/images/wideSelection.png';
 import sustainability from '../../assets/images/sustainability.png';
 import affordability from '../../assets/images/affordability.png';
 import convenience from '../../assets/images/convenience.png';
+import { Link } from 'react-scroll';
 
 const AboutUs = () => {
 
@@ -90,11 +91,18 @@ const AboutUs = () => {
 
 
                 <div className="flex items-center justify-center mt-2">
-                    <a href="#scroll-target" className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-full animate-bounce">
+                    <Link
+                        to="help"
+                        spy={true}
+                        smooth={true}
+                        offset={-100}
+                        duration={500}
+                        className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-full animate-bounce"
+                    >
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

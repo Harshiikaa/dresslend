@@ -4,8 +4,9 @@ import LehengaCholi from '../../assets/images/Lehengacholi.png';
 import gunyocholo from '../../assets/images/gunyocholo.png';
 import gurungdress from '../../assets/images/gurungdress.png';
 import daurasurwal from '../../assets/images/daurasurwal.png';
-import { Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 const EthnicDresses = () => {
     const [isLeftScrollVisible, setIsLeftScrollVisible] = useState(false);
     const [isRightScrollVisible, setIsRightScrollVisible] = useState(false);
@@ -74,17 +75,23 @@ const EthnicDresses = () => {
                         </button>
                     )}
                 </div>
+      
                 <div className="flex items-center justify-center mt-2">
-                    <a href="#scroll-target" className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-full animate-bounce">
+                    <Link
+                        to="westernWear"
+                        spy={true}
+                        smooth={true}
+                        offset={-100}
+                        duration={500}
+                        className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-full animate-bounce"
+                    >
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </a>
+                    </Link>
                 </div>
             </div>
-            {/* <div id="scroll-target" className="h-screen bg-white">
-                Content to scroll to
-            </div> */}
+
         </div>
     );
 }

@@ -5,16 +5,21 @@ import UserProfileDropdown from './UserProfileDropdown';
 import { useNavigate } from 'react-router-dom';
 import { getFavoritesByUserIDApi, getShoppingBagByUserIDApi } from '../apis/Api';
 import { toast } from 'react-toastify';
+import { Link } from 'react-scroll';
 
-const NavItem = ({ href, text }) => (
-    <a
-        href={href}
-        className="text-black-300 hover:text-[#F1A501] px-3 py-2 rounded-md text-sm font-medium cursor-pointer focus:outline-none"
+const NavItem = ({ to, text, onClick }) => (
+    <Link
+        to={to}
+        spy={true}
+        smooth={true}
+        offset={-100}
+        duration={500}
+        onClick={onClick}
+        className="text-black-300 hover:text-[#F1A501] px-2 py-1 rounded-md text-sm font-medium cursor-pointer focus:outline-none"
     >
         {text}
-    </a>
+    </Link>
 );
-
 const IconLink = ({ href, IconComponent, badgeCount }) => (
     <div className="relative">
         <a
@@ -74,6 +79,9 @@ const NavbarUser = () => {
         // Handle search functionality
     };
 
+    const [click, setClick] = useState(false);
+    const handleClick = () => setClick(!click);
+    const closeMenu = () => setClick(false);
     return (
         <>
             <nav className="bg-white-800 shadow-lg">
@@ -86,12 +94,12 @@ const NavbarUser = () => {
 
                         {/* Navigation Items */}
                         <div className="hidden sm:flex sm:ml-3 space-x-4 text-xs">
-                            <NavItem href="/landingPage" text="Home" />
-                            <NavItem href="/ethnicWear" text="Ethnic Wear" />
-                            <NavItem href="/westernWear" text="Western Wear" />
-                            <NavItem href="/accessories" text="Accessories" />
-                            <NavItem href="/aboutUs" text="About Us" />
-                            <NavItem href="/help" text="Help" />
+                            <NavItem to="home" text="Home" onClick={closeMenu} />
+                            <NavItem to="ethnicWear" text="Ethnic Wear" onClick={closeMenu} />
+                            <NavItem to="westernWear" text="Western Wear" onClick={closeMenu} />
+                            <NavItem to="accessories" text="Accessories" onClick={closeMenu} />
+                            <NavItem to="aboutUs" text="About Us" onClick={closeMenu} />
+                            <NavItem to="help" text="Help" onClick={closeMenu} />
                         </div>
 
                         {/* Searchbar */}
