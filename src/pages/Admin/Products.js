@@ -142,7 +142,6 @@ const Products = ({ isOpen, onClose }) => {
                                     <div className="relative w-full max-w-md h-full md:h-auto">
                                         <div className="bg-white rounded-3xl shadow relative">
                                             <div className="flex justify-end p-2">
-
                                                 <button
                                                     type="button"
                                                     className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
@@ -246,7 +245,7 @@ const Products = ({ isOpen, onClose }) => {
                                                                         {categories.map((category) => (
                                                                             <Menu.Item key={category.category}>
                                                                                 {({ active }) => (
-                                                                                    <button
+                                                                                    <a
                                                                                         onClick={() => handleCategorySelect(category.category)}
                                                                                         className={classNames(
                                                                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -254,7 +253,7 @@ const Products = ({ isOpen, onClose }) => {
                                                                                         )}
                                                                                     >
                                                                                         {category.category}
-                                                                                    </button>
+                                                                                    </a>
                                                                                 )}
                                                                             </Menu.Item>
                                                                         ))}
@@ -578,7 +577,7 @@ const Products = ({ isOpen, onClose }) => {
                                                             NPR.{item.productSecurityDeposit}
                                                         </td>
                                                         <td className="flex px-6 py-4 whitespace-nowrap text-sm font-medium justify-center space-x-2">
-                                                            <Link to={`/productEdit/${item._id}`} className="text-green-600 hover:text-indigo-900">
+                                                            <Link to={`/admin/productEdit/${item._id}`} className="text-green-600 hover:text-indigo-900">
                                                                 <PencilIcon className="h-5 w-5" aria-hidden="true" />
                                                             </Link>
                                                             <button onClick={() => handleDelete(item._id)} className="text-red-600 hover:text-red-900">

@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getSingleProductApi, updateProductApi } from '../../apis/Api';
+import { getAllCategoriesApi, getSingleProductApi, updateProductApi } from '../../apis/Api';
 import { Menu, Transition } from '@headlessui/react';
 import { XIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import { toast } from 'react-toastify';
@@ -17,12 +17,39 @@ const EditProducts = () => {
     const [productRentalPrice, setProductRentalPrice] = useState('');
     const [productSecurityDeposit, setProductSecurityDeposit] = useState('');
     const [productCategory, setProductCategory] = useState('');
-    const [productQuantity, setProductQuantity] = useState(1);
+    const [productQuantity, setProductQuantity] = useState();
     const [productSize, setProductSize] = useState('');
     const [productDescription, setProductDescription] = useState('');
     const [productImage, setProductImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [oldImage, setOldImage] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('Category');
+    const [selectedSize, setSelectedSize] = useState('Size');
+    const [categories, setCategories] = useState([]);
+
+    // Fetch categories
+    useEffect(() => {
+        getAllCategoriesApi().then((res) => {
+            const categoriesData = res.data.categories;
+            console.log("Fetched categories:", categoriesData);
+            setCategories(categoriesData);
+        }).catch(err => {
+            console.log("Error fetching categories:", err.message);
+        });
+    }, []);
+
+    // Handle category select
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+        setProductCategory(category);
+        console.log(`Selected category: ${category}`);
+    };
+
+    const handleSizeSelect = (size) => {
+        setSelectedSize(size);
+        setProductSize(size);
+        console.log(`Selected size: ${size}`);
+    };
 
     useEffect(() => {
         // Fetch product details from API when component mounts
@@ -32,8 +59,10 @@ const EditProducts = () => {
             setProductRentalPrice(product.productRentalPrice);
             setProductSecurityDeposit(product.productSecurityDeposit);
             setProductCategory(product.productCategory);
+            setSelectedCategory(product.productCategory); // Set selected category
             setProductQuantity(product.productQuantity);
             setProductSize(product.productSize);
+            setSelectedSize(product.productSize); // Set selected size
             setProductDescription(product.productDescription);
             setProductImage(product.productImage);
             setOldImage(product.productImageURL);
@@ -43,11 +72,10 @@ const EditProducts = () => {
     }, [id]);
 
     const handleIncrease = () => {
-        setProductQuantity(prevQuantity => prevQuantity + 1);
+        setProductQuantity((prevQuantity) => prevQuantity + 1);
     };
-
     const handleDecrease = () => {
-        setProductQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+        setProductQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
     const handleImageUpload = (event) => {
@@ -72,7 +100,7 @@ const EditProducts = () => {
             .then((res) => {
                 if (res.data.success) {
                     toast.success(res.data.message);
-                    navigate('/products');
+                    navigate('/admin/products');
                 } else {
                     toast.error(res.data.message);
                 }
@@ -91,7 +119,7 @@ const EditProducts = () => {
                     <button
                         type="button"
                         className="text-gray-600 bg-transparent hover:bg-gray-300 hover:text-gray-900 rounded-lg text-sm p-2"
-                        onClick={() => navigate('/products')}
+                        onClick={() => navigate('/admin/products')}
                     >
                         <XIcon className="w-5 h-5" />
                     </button>
@@ -142,7 +170,7 @@ const EditProducts = () => {
                             {/* Category Dropdown */}
                             <div className="relative">
                                 <label
-                                    htmlFor="message"
+                                    htmlFor="category"
                                     className="block mb-2 text-sm font-medium text-gray-900"
                                 >
                                     Category
@@ -150,7 +178,7 @@ const EditProducts = () => {
                                 <Menu as="div" className="relative inline-block text-left w-full">
                                     <div>
                                         <Menu.Button className="inline-flex w-full gap-1 justify-between rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100">
-                                            Select Category
+                                            {selectedCategory}
                                             <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                         </Menu.Button>
                                     </div>
@@ -163,30 +191,29 @@ const EditProducts = () => {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Menu.Items className="absolute z-10 mt-2 w-full text-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Menu.Items className="absolute z-10 mt-2 w-full text-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-60 overflow-y-auto">
                                             <div className="py-1">
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <a
-                                                            href="#"
-                                                            // onClick={() => handleCategorySelect('Category 1')}
-                                                            className={classNames(
-                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                'block px-4 py-2 text-sm'
-                                                            )}
-                                                        >
-                                                            Category 1
-                                                        </a>
-                                                    )}
-                                                </Menu.Item>
+                                                {categories.map((category) => (
+                                                    <Menu.Item key={category.category}>
+                                                        {({ active }) => (
+                                                            <a onClick={() => handleCategorySelect(category.category)}
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                    'block px-4 py-2 text-sm w-full text-left'
+                                                                )}
+                                                            >
+                                                                {category.category}
+                                                            </a>
+                                                        )}
+                                                    </Menu.Item>
+                                                ))}
                                             </div>
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
                             </div>
 
-
-                            {/* Quantity*/}
+                            {/* Quantity */}
                             <div className="items-center">
                                 <label
                                     htmlFor="message"
@@ -203,7 +230,7 @@ const EditProducts = () => {
                                         -
                                     </button>
                                     <input
-                                        // onChange={(e) => setProductQuantity(e.target.value)}
+                                        onChange={(e) => setProductQuantity(e.target.value)}
                                         type="number"
                                         name="Quantity"
                                         id="Quantity"
@@ -218,8 +245,8 @@ const EditProducts = () => {
                                         +
                                     </button>
                                 </div>
-
                             </div>
+
                             {/* Size Dropdown */}
                             <div className="relative">
                                 <label
@@ -231,10 +258,11 @@ const EditProducts = () => {
                                 <Menu as="div" className="relative inline-block text-left w-full">
                                     <div>
                                         <Menu.Button className="inline-flex w-full gap-1 justify-between rounded-md bg-gray-50 px-2 py-2 text-sm font-medium text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100">
-                                            Select Size
+                                            {selectedSize}
                                             <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                         </Menu.Button>
                                     </div>
+
                                     <Transition
                                         as={Fragment}
                                         enter="transition ease-out duration-100"
@@ -244,13 +272,13 @@ const EditProducts = () => {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Menu.Items className="absolute z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Menu.Items className="absolute z-10 mt-2 w-full text-xs origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <div className="py-1">
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <a
                                                             href="#"
-                                                            // onClick={() => handleSizeSelect('Free')}
+                                                            onClick={() => handleSizeSelect('Free')}
                                                             className={classNames(
                                                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                 'block px-4 py-2 text-sm'
@@ -264,7 +292,7 @@ const EditProducts = () => {
                                                     {({ active }) => (
                                                         <a
                                                             href="#"
-                                                            // onClick={() => handleSizeSelect('Small')}
+                                                            onClick={() => handleSizeSelect('Small')}
                                                             className={classNames(
                                                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                 'block px-4 py-2 text-sm'
@@ -278,7 +306,7 @@ const EditProducts = () => {
                                                     {({ active }) => (
                                                         <a
                                                             href="#"
-                                                            // onClick={() => handleSizeSelect('Medium')}
+                                                            onClick={() => handleSizeSelect('Medium')}
                                                             className={classNames(
                                                                 active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                 'block px-4 py-2 text-sm'
@@ -288,13 +316,40 @@ const EditProducts = () => {
                                                         </a>
                                                     )}
                                                 </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="#"
+                                                            onClick={() => handleSizeSelect('Large')}
+                                                            className={classNames(
+                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                            Large
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
 
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="#"
+                                                            onClick={() => handleSizeSelect('Extra Large')}
+                                                            className={classNames(
+                                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                            Extra Large
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
                                             </div>
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
                             </div>
-
                         </div>
 
                         <div>
@@ -340,11 +395,12 @@ const EditProducts = () => {
                             <button
                                 type="button"
                                 className="px-4 py-2 text-sm text-gray-700 bg-gray-300 rounded-md hover:bg-gray-400 focus:outline-none"
-                                onClick={() => navigate('/products')}
+                                onClick={() => navigate('/admin/products')}
                             >
                                 Cancel
                             </button>
                             <button
+                                onClick={handleSubmit}
                                 type="submit"
                                 className="px-6 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300"
                             >
