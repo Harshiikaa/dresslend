@@ -74,6 +74,7 @@ const App = () => {
             <Route path="/shoppingBag" element={<ShoppingBag />} />
             <Route path="/productDetails/:id" element={<ProductDetails />} />
             <Route path='/shoppingBagEdit/:id' element={<EditShoppingBag />} />
+
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/resetPassword/:token" element={<ResetPassword />} />
 

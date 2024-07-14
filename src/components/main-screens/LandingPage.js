@@ -5,7 +5,7 @@ import frame2 from '../../assets/images//Frame388.png'
 
 const LandingPage = () => {
     return (
-        <div className=' h-screen'>
+        <div className=' h-screen' id='home'>
             <div className="p-2 pt-20 flex justify-between items-center space-y-0 font-poppins">
                 {/* image 1 */}
                 <div className="relative mt-2.5 ml-3 w-max">
@@ -28,7 +28,8 @@ const LandingPage = () => {
                         at Affordable <br />
                         Prices."
                     </p>
-                    <button className="mt-4 bg-orangeTheme text-white rounded-md px-6 py-3 border border-transparent shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orangeTheme focus:ring-opacity-50 transition-all duration-300">
+                    <button href='#ethnicWear' className="mt-4 bg-orangeTheme text-white rounded-md px-6 py-3 border border-transparent shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-orangeTheme focus:ring-opacity-50 transition-all duration-300">
+
                         Explore
                     </button>
                 </div>

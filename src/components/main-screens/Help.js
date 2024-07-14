@@ -6,7 +6,7 @@ const Help = () => {
     return (
         <div>
             {/* Help */}
-            <div className='bg-gradient-to-r'>
+            <div className='bg-gradient-to-r' id='help'>
                 <p className="text-center text-base font-semibold text-black-500 ">
                     Help
                 </p>

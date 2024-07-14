@@ -10,7 +10,7 @@ const AboutUs = () => {
     return (
         <div>
             {/* About Us */}
-            <div className='h-screen bg-gradient-to-r'>
+            <div className='h-screen bg-gradient-to-r' id='aboutUs'>
                 <p className="text-center text-base font-semibold text-black-500">
                     About Us
                 </p>

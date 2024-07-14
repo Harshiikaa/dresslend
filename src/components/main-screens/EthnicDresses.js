@@ -38,7 +38,7 @@ const EthnicDresses = () => {
     return (
         <div>
             {/* Ethnic Wear */}
-            <div className='h-screen bg-gradient-to-r'>
+            <div className='h-screen bg-gradient-to-r' id='ethnicWear'>
                 <p className="text-center text-base font-semibold text-black-500">
                     Ethnic Wear
                 </p>

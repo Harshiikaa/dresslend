@@ -38,7 +38,7 @@ const WesternDresses = () => {
   return (
     <div>
       {/* Western Wear */}
-      <div className='h-screen bg-gradient-to-r'>
+      <div className='h-screen bg-gradient-to-r' id='westernWear'>
         <p className="text-center text-base font-semibold text-black-500">
           Western Wear
         </p>
