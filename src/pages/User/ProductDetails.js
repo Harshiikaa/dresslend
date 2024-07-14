@@ -16,6 +16,7 @@ const ProductDetails = () => {
     const [hover, setHover] = useState(null);
     const [averageRating, setAverageRating] = useState(0);
     const [ratingCount, setRatingCount] = useState(0);
+    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
 
     // calendar
@@ -164,33 +165,6 @@ const ProductDetails = () => {
         });
     };
 
-    // const handleRentNow = (e) => {
-    //     e.preventDefault();
-    //     const rentalPrice = parseFloat(product.productRentalPrice);
-    //     const securityDeposit = parseFloat(product.productSecurityDeposit);
-    //     const quantity = parseInt(product.productQuantity, 10);
-    //     const totalPrice = securityDeposit + rentalPrice * quantity;
-
-    //     const formData = new FormData();
-    //     formData.append('userID', user._id);
-    //     formData.append('productID', id);
-    //     formData.append('deliveryDate', deliveryDate);
-    //     formData.append('returnDate', returnDate);
-    //     formData.append('totalPrice', totalPrice);
-    //     formData.append('quantity', quantity);
-    //     console.log(userID, productID, deliveryDate, returnDate, totalPrice, quantity);
-    //     addToShoppingBagApi(formData).then((res) => {
-    //         if (res.data.success === false) {
-    //             toast.error(res.data.message);
-    //         } else {
-    //             toast.success(res.data.message);
-    //         }
-    //     }).catch(err => {
-    //         toast.error("Server Error");
-    //         console.log(err.message);
-    //     });
-    // };
-
 
     const handleAddFavorite = async () => {
         if (!checkAuth()) {
@@ -198,6 +172,7 @@ const ProductDetails = () => {
             setIsLoginOpen(true);
             return;
         }
+
         const data = {
             userID: user._id,
             productID: id,
@@ -206,17 +181,53 @@ const ProductDetails = () => {
         try {
             const response = await addFavoriteApi(data);
 
-            if (response.data.success === true) {
-                setIsFavorite(true);
-                toast.success(response.data.message);
+            if (response.status === 200) {
+                const message = response.data.message;
+                // Check if the item was added or removed from favorites
+                if (message.includes('added')) {
+                    setIsFavorite(true);
+                    toast.success('Item added to Favorite');
+                } else if (message.includes('removed')) {
+                    setIsFavorite(false);
+                    toast.success('Item removed from Favorite');
+                } else {
+                    toast.error('Unexpected response from server');
+                }
             } else {
-                toast.error(response.data.message || 'Failed to add favorite');
+                toast.error(response.data.message || 'Failed to update favorite');
             }
         } catch (error) {
             console.error('Add Favorite Error:', error);
             toast.error('Server Error');
         }
     };
+
+
+    // const handleAddFavorite = async () => {
+    //     if (!checkAuth()) {
+    //         toast.warning('Please login first');
+    //         setIsLoginOpen(true);
+    //         return;
+    //     }
+    //     const data = {
+    //         userID: user._id,
+    //         productID: id,
+    //     };
+
+    //     try {
+    //         const response = await addFavoriteApi(data);
+
+    //         if (response.data.success === true) {
+    //             setIsFavorite(true);
+    //             toast.success(response.data.message);
+    //         } else {
+    //             toast.error(response.data.message || 'Failed to add favorite');
+    //         }
+    //     } catch (error) {
+    //         console.error('Add Favorite Error:', error);
+    //         toast.error('Server Error');
+    //     }
+    // };
 
     const handleRatingSubmit = async () => {
         if (!checkAuth()) {
@@ -289,7 +300,6 @@ const ProductDetails = () => {
         setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
     };
 
-    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
 
 
     return (
@@ -331,16 +341,7 @@ const ProductDetails = () => {
                                     </button>
                                 </div>
                             </div>
-                            {/* <div >
-                                <div className="flex items-center">
-                                    {[...Array(Math.round(validAverageRating))].map((_, i) => (
-                                        <StarIcon key={i} className="w-5 h-5 text-yellow-500" />
-                                    ))}
-                                    <span className="ml-2 text-gray-600">({ratingCount} reviews)</span>
-                                </div>
-
-                            </div> */}
-
+                            {/* star rating */}
                             <div className="flex space-x-1 items-center">
                                 {[...Array(5)].map((_, index) => {
                                     const ratingValue = index + 1;
@@ -349,8 +350,8 @@ const ProductDetails = () => {
                                             <FaStar
                                                 size={24}
                                                 className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
-                                                // onMouseEnter={() => setHover(ratingValue)}
-                                                // onMouseLeave={() => setHover(null)}
+                                            // onMouseEnter={() => setHover(ratingValue)}
+                                            // onMouseLeave={() => setHover(null)}
                                             />
                                         </label>
                                     );
