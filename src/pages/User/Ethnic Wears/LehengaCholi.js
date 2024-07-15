@@ -8,31 +8,37 @@ import { Menu, Transition } from '@headlessui/react';
 import Login from '../../Auth/Login';
 import { AuthContext } from '../../../components/AuthContent';
 
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-const LehengaCholi = () => {
 
+const LehengaCholi = () => {
+  const navigate = useNavigate();
   const [selectedSort, setSelectedSort] = useState('Sort By');
   const [products, setProducts] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-
-  const navigate = useNavigate();
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
   const { auth, checkAuth } = useContext(AuthContext);
 
-
   const handleSortSelect = (sortOption, sortText) => {
     setSelectedSort(sortText);
-    console.log(`Selected sort option: ${sortOption}`);
-    // Implement sorting logic here
+    sortProducts(sortOption);
+  };
+
+  const sortProducts = (sortOption) => {
+    let sortedProducts = [...products];
+    if (sortOption === 'priceAsc') {
+      sortedProducts.sort((a, b) => a.productRentalPrice - b.productRentalPrice);
+    } else if (sortOption === 'priceDesc') {
+      sortedProducts.sort((a, b) => b.productRentalPrice - a.productRentalPrice);
+    }
+    setProducts(sortedProducts);
   };
 
   const handleBackClick = () => {
-    navigate(-1); // This navigates to the previous page
+    navigate(-1);
   };
 
   const handleAddFavorite = async (productId) => {
@@ -62,14 +68,10 @@ const LehengaCholi = () => {
     }
   };
 
-
-  // Fetch and filter products on component mount
   useEffect(() => {
     getAllProductsApi().then((res) => {
       const productsData = res.data.products;
-      console.log('Fetched products:', productsData); // Log the fetched products
       const filteredProducts = productsData.filter(product => product.productCategory === "Lehenga Choli");
-      console.log('Filtered products:', filteredProducts); // Log the filtered products
       setProducts(filteredProducts);
     }).catch((error) => {
       console.error('Error fetching products:', error);
@@ -191,10 +193,8 @@ const LehengaCholi = () => {
         </div>
       </div>
       <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-
     </div>
   )
 }
 
-export default LehengaCholi
-
+export default LehengaCholi;

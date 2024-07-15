@@ -11,104 +11,11 @@ import Login from '../Auth/Login';
 const ProductDetails = () => {
     const { auth, checkAuth } = useContext(AuthContext);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
     const [averageRating, setAverageRating] = useState(0);
     const [ratingCount, setRatingCount] = useState(0);
     const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
-
-
-    // calendar
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-    const [showCalendar, setShowCalendar] = useState(false);
-    const [displayDate, setDisplayDate] = useState(null);
-
-    const handleDateClick = (day) => {
-        const selectedDateTime = new Date(currentYear, currentMonth, day).getTime();
-        const today = new Date().setHours(0, 0, 0, 0);
-
-        if (selectedDateTime >= today) {
-            setSelectedDate(day);
-        } else {
-            console.log('Cannot select past dates.');
-        }
-    };
-
-    const daysInMonth = (month, year) => {
-        return new Date(year, month + 1, 0).getDate();
-    };
-
-    const getFirstDayOfMonth = (month, year) => {
-        return new Date(year, month, 1).getDay();
-    };
-
-    const renderCalendar = () => {
-        const days = [];
-        const totalDays = daysInMonth(currentMonth, currentYear);
-        const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
-
-        for (let i = 0; i < firstDay; i++) {
-            days.push(<div key={`empty-${i}`} className="w-12 h-12"></div>);
-        }
-
-        for (let day = 1; day <= totalDays; day++) {
-            const isToday = new Date().getDate() === day && new Date().getMonth() === currentMonth;
-            const isSelected = selectedDate === day;
-            const isDisabled = new Date(currentYear, currentMonth, day).getTime() < new Date().setHours(0, 0, 0, 0);
-
-            days.push(
-                <div
-                    key={day}
-                    className={`w-12 h-12 flex items-center justify-center cursor-pointer
-                        ${isToday ? 'bg-blue-500 text-white' : isSelected ? 'bg-blue-200' : isDisabled ? 'text-gray-400 cursor-not-allowed' : ''}
-                    `}
-                    onClick={() => isDisabled ? null : handleDateClick(day)}
-                >
-                    {day}
-                </div>
-            );
-        }
-
-        return days;
-    };
-
-    const handleNextMonth = () => {
-        let newMonth = currentMonth + 1;
-        let newYear = currentYear;
-
-        if (newMonth > 11) {
-            newMonth = 0;
-            newYear++;
-        }
-
-        setCurrentMonth(newMonth);
-        setCurrentYear(newYear);
-    };
-
-    const toggleCalendar = () => {
-        setShowCalendar(!showCalendar);
-    };
-
-    const handleSetDate = () => {
-        const date = new Date(currentYear, currentMonth, selectedDate);
-        const returnDate = new Date(date);
-        returnDate.setDate(date.getDate() + 4); // Add 4 days to delivery date
-
-        setDisplayDate(date);
-        setDeliveryDate(date);  // Set the delivery date in the parent component
-        setReturnDate(returnDate); // Set the return date
-        setShowCalendar(false);
-    };
-
-    const handleCancel = () => {
-        setShowCalendar(false);
-    };
-    // Calendar end
-
-
 
     const { id } = useParams();
     const user = JSON.parse(localStorage.getItem('user'));
@@ -131,6 +38,8 @@ const ProductDetails = () => {
         productImageURL: null,
     });
 
+    const navigate = useNavigate();
+
     const handleRentNow = (e) => {
         e.preventDefault();
         if (!checkAuth()) {
@@ -151,13 +60,12 @@ const ProductDetails = () => {
         formData.append('returnDate', returnDate);
         formData.append('totalPrice', totalPrice);
         formData.append('quantity', quantity);
-        console.log(auth.user.id, id, deliveryDate, returnDate, totalPrice, quantity);
 
         addToShoppingBagApi(formData).then((res) => {
             if (res.data.success === false) {
                 toast.error(res.data.message);
             } else {
-                window.location.reload()
+                window.location.reload();
                 toast.success(res.data.message);
             }
         }).catch(err => {
@@ -165,7 +73,6 @@ const ProductDetails = () => {
             console.log(err.message);
         });
     };
-
 
     const handleAddFavorite = async () => {
         if (!checkAuth()) {
@@ -186,13 +93,11 @@ const ProductDetails = () => {
                 if (message.includes('added')) {
                     setIsFavorite(true);
                     toast.success('Item added to Favorite');
-                    // window.location.reload()
-
+                    localStorage.setItem(`favorite_${id}`, JSON.stringify(true));
                 } else if (message.includes('removed')) {
                     setIsFavorite(false);
-                    // window.location.reload()
-                    toast.success('Item removed from Favorite');
-
+                    toast.info('Item removed from Favorite');
+                    localStorage.setItem(`favorite_${id}`, JSON.stringify(false));
                 } else {
                     toast.error('Unexpected response from server');
                 }
@@ -209,8 +114,6 @@ const ProductDetails = () => {
         if (!checkAuth()) {
             toast.warning('Please login first');
             setIsLoginOpen(true);
-            // window.location.reload();
-
             return;
         }
         const data = {
@@ -225,6 +128,12 @@ const ProductDetails = () => {
                 setAverageRating(response.data.averageRating);
                 setRatingCount(response.data.ratingCount);
                 toast.success(response.data.message);
+                // Save rating state in localStorage
+                localStorage.setItem(`rating_${id}`, JSON.stringify({
+                    rating: rating,
+                    averageRating: response.data.averageRating,
+                    ratingCount: response.data.ratingCount,
+                }));
             } else {
                 toast.error(response.data.message);
             }
@@ -233,7 +142,6 @@ const ProductDetails = () => {
             toast.error('Server Error');
         }
     };
-
 
     useEffect(() => {
         getSingleProductApi(id).then((res) => {
@@ -250,33 +158,41 @@ const ProductDetails = () => {
             setAverageRating(res.data.product.averageRating);
             setRatingCount(res.data.product.ratingCount);
         });
-    }, [id]);
 
-    const navigate = useNavigate();
+        // Initialize rating state from localStorage
+        const storedRating = JSON.parse(localStorage.getItem(`rating_${id}`));
+        if (storedRating) {
+            setRating(storedRating.rating);
+            setAverageRating(storedRating.averageRating);
+            setRatingCount(storedRating.ratingCount);
+        }
+
+        // Initialize favorite state from localStorage
+        const storedFavorite = JSON.parse(localStorage.getItem(`favorite_${id}`));
+        if (storedFavorite !== null) {
+            setIsFavorite(storedFavorite);
+        }
+    }, [id]);
 
     const handleBackClick = () => {
         navigate(-1);
         if (!product) return <div>Loading...</div>;
     };
 
-    // Quantity
-    const [productQuantity, setProductQuantity] = useState(1)
-    const handleIncrease = () => {
-        setQuantity((prevQuantity) => {
-            if (prevQuantity < product.productQuantity) {
-                return prevQuantity + 1;
-            } else {
-                toast.warning('Please check the number of quantity available and choose');
-                return prevQuantity;
-            }
-        });
+    // Handle user logout and clear stored data
+    const handleLogout = () => {
+        // Clear user data from local storage
+        localStorage.removeItem('user');
+
+        // Clear rating and favorite status for this product
+        localStorage.removeItem(`rating_${id}`);
+        localStorage.removeItem(`favorite_${id}`);
+
+        // Perform additional logout operations
+        // Redirect to login page, clear context, etc.
+        navigate('/login');
+        toast.info('You have been logged out');
     };
-
-    const handleDecrease = () => {
-        setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
-    };
-
-
 
     return (
         <div className='font-poppins'>
@@ -317,128 +233,10 @@ const ProductDetails = () => {
                                     </button>
                                 </div>
                             </div>
-                            {/* star rating */}
-                            <div className="flex space-x-1 items-center">
-                                {[...Array(5)].map((_, index) => {
-                                    const ratingValue = index + 1;
-                                    return (
-                                        <label key={index} className="cursor-pointer">
-                                            <FaStar
-                                                size={24}
-                                                className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
-                                            // onMouseEnter={() => setHover(ratingValue)}
-                                            // onMouseLeave={() => setHover(null)}
-                                            />
-                                        </label>
-                                    );
-                                })}
-                                <span className="ml-2 text-gray-600">({ratingCount} reviews)</span>
-                            </div>
                             <p className="text-customGray font-medium text-lg">
                                 Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
                             </p>
                             <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
-                            <div className="relative p-4">
-                                <div className="flex justify-between items-center mb-1">
-                                    <button
-                                        onClick={toggleCalendar}
-                                        className="flex items-center justify-center px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200"
-                                    >
-                                        <span className="mr-2">
-                                            {displayDate ? displayDate.toLocaleDateString() : "Choose Date"}
-                                        </span>
-                                        <CalendarIcon className="w-6 h-6 text-gray-600" />
-                                    </button>
-                                    {showCalendar && (
-                                        <div className="absolute z-5 top-12 left-0">
-                                            <div className="shadow-lg bg-white p-2 rounded-lg border border-gray-200">
-                                                <div className="flex justify-between items-center">
-                                                    <button
-                                                        disabled
-                                                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 opacity-50 cursor-not-allowed"
-                                                    >
-                                                        <ChevronLeftIcon className="w-6 h-6 text-gray-600" />
-                                                    </button>
-                                                    <div className="text-lg font-semibold">
-                                                        {new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                                                    </div>
-                                                    <button
-                                                        onClick={handleNextMonth}
-                                                        className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200"
-                                                    >
-                                                        <ChevronRightIcon className="w-6 h-6 text-gray-600" />
-                                                    </button>
-                                                </div>
-                                                <div className="grid grid-cols-7 gap-2">
-                                                    <div className="text-center text-gray-600">Sun</div>
-                                                    <div className="text-center text-gray-600">Mon</div>
-                                                    <div className="text-center text-gray-600">Tue</div>
-                                                    <div className="text-center text-gray-600">Wed</div>
-                                                    <div className="text-center text-gray-600">Thu</div>
-                                                    <div className="text-center text-gray-600">Fri</div>
-                                                    <div className="text-center text-gray-600">Sat</div>
-                                                    {renderCalendar()}
-                                                </div>
-                                                <div className="mt-2">
-                                                    {selectedDate && (
-                                                        <div className="bg-blue-100 p-1 rounded-md text-blue-800">
-                                                            Selected Date: {selectedDate}/{currentMonth + 1}/{currentYear}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <div className="flex items-center justify-end p-2 bg-gray-100 border-t">
-                                                    <button
-                                                        onClick={handleCancel}
-                                                        className="px-2 py-1 text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 hover:bg-gray-200"
-                                                    >
-                                                        Cancel
-                                                    </button>
-                                                    <button
-                                                        onClick={handleSetDate}
-                                                        className="px-2 py-1 ml-2 text-sm text-white bg-blue-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-600 hover:bg-blue-700"
-                                                    >
-                                                        Set Date
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            {/* Quantity*/}
-                            <div className="items-center">
-                                <label
-                                    htmlFor="message"
-                                    className="block mb-2 text-sm font-medium text-gray-900"
-                                >
-                                    Quantity
-                                </label>
-                                <div className='flex'>
-                                    <button
-                                        type="button"
-                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-l"
-                                        onClick={handleDecrease}
-                                    >
-                                        -
-                                    </button>
-                                    <input
-                                        onChange={(e) => setProductQuantity(e.target.value)}
-                                        type="number"
-                                        name="Quantity"
-                                        id="Quantity"
-                                        value={quantity}
-                                        className="w-10 h-8 text-center bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-none focus:ring-blue-500 focus:border-blue-500 block text-center"
-                                    />
-                                    <button
-                                        type="button"
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-r"
-                                        onClick={handleIncrease}
-                                    >
-                                        +
-                                    </button>
-                                </div>
-
-                            </div>
                             <div>
                                 <p className="text-gray-600 font-light text-md">Size: <span className="font-regular text-[#505050]">{product.productSize}</span></p>
                                 <p className="text-gray-600 font-light text-md">Category: <span className="font-regular text-[#505050]">{product.productCategory}</span></p>
@@ -465,16 +263,21 @@ const ProductDetails = () => {
                         </div>
                         <div className="flex flex-col items-center">
                             <p className="text-gray-600 font-light text-md"><span className="font-medium text-grayText">Your Rating</span></p>
-
-                            <div className="flex space-x-1">
+                            <div className="flex items-center">
                                 {[...Array(5)].map((star, index) => {
                                     const ratingValue = index + 1;
                                     return (
                                         <label key={index} className="cursor-pointer">
-                                            <FaStar
-                                                size={24}
-                                                className={ratingValue <= (hover || rating) ? 'text-yellow-500' : 'text-gray-300'}
+                                            <input
+                                                type="radio"
+                                                name="rating"
+                                                value={ratingValue}
                                                 onClick={() => setRating(ratingValue)}
+                                            />
+                                            <FaStar
+                                                className="star"
+                                                color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                                                size={20}
                                                 onMouseEnter={() => setHover(ratingValue)}
                                                 onMouseLeave={() => setHover(null)}
                                             />
@@ -493,7 +296,6 @@ const ProductDetails = () => {
                 </div>
             </div>
             <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-
         </div>
     );
 }

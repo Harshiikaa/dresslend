@@ -4,8 +4,8 @@ import indianJewelry from '../../assets/images/indianJewelry.png';
 import bagsAndClutches from '../../assets/images/bagsAndClutches.png';
 import headWears from '../../assets/images/headWears.png';
 import modernAccessories from '../../assets/images/modernAccessories.png';
-import { Link } from 'react-scroll';
-
+import { Link } from 'react-router-dom';
+import { Link as AsScroll } from 'react-scroll';
 const Accessories = () => {
     const [isLeftScrollVisible, setIsLeftScrollVisible] = useState(false);
     const [isRightScrollVisible, setIsRightScrollVisible] = useState(false);
@@ -75,7 +75,7 @@ const Accessories = () => {
                     )}
                 </div>
                 <div className="flex items-center justify-center mt-2">
-                    <Link
+                    <AsScroll
                         to="aboutUs"
                         spy={true}
                         smooth={true}
@@ -86,7 +86,7 @@ const Accessories = () => {
                         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
-                    </Link>
+                    </AsScroll>
                 </div>
             </div>
         </div>

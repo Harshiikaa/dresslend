@@ -3,6 +3,7 @@ import logo from '../../assets/images/logo.png'
 import whatsapp from '../../assets/images/whatsapp.png'
 import insta from '../../assets/images/insta.png'
 import fb from '../../assets/images/fb.png'
+import { Link } from 'react-scroll';
 
 
 const Footer = () => {
@@ -49,8 +50,24 @@ const Footer = () => {
             <a href="#" className="text-gray-600">
               <img src={whatsapp} alt="WhatsApp" className="h-8 w-10" />
             </a>
+            <div className="flex items-center justify-center mt-2">
+              <Link
+                to="home"
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={500}
+                className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-full animate-bounce"
+              >
+                <svg className="w-6 h-6 text-white transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </Link>
+            </div>
           </div>
+
         </div>
+
 
       </div>
       <div className="mt-8 text-center">

@@ -19,14 +19,21 @@ const HakuPatasi = () => {
   const user = JSON.parse(localStorage.getItem('user'));
 
 
-  
-  
   const handleSortSelect = (sortOption, sortText) => {
     setSelectedSort(sortText);
-    console.log(`Selected sort option: ${sortOption}`);
-    // Implement sorting logic here
+    sortProducts(sortOption);
   };
 
+  const sortProducts = (sortOption) => {
+    let sortedProducts = [...products];
+    if (sortOption === 'priceAsc') {
+      sortedProducts.sort((a, b) => a.productRentalPrice - b.productRentalPrice);
+    } else if (sortOption === 'priceDesc') {
+      sortedProducts.sort((a, b) => b.productRentalPrice - a.productRentalPrice);
+    }
+    setProducts(sortedProducts);
+  };
+  
   const handleBackClick = () => {
     navigate(-1); // This navigates to the previous page
   };
