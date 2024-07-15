@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { addFavoriteApi, getAllProductsApi } from '../../apis/Api';
+import { addFavoriteApi, getAllProductsApi, getSingleProductApi } from '../../apis/Api';
 import React, { useEffect, Fragment, useState, useContext } from 'react';
-import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, ChevronDownIcon } from '@heroicons/react/outline';
+import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { toast } from 'react-toastify';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
@@ -12,6 +12,7 @@ import { FaStar } from 'react-icons/fa';
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
+
 const SearchResults = () => {
     const [products, setProducts] = useState([]);
     const location = useLocation();
@@ -21,13 +22,9 @@ const SearchResults = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
-    const [averageRating, setAverageRating] = useState(0);
-    const [ratingCount, setRatingCount] = useState(0);
-    const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
-  
-  
+    const [averageRatings, setAverageRatings] = useState({});
+    const [ratingCounts, setRatingCounts] = useState({});
 
     const user = JSON.parse(localStorage.getItem('user'));
     const { auth, checkAuth } = useContext(AuthContext);
@@ -77,6 +74,22 @@ const SearchResults = () => {
                     product.productName.toLowerCase().includes(query.toLowerCase())
                 );
                 setProducts(filteredProducts);
+
+                filteredProducts.forEach((product) => {
+                    getSingleProductApi(product._id).then((res) => {
+                        setAverageRatings((prevRatings) => ({
+                            ...prevRatings,
+                            [product._id]: res.data.product.averageRating,
+                        }));
+                        setRatingCounts((prevCounts) => ({
+                            ...prevCounts,
+                            [product._id]: res.data.product.ratingCount,
+                        }));
+                    }).catch((err) => {
+                        console.error("Failed to fetch product data:", err);
+                        toast.error("Failed to load product details");
+                    });
+                });
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -158,72 +171,50 @@ const SearchResults = () => {
                 </div>
             </div>
             <div className="max-w-6xl mx-auto font-poppins">
-                {/* <h1 className="text-2xl font-bold mb-4">Search Results for: {query}</h1> */}
-                {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {products.map(product => (
-                        <div key={product._id} className="bg-white p-4 rounded-lg shadow">
-                            <img src={product.productImageURL} alt={product.productName} className="w-full h-48 object-cover rounded-lg mb-4" />
-                            <h2 className="text-xl font-semibold">{product.productName}</h2>
-                            <p className="text-gray-700">Price: NPR. {product.productRentalPrice}</p>
-                        </div>
-                    ))}
-                </div> */}
                 <div className="max-w-6xl mx-auto p-2 font-poppins">
                     <div className="space-y-2">
-                        {products.map((product) => (
-                            <div key={product._id} className="bg-white p-2 border-2 border-color: inherit rounded-lg flex h-60">
-                                <img src={product.productImageURL} alt={product.productName} className="w-1/6 h-55 object-fit" />
-                                <div className="ml-4 flex-1 flex flex-col justify-between">
-                                    <div className='p-4 space-y-4'>
-                                        <div className="flex items-center justify-between">
-                                            <h2 className="text-xl font-semibold">{product.productName}</h2>
+                        {products.map((product) => {
+                            const validAverageRating = Number.isFinite(averageRatings[product._id]) && averageRatings[product._id] >= 0 && averageRatings[product._id] <= 5 ? averageRatings[product._id] : 0;
+                            return (
+                                <div key={product._id} className="bg-white p-2 border-2 border-color: inherit rounded-lg flex h-60">
+                                    <img src={product.productImageURL} alt={product.productName} className="w-1/6 h-55 object-fit" />
+                                    <div className="ml-4 flex-1 flex flex-col justify-between">
+                                        <div className='p-4 space-y-4'>
+                                            <div className="flex items-center justify-between">
+                                                <h2 className="text-xl font-semibold">{product.productName}</h2>
+                                            </div>
+                                            <p className="text-customGray font-medium text-sm">
+                                                Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
+                                            </p>
+                                            <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.productSecurityDeposit}</p>
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex space-x-1 items-center">
+                                                    {[...Array(5)].map((_, index) => {
+                                                        const ratingValue = index + 1;
+                                                        return (
+                                                            <label key={index} className="cursor-pointer">
+                                                                <FaStar
+                                                                    size={24}
+                                                                    className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                                />
+                                                            </label>
+                                                        );
+                                                    })}
+                                                    <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCounts[product._id]} reviews)</span>
+                                                </div>
+                                            </div>
+                                            <p className="text-gray-600 font-regular text-sm">{product.productDescription}</p>
+                                            <a href={`/productDetails/${product._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                                         </div>
-                                        <p className="text-customGray font-medium text-sm">
-                                            Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
-                                        </p>
-                                        <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.productSecurityDeposit}</p>
-                                        <div className="flex items-center justify-between">
-                                        <div className="flex space-x-1 items-center">
-                                        {[...Array(5)].map((_, index) => {
-                                            const ratingValue = index + 1;
-                                            return (
-                                                <label key={index} className="cursor-pointer">
-                                                    <FaStar
-                                                        size={24}
-                                                        className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
-                                                    />
-                                                </label>
-                                            );
-                                        })}
-                                        <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCount} reviews)</span>
-                                    </div>
-                                        </div>
-                                        <p className="text-gray-600 font-regular text-sm">{product.productDescription}</p>
-                                        <a href={`/productDetails/${product._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                                     </div>
                                 </div>
-                                {/* <div className="flex items-start ml-4 p-3">
-                                    <button
-                                        className={`p-2 rounded-lg border border-borderOutline`}
-                                        onClick={() => handleAddFavorite(product._id)}
-                                    >
-                                        {product.isFavorite ? (
-                                            <SolidHeartIcon className="w-6 h-6 text-red-600" aria-hidden="true" />
-                                        ) : (
-                                            <OutlineHeartIcon className="w-6 h-6 text-gray-400" aria-hidden="true" />
-                                        )}
-                                    </button>
-                                </div> */}
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
-
             </div>
             <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-
         </div>
-
     );
 };
 

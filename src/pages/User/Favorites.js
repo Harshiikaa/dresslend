@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { getFavoritesByUserIDApi } from '../../apis/Api';
-import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon } from '@heroicons/react/outline';
+import { getFavoritesByUserIDApi, getSingleProductApi } from '../../apis/Api';
+import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FaStar } from 'react-icons/fa';
 
 const Favorites = () => {
-  const user = JSON.parse(localStorage.getItem('user'))
-  console.log("User id is: ", user._id)
-
+  const user = JSON.parse(localStorage.getItem('user'));
   const [favorites, setFavorites] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [rating, setRating] = useState(null);
   const [hover, setHover] = useState(null);
-  const [averageRating, setAverageRating] = useState(0);
-  const [ratingCount, setRatingCount] = useState(0);
-  const validAverageRating = Number.isFinite(averageRating) && averageRating >= 0 && averageRating <= 5 ? averageRating : 0;
+  const [averageRatings, setAverageRatings] = useState({});
+  const [ratingCounts, setRatingCounts] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getFavoritesByUserIDApi(user._id)
       .then((res) => {
-        console.log("API Response:", res.data);
         setFavorites(res.data.favorites);
         localStorage.setItem('favoritesCount', res.data.favorites.length); // Store the count in local storage
+
+        res.data.favorites.forEach((favorite) => {
+          getSingleProductApi(favorite.productID._id).then((res) => {
+            setAverageRatings((prevRatings) => ({
+              ...prevRatings,
+              [favorite.productID._id]: res.data.product.averageRating,
+            }));
+            setRatingCounts((prevCounts) => ({
+              ...prevCounts,
+              [favorite.productID._id]: res.data.product.ratingCount,
+            }));
+          }).catch((err) => {
+            console.error("Failed to fetch product data:", err);
+            toast.error("Failed to load product details");
+          });
+        });
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error("Server Error");
         console.log(err.message);
       });
   }, [user._id]);
 
-  console.log(favorites);
-
-  const navigate = useNavigate();
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -75,6 +84,7 @@ const Favorites = () => {
                     <div className="flex space-x-1 items-center">
                       {[...Array(5)].map((_, index) => {
                         const ratingValue = index + 1;
+                        const validAverageRating = averageRatings[item.productID._id] || 0;
                         return (
                           <label key={index} className="cursor-pointer">
                             <FaStar
@@ -86,7 +96,7 @@ const Favorites = () => {
                           </label>
                         );
                       })}
-                      <span className="ml-2 text-gray-600">({ratingCount} reviews)</span>
+                      <span className="ml-2 text-gray-600">({ratingCounts[item.productID._id] || 0} reviews)</span>
                     </div>
                     <p className="text-gray-600 font-regular text-sm">{item.productID.productDescription}</p>
                     <a href={`/productDetails/${item.productID._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
