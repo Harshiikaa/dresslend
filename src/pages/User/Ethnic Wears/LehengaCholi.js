@@ -1,26 +1,26 @@
-import React, { useEffect, Fragment, useState, useContext } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { addFavoriteApi, getAllProductsApi } from '../../../apis/Api';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, ChevronDownIcon } from '@heroicons/react/outline';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Menu, Transition } from '@headlessui/react';
-import Login from '../../Auth/Login';
-import { AuthContext } from '../../../components/AuthContent';
+import { FaStar } from 'react-icons/fa';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const LehengaCholi = () => {
-  const navigate = useNavigate();
+const LehengeCholi = () => {
   const [selectedSort, setSelectedSort] = useState('Sort By');
   const [products, setProducts] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const navigate = useNavigate();
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
-  const { auth, checkAuth } = useContext(AuthContext);
+  const [hover, setHover] = useState(null);
+  const [averageRatings, setAverageRatings] = useState({});
+  const [ratingCounts, setRatingCounts] = useState({});
 
   const handleSortSelect = (sortOption, sortText) => {
     setSelectedSort(sortText);
@@ -38,18 +38,12 @@ const LehengaCholi = () => {
   };
 
   const handleBackClick = () => {
-    navigate(-1);
+    navigate(-1); // This navigates to the previous page
   };
 
   const handleAddFavorite = async (productId) => {
-    if (!checkAuth()) {
-      toast.warning('Please login first');
-      setIsLoginOpen(true);
-      return;
-    }
-
     const data = {
-      userID: auth.user.id,
+      userID: user.id,
       productID: productId,
     };
 
@@ -68,10 +62,13 @@ const LehengaCholi = () => {
     }
   };
 
+  // Fetch and filter products on component mount
   useEffect(() => {
     getAllProductsApi().then((res) => {
       const productsData = res.data.products;
+      console.log('Fetched products:', productsData); // Log the fetched products
       const filteredProducts = productsData.filter(product => product.productCategory === "Lehenga Choli");
+      console.log('Filtered products:', filteredProducts); // Log the filtered products
       setProducts(filteredProducts);
     }).catch((error) => {
       console.error('Error fetching products:', error);
@@ -153,48 +150,48 @@ const LehengaCholi = () => {
       {/* Main content */}
       <div className="max-w-6xl mx-auto p-2 font-poppins">
         <div className="space-y-2">
-          {products.map((item) => (
-            <div key={item._id} className="bg-white p-2 border-2 border-color: inherit rounded-lg flex h-60">
-              <img src={item.productImageURL} alt={item.productName} className="w-1/6 h-55 object-fit" />
-              <div className="ml-4 flex-1 flex flex-col justify-between">
-                <div className='p-4 space-y-4'>
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold">{item.productName}</h2>
-                  </div>
-                  <p className="text-customGray font-medium text-sm">
-                    Rental Price <span className="font-bold text-gray-800">NPR. {item.productRentalPrice}</span> for 4 days
-                  </p>
-                  <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {item.productSecurityDeposit}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      {[...Array(item.rating)].map((_, i) => (
-                        <StarIcon key={i} className="w-4 h-4 text-yellow-500" />
-                      ))}
+          {products.map((product) => {
+            const validAverageRating = Number.isFinite(averageRatings[product._id]) && averageRatings[product._id] >= 0 && averageRatings[product._id] <= 5 ? averageRatings[product._id] : 0;
+            return (
+              <div key={product._id} className="bg-white p-2 border-2 border-color: inherit rounded-lg flex h-60">
+                <img src={product.productImageURL} alt={product.productName} className="w-1/6 h-55 object-fit" />
+                <div className="ml-4 flex-1 flex flex-col justify-between">
+                  <div className='p-4 space-y-4'>
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-xl font-semibold">{product.productName}</h2>
                     </div>
+                    <p className="text-customGray font-medium text-sm">
+                      Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
+                    </p>
+                    <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.productSecurityDeposit}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex space-x-1 items-center">
+                        {[...Array(5)].map((_, index) => {
+                          const ratingValue = index + 1;
+                          return (
+                            <label key={index} className="cursor-pointer">
+                              <FaStar
+                                size={24}
+                                className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                              />
+                            </label>
+                          );
+                        })}
+                        <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCounts[product._id]} reviews)</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 font-regular text-sm">{product.productDescription}</p>
+                    <a href={`/productDetails/${product._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                   </div>
-                  <p className="text-gray-600 font-regular text-sm">{item.productDescription}</p>
-                  <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
                 </div>
               </div>
-              {/* <div className="flex items-start ml-4 p-3">
-                <button
-                  className={`p-2 rounded-lg border border-borderOutline`}
-                  onClick={() => handleAddFavorite(item._id)}
-                >
-                  {isFavorite ? (
-                    <SolidHeartIcon className="w-6 h-6 text-red-600" aria-hidden="true" />
-                  ) : (
-                    <OutlineHeartIcon className="w-6 h-6 text-gray-400" aria-hidden="true" />
-                  )}
-                </button>
-              </div> */}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-      <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
-    </div>
-  )
-}
 
-export default LehengaCholi;
+    </div>
+  );
+};
+
+export default LehengeCholi;

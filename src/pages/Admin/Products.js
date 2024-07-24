@@ -318,7 +318,7 @@ const Products = ({ isOpen, onClose }) => {
                                                             htmlFor="message"
                                                             className="block mb-2 text-sm font-medium text-gray-900"
                                                         >
-                                                            Quantity
+                                                            Stock Quantity
                                                         </label>
                                                         <div className='flex'>
                                                             <button

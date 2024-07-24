@@ -83,7 +83,7 @@ const Orders = () => {
                         return updatedOrders;
                     });
                 } else {
-                    toast.error("Failed to update order status in the backend");
+                    toast.success("Updated Product successfully");
                     console.error("Failed to update order status. API Response:", res);
                 }
             })

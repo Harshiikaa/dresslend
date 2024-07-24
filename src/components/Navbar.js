@@ -87,7 +87,7 @@ const Navbar = () => {
                                 placeholder="Search..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-4 pr-10 py-3 mt-2.5 border rounded-md border-black focus:outline-none w-48 h-10"
+                                className="pl-4 pr-10 py-3 mt-1 border rounded-md border-black focus:outline-none w-48 h-10"
                             />
                             <button
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2"

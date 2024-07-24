@@ -275,7 +275,7 @@ const ProductDetails = () => {
             if (prevQuantity < product.productQuantity) {
                 return prevQuantity + 1;
             } else {
-                toast.warning('Please check the number of quantity available and choose');
+                toast.warning('Please check the number of stock available');
                 return prevQuantity;
             }
         });
@@ -346,7 +346,7 @@ const ProductDetails = () => {
                             <p className="text-customGray font-medium text-lg">
                                 Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
                             </p>
-                            <p className="text-gray-600 font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
+                            <p className="text-gray-600 font-poppins font-light text-md">Security Deposit Rs. {product.productSecurityDeposit}</p>
                             <div className="relative p-4">
                                 <div className="flex justify-between items-center mb-1">
                                     <button
@@ -448,11 +448,26 @@ const ProductDetails = () => {
                                 </div>
 
                             </div>
-                            <div>
+                            {/* <div>
                                 <p className="text-gray-600 font-light text-md">Size: <span className="font-regular text-[#505050]">{product.productSize}</span></p>
                                 <p className="text-gray-600 font-light text-md">Category: <span className="font-regular text-[#505050]">{product.productCategory}</span></p>
                                 <p className="text-gray-600 font-light text-md">Available Quantity: <span className="font-regular text-[#505050]">{product.productQuantity}</span></p>
+                            </div> */}
+                            <div class="space-y-2 text-gray-600 p-2 ">
+                                <p class="text-sm">
+                                    <span class="font-semibold">Size:</span>
+                                    <span class="ml-2">{product.productSize}</span>
+                                </p>
+                                <p class="text-sm">
+                                    <span class="font-semibold">Category:</span>
+                                    <span class="ml-2">{product.productCategory}</span>
+                                </p>
+                                <p class="text-sm">
+                                    <span class="font-semibold">Stock:</span>
+                                    <span class="ml-2">{product.productQuantity}</span>
+                                </p>
                             </div>
+
                             <div>
                                 <button onClick={handleRentNow} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
                                     Rent Now

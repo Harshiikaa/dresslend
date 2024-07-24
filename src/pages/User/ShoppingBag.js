@@ -140,7 +140,7 @@ const ShoppingBag = () => {
                                         ))}
                                     </div> */}
 
-                                    <div className="flex space-x-1 items-center">
+                                    {/* <div className="flex space-x-1 items-center">
                                         {[...Array(5)].map((_, index) => {
                                             const ratingValue = index + 1;
                                             return (
@@ -153,7 +153,7 @@ const ShoppingBag = () => {
                                             );
                                         })}
                                         <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCount} reviews)</span>
-                                    </div>
+                                    </div> */}
 
                                     {/* <a href={`/productDetails/${item._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a> */}
                                 </div>

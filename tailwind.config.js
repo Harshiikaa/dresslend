@@ -11,10 +11,6 @@ module.exports = {
         orangeTheme: '#F1A501',
         grayText: "#8B96A5",
         paymentbg: "#8B2950",
-        "dark-purple": "#081A51",
-        "light-white": "rgba(255,255,255,0.17)",
-
-        // OnSelect: '#9AA2AC',
       },
       fontFamily: {
         sans: ['sans-serif'],

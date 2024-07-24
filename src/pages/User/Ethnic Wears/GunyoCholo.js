@@ -1,48 +1,82 @@
-import React, { useEffect, Fragment, useState, useContext } from 'react';
-
-import { Menu, Transition } from '@headlessui/react';
+import React, { useEffect, Fragment, useState } from 'react';
+import { addFavoriteApi, getAllProductsApi } from '../../../apis/Api';
 import { ArrowLeftIcon, HeartIcon as OutlineHeartIcon, StarIcon, ChevronDownIcon } from '@heroicons/react/outline';
+import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAllProductsApi } from '../../../apis/Api';
+import { toast } from 'react-toastify';
+import { Menu, Transition } from '@headlessui/react';
+import { FaStar } from 'react-icons/fa';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
-  }
-const GunyoCholo = () => {
-    const navigate = useNavigate();
-    const [products, setProducts] = useState([]);
+}
 
+const GunyoCholo = () => {
     const [selectedSort, setSelectedSort] = useState('Sort By');
+    const [products, setProducts] = useState([]);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const user = JSON.parse(localStorage.getItem('user'));
+    const [hover, setHover] = useState(null);
+    const [averageRatings, setAverageRatings] = useState({});
+    const [ratingCounts, setRatingCounts] = useState({});
+
     const handleSortSelect = (sortOption, sortText) => {
         setSelectedSort(sortText);
         sortProducts(sortOption);
-      };
-    
-      const sortProducts = (sortOption) => {
+    };
+
+    const sortProducts = (sortOption) => {
         let sortedProducts = [...products];
         if (sortOption === 'priceAsc') {
-          sortedProducts.sort((a, b) => a.productRentalPrice - b.productRentalPrice);
+            sortedProducts.sort((a, b) => a.productRentalPrice - b.productRentalPrice);
         } else if (sortOption === 'priceDesc') {
-          sortedProducts.sort((a, b) => b.productRentalPrice - a.productRentalPrice);
+            sortedProducts.sort((a, b) => b.productRentalPrice - a.productRentalPrice);
         }
         setProducts(sortedProducts);
-      };
-    
-      useEffect(() => {
-        getAllProductsApi().then((res) => {
-          const productsData = res.data.products;
-          const filteredProducts = productsData.filter(product => product.productCategory === "Gurung Dress");
-          setProducts(filteredProducts);
-        }).catch((error) => {
-          console.error('Error fetching products:', error);
-        });
-      }, []);
-      const handleBackClick = () => {
+    };
+
+    const handleBackClick = () => {
         navigate(-1); // This navigates to the previous page
-      };
+    };
+
+    const handleAddFavorite = async (productId) => {
+        const data = {
+            userID: user.id,
+            productID: productId,
+        };
+
+        try {
+            const response = await addFavoriteApi(data);
+
+            if (response.data.success) {
+                setIsFavorite(true);
+                toast.success(response.data.message);
+            } else {
+                toast.error(response.data.message || 'Failed to add favorite');
+            }
+        } catch (error) {
+            console.error('Add Favorite Error:', error);
+            toast.error('Server Error');
+        }
+    };
+
+    // Fetch and filter products on component mount
+    useEffect(() => {
+        getAllProductsApi().then((res) => {
+            const productsData = res.data.products;
+            console.log('Fetched products:', productsData); // Log the fetched products
+            const filteredProducts = productsData.filter(product => product.productCategory === "Gunyo Cholo");
+            console.log('Filtered products:', filteredProducts); // Log the filtered products
+            setProducts(filteredProducts);
+        }).catch((error) => {
+            console.error('Error fetching products:', error);
+        });
+    }, []);
+
     return (
         <div>
-            {/* Bar */}
             <div className="mt-8">
                 <div className='w-full flex justify-between bg-white top-0 left-0 right-0 p-4 inherit z-50'>
                     <div className='flex gap-2'>
@@ -56,7 +90,6 @@ const GunyoCholo = () => {
                             <h1 className="text-2xl font-bold">Gunyo Cholo</h1>
                         </div>
                     </div>
-                    {/* Sorting */}
 
                     <div className="mt-2">
                         <Menu as="div" className="relative inline-block text-left w-50">
@@ -114,8 +147,56 @@ const GunyoCholo = () => {
                 </div>
             </div>
 
+            {/* Main content */}
+            <div className="max-w-6xl mx-auto p-2 font-poppins">
+                {products.length === 0 ? (
+                    <div className="flex items-center justify-center h-60">
+                        <h2 className="text-xl font-semibold text-gray-400">There are no products available</h2>
+                    </div>
+                ) : (
+                    <div className="space-y-2">
+                        {products.map((product) => {
+                            const validAverageRating = Number.isFinite(averageRatings[product._id]) && averageRatings[product._id] >= 0 && averageRatings[product._id] <= 5 ? averageRatings[product._id] : 0;
+                            return (
+                                <div key={product._id} className="bg-white p-2 border-2 border-color: inherit rounded-lg flex h-60">
+                                    <img src={product.productImageURL} alt={product.productName} className="w-1/6 h-55 object-fit" />
+                                    <div className="ml-4 flex-1 flex flex-col justify-between">
+                                        <div className='p-4 space-y-4'>
+                                            <div className="flex items-center justify-between">
+                                                <h2 className="text-xl font-semibold">{product.productName}</h2>
+                                            </div>
+                                            <p className="text-customGray font-medium text-sm">
+                                                Rental Price <span className="font-bold text-gray-800">NPR. {product.productRentalPrice}</span> for 4 days
+                                            </p>
+                                            <p className="text-gray-600 font-light text-xs">Security Deposit Rs. {product.productSecurityDeposit}</p>
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex space-x-1 items-center">
+                                                    {[...Array(5)].map((_, index) => {
+                                                        const ratingValue = index + 1;
+                                                        return (
+                                                            <label key={index} className="cursor-pointer">
+                                                                <FaStar
+                                                                    size={24}
+                                                                    className={ratingValue <= (hover || validAverageRating) ? 'text-yellow-500' : 'text-gray-300'}
+                                                                />
+                                                            </label>
+                                                        );
+                                                    })}
+                                                    <span className="ml-2 text-gray-600" style={{ fontSize: '14px' }}>({ratingCounts[product._id]} reviews)</span>
+                                                </div>
+                                            </div>
+                                            <p className="text-gray-600 font-regular text-sm">{product.productDescription}</p>
+                                            <a href={`/productDetails/${product._id}`} className="text-blue-500 mt-2 inline-block font-medium text-xs">View details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default GunyoCholo
+export default GunyoCholo;

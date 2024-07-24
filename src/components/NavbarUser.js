@@ -39,6 +39,7 @@ const IconLink = ({ href, IconComponent, badgeCount }) => (
 const NavbarUser = () => {
     const [favoritesCount, setFavoritesCount] = useState(0);
     const [shoppingBagCount, setShoppingBagCount] = useState(0);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         // Fetch favorites count
@@ -76,7 +77,9 @@ const NavbarUser = () => {
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        // Handle search functionality
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${searchQuery}`);
+        }
     };
 
     const [click, setClick] = useState(false);
@@ -107,7 +110,9 @@ const NavbarUser = () => {
                             <input
                                 type="text"
                                 placeholder="Search..."
-                                className="pl-4 pr-10 py-3 mt-2.5 border rounded-md border-black focus:outline-none w-48 h-10"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="pl-4 pr-10 py-3 mt-1 border rounded-md border-black focus:outline-none w-48 h-10"
                             />
                             <button
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2"
