@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import { LockClosedIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon } from '@heroicons/react/outline';
 import { useNavigate } from 'react-router-dom';
@@ -40,72 +42,181 @@ const Login = ({ isOpen, onClose }) => {
     const handleRegisterModalClose = () => {
         setIsRegisterModalOpen(false);
     };
-// Your existing handleSubmit function
-const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-        email: email,
-        password: password,
-    };
-    loginUserApi(data)
-        .then((res) => {
-            if (res.data.success === false) {
-                toast.error(res.data.message, {
-                    autoClose: 500, // Auto close the toast after 0.5 seconds
-                });
-            } else {
-                toast.success(res.data.message, {
-                    autoClose: 500, // Auto close the toast after 0.5 seconds
-                    onClose: () => {
-                        localStorage.setItem('token', res.data.token);
-                        const jsonDecode = JSON.stringify(res.data.userData);
-                        localStorage.setItem('user', jsonDecode);
-                        // Check if the user is an admin
-                        if (res.data.userData.isAdmin) {
-                            navigate('/admin/products');
-                        } else {
-                            window.location.reload();
-                        }
-                    },
-                });
-            }
-        })
-        .catch((err) => {
-            toast.error('Error in server', {
-                autoClose: 500, // Auto close the toast after 0.5 seconds
-            });
-            console.log(err.message);
-        });
-};
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = { email, password };
+    
+        loginUserApi(data)
+            .then((res) => {
+                if (res.data.success === false) {
+                    toast.error(res.data.message, {
+                        autoClose: 500, // Auto close the toast after 0.5 seconds
+                    });
+                } else {
+                    toast.success(res.data.message, {
+                        autoClose: 500, // Auto close the toast after 0.5 seconds
+                        onClose: () => {
+                            localStorage.setItem('token', res.data.token);
+                            const jsonDecode = JSON.stringify(res.data.userData);
+                            localStorage.setItem('user', jsonDecode);
+                            // Check if the user is an admin
+                            if (res.data.userData.isAdmin) {
+                                navigate('/admin/products');
+                            } else {
+                                window.location.reload();
+                            }
+                        },
+                    });
+                }
+            })
+            .catch((err) => {
+                if (err.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    if (err.response.status === 400) {
+                        toast.error('All fields are required.', {
+                            autoClose: 1000, // Auto close the toast after 1 second
+                        });
+                    } else if (err.response.status === 401) {
+                        toast.error('The email or password you entered is incorrect. Please try again.', {
+                            autoClose: 1000, // Auto close the toast after 1 second
+                        });
+                    } else if (err.response.status === 403) {
+                        toast.error('Your account is locked due to multiple failed login attempts. Please try again after 10 minutes.', {
+                            autoClose: 2000, // Auto close the toast after 1 second
+                        });
+                    } else if (err.response.status === 404) {
+                        toast.error('No account found with this email address.', {
+                            autoClose: 1000, // Auto close the toast after 1 second
+                        });
+                    } else {
+                        toast.error('Server error. Please try again later.', {
+                            autoClose: 1000, // Auto close the toast after 1 second
+                        });
+                    }
+                } else if (err.request) {
+                    // The request was made but no response was received
+                    toast.error('No response from server. Please check your internet connection.', {
+                        autoClose: 1000, // Auto close the toast after 1 second
+                    });
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    toast.error('An error occurred. Please try again.', {
+                        autoClose: 1000, // Auto close the toast after 1 second
+                    });
+                }
+                console.log(err.message);
+            });
+    };
+    
+    
     // const handleSubmit = (e) => {
     //     e.preventDefault();
     //     const data = {
-    //         email: email,
-    //         password: password,
+    //         email,
+    //         password,
     //     };
     //     loginUserApi(data)
     //         .then((res) => {
     //             if (res.data.success === false) {
-    //                 toast.error(res.data.message);
-    //             } else {
-    //                 toast.success(res.data.message);
-    //                 localStorage.setItem('token', res.data.token);
-    //                 const jsonDecode = JSON.stringify(res.data.userData);
-    //                 localStorage.setItem('user', jsonDecode);
-    //                 // Check if the user is an admin
-    //                 if (res.data.userData.isAdmin) {
-    //                     navigate('/admin/products');
+    //                 // Check for specific error messages
+    //                 if (res.data.message === "Account is locked. Try again later.") {
+    //                     toast.error("Your account is locked due to multiple failed login attempts. Please try again later.", {
+    //                         autoClose: 500, // Auto close the toast after 0.5 seconds
+    //                     });
+    //                 } else if (res.data.message === "Password did not match") {
+    //                     toast.error("The email or password you entered is incorrect. Please try again.", {
+    //                         autoClose: 500, // Auto close the toast after 0.5 seconds
+    //                     });
+    //                 } else if (res.data.message === "User does not exist") {
+    //                     toast.error("No account found with this email address.", {
+    //                         autoClose: 500, // Auto close the toast after 0.5 seconds
+    //                     });
     //                 } else {
-    //                     window.location.reload();
+    //                     // Handle any other errors
+    //                     toast.error("An unexpected error occurred. Please try again.", {
+    //                         autoClose: 500, // Auto close the toast after 0.5 seconds
+    //                     });
     //                 }
+    //             } else {
+    //                 toast.success(res.data.message, {
+    //                     autoClose: 500, // Auto close the toast after 0.5 seconds
+    //                     onClose: () => {
+    //                         localStorage.setItem('token', res.data.token);
+    //                         const jsonDecode = JSON.stringify(res.data.userData);
+    //                         localStorage.setItem('user', jsonDecode);
+    //                         // Check if the user is an admin
+    //                         if (res.data.userData.isAdmin) {
+    //                             navigate('/admin/products');
+    //                         } else {
+    //                             window.location.reload();
+    //                         }
+    //                     },
+    //                 });
     //             }
     //         })
     //         .catch((err) => {
-    //             toast.error('Error in server');
+    //             toast.error('Server error. Please try again later.', {
+    //                 autoClose: 1000, // Auto close the toast after 1 second
+    //             });
     //             console.log(err.message);
     //         });
     // };
+
+
+// const handleSubmit = (e) => {
+//     e.preventDefault();
+//     const data = {
+//         email: email,
+//         password: password,
+//     };
+//     loginUserApi(data)
+//         .then((res) => {
+//             if (res.data.success === false) {
+//                 // Check for specific error messages
+//                 if (res.data.message === "Account is locked. Please try again later.") {
+//                     toast.error("Your account is locked due to multiple failed login attempts. Please try again later.", {
+//                         autoClose: 500, // Auto close the toast after 0.5 seconds
+//                     });
+//                 } else if (res.data.message === "Invalid email or password.") {
+//                     toast.error("The email or password you entered is incorrect. Please try again.", {
+//                         autoClose: 500, // Auto close the toast after 0.5 seconds
+//                     });
+//                 } else if (res.data.message === "User does not exist.") {
+//                     toast.error("No account found with this email address.", {
+//                         autoClose: 500, // Auto close the toast after 0.5 seconds
+//                     });
+//                 } else {
+//                     // Handle any other errors
+//                     toast.error("An unexpected error occurred. Please try again.", {
+//                         autoClose: 500, // Auto close the toast after 0.5 seconds
+//                     });
+//                 }
+//             } else {
+//                 toast.success(res.data.message, {
+//                     autoClose: 500, // Auto close the toast after 0.5 seconds
+//                     onClose: () => {
+//                         localStorage.setItem('token', res.data.token);
+//                         const jsonDecode = JSON.stringify(res.data.userData);
+//                         localStorage.setItem('user', jsonDecode);
+//                         // Check if the user is an admin
+//                         if (res.data.userData.isAdmin) {
+//                             navigate('/admin/products');
+//                         } else {
+//                             window.location.reload();
+//                         }
+//                     },
+//                 });
+//             }
+//         })
+//         .catch((err) => {
+//             toast.error('Server error. Please try again later.', {
+//                 autoClose: 1000, // Auto close the toast after 1 second
+//             });
+//             console.log(err.message);
+//         });
+// };
 
     return (
         <>

@@ -2,6 +2,8 @@ import axios from "axios";
 
 const Api = axios.create({
     baseURL: "http://localhost:5000",
+    // baseURL: "https://localhost:3443", 
+
     headers: {
         "Content-Type": "multipart/form-data",
     }
@@ -22,6 +24,7 @@ export const updateUserApi = (id, formData) => Api.put(`/api/user/updateUser/${i
 export const deleteUserApi = (id) => Api.delete(`/api/user/deleteUser/${id}`, config)
 export const sendResetPasswordMailApi = (token, data) => Api.post(`/api/user/resetPassword/${token}`, data, config)
 export const forgetPasswordApi = (data) => Api.post(`/api/user/forgetPassword`, data)
+export const changePasswordApi = (data) => Api.post(`/api/user/changePassword`, data)
 
 // Products
 export const createProductApi = (data) => Api.post('/api/product/createProduct', data, config)
