@@ -55,6 +55,7 @@ import EditMyProfile from './pages/User/EditMyProfile';
 import SearchResults from './pages/User/SearchResult';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import ChangePassword from './pages/User/ChangePassword';
 
 
 
@@ -85,6 +86,7 @@ const App = () => {
             <Route path="/success" element={<Success />} />
 
             <Route path='myProfile' element={<MyProfile />} />
+            <Route path='/changePassword/:id' element={<ChangePassword />} />
             <Route path='/editMyProfile/:id' element={<EditMyProfile />} />
 
             <Route path='myOrders' element={<MyOrders />} />
