@@ -18,11 +18,11 @@ const ChangePassword = () => {
         >
             <div className="w-96 h-auto bg-white rounded-3xl p-10 relative right-14">
                 <div>
-                    <div className="mb-6">
+                    <div className="mb-2">
                         <div className="text-black text-2xl font-bold">Change Your Password</div>
                     </div>
                     {/* Old password */}
-                    <div className="mb-6">
+                    <div className="mb-2">
                         <div className="text-black text-lg">Write you old password here</div>
                     </div>
                     <div className='space-y-4'>
@@ -44,7 +44,7 @@ const ChangePassword = () => {
                                 onClick={handleTogglePassword}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 focus:outline-none"
                             >
-                                {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                                {showPassword ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
                             </button>
                         </div>
 
@@ -54,7 +54,7 @@ const ChangePassword = () => {
 
                 {/* new password */}
                 <div>
-                    <div className="mb-6">
+                    <div className="mb-2">
                         <div className="text-black text-lg">Set your new password here</div>
                     </div>
                     <div className="space-y-4">
@@ -76,7 +76,7 @@ const ChangePassword = () => {
                                 onClick={handleTogglePassword}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 focus:outline-none"
                             >
-                                {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                                {showPassword ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
                             </button>
                         </div>
                         <div className="relative">
@@ -97,21 +97,21 @@ const ChangePassword = () => {
                                 // onClick={handleTogglePassword}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 focus:outline-none"
                             >
-                                {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                                {showPassword ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" />}
                             </button>
                         </div>
 
                     </div>
                 </div>
                 {/* button */}
-                <div>
+                <div className='mt-4'>
                     <button
                         // onClick={handleSubmit}
                         className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     >
                         Change
                     </button>
-                    <div className="text-center mt-4">
+                    <div className="text-center mt-2">
                         <p className="text-gray-600">Go back to {' '}</p>
                         <a href="/myProfile" className="text-blue-500 hover:underline">
                             Profile
