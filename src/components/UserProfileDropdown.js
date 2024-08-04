@@ -30,7 +30,7 @@ const UserProfileDropdown = () => {
             return;
         } else {
             localStorage.clear();
-            toast.success('Logout successful', {
+            toast.success("You've been logout", {
                 onClose: () => {
                     navigate('/');
                     window.location.reload();
