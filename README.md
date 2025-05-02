@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+🛍️ DressLend - Secure Dress Rental Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+📖 Overview
 
-## Available Scripts
+DressLend is a secure and user-centric MERN stack-based shopping platform built to streamline the process of renting traditional and event-based clothing in Nepal. Designed with a focus on usability and system security, the platform integrates essential features for both functionality and protection. It is a final-year academic project developed with real user feedback, security-first thinking, and a modern tech stack to demonstrate both technical proficiency and design sensibility. It empowers users to rent garments through a secure, elegant, and easy-to-navigate web interface. It aims to support sustainable fashion consumption while offering a seamless, trustworthy user experience.
 
-In the project directory, you can run:
+🔐 Key Features
 
-### `npm start`
+JWT-based Authentication: Secures user login sessions with token-based access
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Role-based Access: Separates permissions between admins and users
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+OWASP-aligned: Built with security best practices to prevent common vulnerabilities
 
-### `npm test`
+Audit Trail: Tracks important user actions for accountability
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Encryption: Sensitive user data like passwords are securely hashed
 
-### `npm run build`
+Session Management: Secure handling of login tokens and logout flows
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+User-Friendly UI: Clean and accessible design for all users
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+⚙️ Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Frontend: React, Tailwind CSS
 
-### `npm run eject`
+Backend: Node.js, Express.js
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Database: MongoDB (with Mongoose ODM)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Authentication: JSON Web Tokens (JWT)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Version Control: Git & GitHub
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+🧪 Usability & Testing
 
-## Learn More
+High-fidelity prototype designed and tested using Figma
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Conducted Guerrilla testing to validate usability across real users
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Applied Nielsen’s Heuristics during design phases for enhanced UX
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+📂 Repositories & Resources
+Backend GitHub: 
+Product Video: https://youtu.be/VYjqGt2QGec
+Product Security Implementation Video: 
