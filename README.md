@@ -41,6 +41,6 @@ Conducted Guerrilla testing to validate usability across real users
 Applied Nielsen’s Heuristics during design phases for enhanced UX
 
 📂 Repositories & Resources
-Backend GitHub: 
+Backend GitHub: https://github.com/Harshiikaa/ST6005CEM_DressLendAPI
 Product Video: https://youtu.be/VYjqGt2QGec
 Security Implementation Video: https://youtu.be/X2GLqVCeIgg
