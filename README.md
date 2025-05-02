@@ -43,4 +43,4 @@ Applied Nielsen’s Heuristics during design phases for enhanced UX
 📂 Repositories & Resources
 Backend GitHub: 
 Product Video: https://youtu.be/VYjqGt2QGec
-Product Security Implementation Video: 
+Security Implementation Video: https://youtu.be/X2GLqVCeIgg
